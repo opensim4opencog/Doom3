@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="431333"
+   name=""
+   committed-date="2006-08-14T12:48:02.547874Z"
+   url="https://svn.apache.org/repos/asf/jakarta/bsf/trunk/src/org/apache/bsf/engines/javaclass"
+   last-author="henning"
+   kind="dir"
+   uuid="13f79535-47bb-0310-9956-ffa450edef68"
+   revision="438605"/>
+<entry
+   committed-rev="431333"
+   name="JavaClassEngine.java"
+   text-time="2006-08-30T19:54:42.798828Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="8f4e99aea4344e10e52b41d8291adc89"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:42.768785Z"/>
+</wc-entries>

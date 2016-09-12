@@ -1,0 +1,6 @@
+; QuadTkns.def : Declares the module parameters for the DLL.
+
+LIBRARY      "QuadTkns"
+DESCRIPTION  'QuadTkns Windows Dynamic Link Library'
+
+EXPORTS

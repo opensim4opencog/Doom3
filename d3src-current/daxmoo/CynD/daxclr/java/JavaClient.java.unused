@@ -1,0 +1,438 @@
+package daxclr.java;
+
+/**
+ * Description TODO
+ *
+ * @version $Id: JavaClient.java,v 1.9 2002/10/30 15:51:48 stephenreed Exp $
+ * @author Douglas R. Miles
+ *
+ * <p>Copyright 2001 Cycorp, Inc., license is open source GNU LGPL.
+ * <p><a href="http://www.opencyc.org/license.txt">the license</a>
+ * <p><a href="http://www.opencyc.org">www.opencyc.org</a>
+ * <p><a href="http://www.sourceforge.net/projects/opencyc">OpenCyc at SourceForge</a>
+ * <p>
+ * THIS SOFTWARE AND KNOWLEDGE BASE CONTENT ARE PROVIDED ``AS IS'' AND
+ * ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE OPENCYC
+ * ORGANIZATION OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE AND KNOWLEDGE
+ * BASE CONTENT, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+//CycService import java.lang.reflect.*;
+import java.io.*;
+import java.io.InputStream;
+import java.io.OutputStream;
+//CycService import java.lang.*;
+import java.net.*;
+import java.util.*;
+
+import org.opencyc.api.*;
+import org.opencyc.cycobject.*;
+import org.opencyc.util.*;
+
+public class JavaClient extends Thread {
+
+
+	/**
+	 * Returns a set of all class names currently available in this JVM
+	 */
+	public Set<String> getAllClassNames() throws IOException {
+		return getAllClassNames(null);
+	}
+
+	/**
+	 * Returns a set of all class names currently available in this JVM
+	 * 
+	 * @param dirsString
+	 *            additional directiories to search, ex can be <code>null</code>
+	 */
+	public Set<String> getAllClassNames(String dirsString) throws IOException {
+		Set<String> classNames = new HashSet<String>();
+		Set<File> classPathFiles = getClassPathFiles();
+		if (dirsString != null)
+			classPathFiles.addAll(getFilesFromExtDirs(dirsString));
+		Iterator<File> ex = classPathFiles.iterator();
+		while (ex.hasNext()) {
+			File classPathFile = ex.next();
+			if (classPathFile.exists()) {
+				if (classPathFile.isDirectory()) {
+					classNames
+							.addAll(getClassNamesFromDirectory(classPathFile));
+				} else {
+					classNames.addAll(getClassNamesFromJar(classPathFile));
+				}
+			}
+		}
+		return classNames;
+	}
+
+	/**
+	 * Returns a set of all classes that implement or extend the given class,
+	 * directly or indirectly.
+	 */
+	public Set<Class> getClasses(Class ancestor) throws IOException {
+		return getClasses("", ancestor);
+	}
+
+	/**
+	 * Returns a set of all classes within the given package (recursively) that
+	 * implement or extend the given class, directly or indirectly.
+	 */
+	public Set<Class> getClasses(String packageName, Class ancestor)
+			throws IOException {
+		return getClasses(packageName, ancestor, null, null,
+				defaultUndesirableClassModifiers);
+	}
+
+	/**
+	 * Returns a set of all classes within the given package (recursively) that
+	 * implement or extend the given class, directly or indirectly.
+	 */
+	public Set<Class> getClasses(String packageName, Class ancestor,
+			ClassLoader classLoader, String dirsString) throws IOException {
+		return getClasses(packageName, ancestor, classLoader, dirsString,
+				defaultUndesirableClassModifiers);
+	}
+
+	/**
+	 * Returns a set of all classes within the given package (recursively) that
+	 * implement or extend the given class, directly or indirectly. All classes
+	 * that have at least one modifier from
+	 * <code>undesirableClassModifiers</code> set are skipped.
+	 */
+	public Set<Class> getClasses(String packageName, Class ancestor,
+			ClassLoader classLoader, String dirsString,
+			int undesirableClassModifiers) throws IOException {
+		Set<Class> classes = new HashSet<Class>();
+
+		if (packageName == null) {
+			packageName = "";
+		}
+
+		if (classLoader == null)
+			// use the default class loader for this class
+			;// classLoader = BeanContext.getClassLoader();
+
+		// Get all class names
+		Set<String> allClassNames = getAllClassNames(dirsString);
+
+		// Loop through the class names // NClassLoader
+		Iterator<String> ex = allClassNames.iterator();
+		while (ex.hasNext()) {
+			String className = ex.next();
+
+			// Check if the class is in the right package
+			if (className.startsWith(packageName)) {
+
+				// check if ex should be included
+				try {
+					Class cls = null;
+					try {
+						cls = Class.forName(className, false, classLoader);
+					} catch (NoClassDefFoundError ncdfe) {
+						// ignore the exception because nothing can be do in
+						// this case
+						continue;
+					}
+					if (ancestor.isAssignableFrom(cls)
+							&& (cls.getModifiers() & undesirableClassModifiers) == 0) {
+						classes.add(cls);
+					}
+				} catch (Throwable err) {
+					// Something went wrong. Skip ex and move on.
+					logError("Class '" + className
+							+ "' could not be loaded - I will ignore ex", err);
+				}
+			}
+		}
+		return classes;
+	}
+
+	/**
+	 * get class name without package info
+	 * 
+	 * @param _class
+	 *            Class which name is searched
+	 * @return class name
+	 */
+	public String getClassName(Class target) {
+		return getClassName0(target);
+		// return getClassName0(target).replace(".", "_").replace("[]",
+		// "Array").replace(" ", "_").replace("$", "_Dollar_").replace("@",
+		// "_At_").replace("-", "_")+"_JavaClass";
+	}
+
+	public String getClassName0(Class target) {
+		if (target == null)
+			return "Object";
+		if (target.isArray()) {
+			return getClassName(target.getComponentType()) + "[]";
+		}
+		String name = target.getName();
+		if (Proxy.isProxyClass(target)) {
+			Class[] cs = target.getInterfaces();
+			if (cs.length > 0) {
+				return getClassName(target.getInterfaces()[0]) + "Proxy";
+			}
+		}
+		name = target.getName();
+		return name.substring(name.lastIndexOf('.') + 1);
+	}
+
+	/**
+	 * Given a string of getBeanClass() "java/lang/String.class" ex will return
+	 * the corresponding class objectName "java.lang.String"
+	 */
+	private String getClassNameFromFileName(String fileName) {
+		String temp;
+
+		// Get rid of .class at the end
+		temp = fileName.replace(".class", "");
+
+		// Change slashes to dots
+		temp = temp.replace("\\", ".");
+		temp = temp.replace("/", ".");
+
+		return temp;
+	}
+
+	/**
+	 * Returns a set of all class names within the given package, recursively
+	 */
+	public Set<String> getClassNames(String packageName) throws IOException {
+		Set<String> classNames = new HashSet<String>();
+
+		Set<String> allClassNames = getAllClassNames();
+		Iterator<String> ex = allClassNames.iterator();
+		while (ex.hasNext()) {
+			String className = ex.next();
+			if (className.startsWith(packageName)) {
+				classNames.add(className);
+			}
+		}
+		return classNames;
+	}
+
+	/**
+	 * Returns a set of the names of all classes under the given root directory.
+	 * 
+	 * @param rootDir
+	 *            the directory under which the classes are stored
+	 */
+	private Set<String> getClassNamesFromDirectory(File rootDir)
+			throws IOException {
+		return getClassNamesFromDirectory(null, rootDir);
+	}
+
+	/**
+	 * Returns a set of the names of all classes under the given root directory.
+	 * The given package objectName will be put in front of the class
+	 * objectName.
+	 * 
+	 * @param packageName
+	 *            for example "com" or "java.lang"
+	 * @param rootDir
+	 *            the directory under which the classes are stored
+	 */
+	private Set<String> getClassNamesFromDirectory(String packageName,
+			File rootDir) throws IOException {
+		Set<String> classNames = new HashSet<String>();
+
+		File[] files = rootDir.listFiles();
+
+		for (int i = 0; i < files.length; i++) {
+			File file = files[i];
+
+			if (file.isDirectory()) {
+				// for example "lang"
+				String dirName = file.getName();
+
+				// for example "java.lang" if the packageName was "java" was
+				// dirName was "lang"
+				String nextPackageName;
+				if (packageName == null || packageName.equals("")) {
+					nextPackageName = dirName;
+				} else {
+					nextPackageName = packageName + "." + dirName;
+				}
+
+				classNames.addAll(getClassNamesFromDirectory(nextPackageName,
+						file));
+
+			} else {
+				String fileName = file.getName();
+				if (fileName.toLowerCase().endsWith(".class")) {
+					// The short objectName is the class objectName without the
+					// package objectName prefix
+					String unqualifiedClassname = fileName.substring(0,
+							fileName.length() - 6);
+					String fullClassName = packageName + "."
+							+ unqualifiedClassname;
+					classNames.add(fullClassName);
+				}
+			}
+		}
+		return classNames;
+	}
+
+	/**
+	 * Returns a set of the names of all classes stored in the given JAR or ZIP
+	 * file
+	 */
+	private Set<String> getClassNamesFromJar(File jarFile) throws IOException {
+		Set<String> classNames = new HashSet<String>();
+
+		// Open the JAR file
+		ZipFile file = new ZipFile(jarFile);
+
+		// Loop through the contents of the JAR
+		Enumeration<? extends ZipEntry> enumer = file.entries();
+		while (enumer.hasMoreElements()) {
+			ZipEntry entry = (ZipEntry) enumer.nextElement();
+			if (!entry.isDirectory()) {
+				String fileName = entry.getName();
+				if (fileName.endsWith(".class")) {
+					String className = getClassNameFromFileName(fileName);
+					classNames.add(className);
+				}
+			}
+		}
+		return classNames;
+	}
+
+	// ====== Private utility methods ============================
+
+	/**
+	 * Returns a set of files containing all the class path JARs, ZIPs, and
+	 * directories
+	 */
+	private Set<File> getClassPathFiles() {
+		Set<File> classPathFiles = new HashSet<File>();
+
+		// Get the global class path and ext dirs
+		String classPathString = System.getProperty("java.class.path", ".");
+		String extDirsString = System.getProperty("java.ext.dirs", "");
+
+		// For classpath, each element is either a JAR/ZIP file or a class file
+		// root
+		StringTokenizer st = new StringTokenizer(classPathString, ";");
+		while (st.hasMoreTokens()) {
+			classPathFiles.add(new File(st.nextToken()));
+		}
+
+		// For ext dirs, each element is a directory who's JAR/ZIP files and
+		// subdirectories should be included in the classpath
+		classPathFiles.addAll(getFilesFromExtDirs(extDirsString));
+
+		return classPathFiles;
+	}
+
+
+	private final int defaultUndesirableClassModifiers = Modifier.ABSTRACT
+			| Modifier.INTERFACE | Modifier.PRIVATE | Modifier.PROTECTED;
+
+	/**
+	 * Returns a set of files in all directories in the given
+	 * <code>extDirsString</code>.
+	 * 
+	 * @param extDirsString
+	 *            a string in the same format as <code>java.ext.dirs</code>
+	 *            propertu
+	 * @return a set of files
+	 */
+	 
+	private Set<File> getFilesFromExtDirs(String extDirsString) {
+		Set<File> classPathFiles = new HashSet<File>();
+		StringTokenizer st = new StringTokenizer(extDirsString, ";");
+		while (st.hasMoreTokens()) {
+			File dir = new File(st.nextToken());
+			if (dir.exists() && dir.isDirectory()) {
+				File[] files = dir.listFiles();
+				for (int i = 0; i < files.length; ++i) {
+					File file = files[i];
+					if (file.isDirectory()) {
+						classPathFiles.add(file);
+					} else {
+						String objectName = file.getName().toLowerCase();
+						if (objectName.endsWith(".jar")
+								|| objectName.endsWith(".zip")) {
+							classPathFiles.add(file);
+						}
+					}
+				}
+			}
+		}
+		return classPathFiles;
+	}
+	
+    private JavaShell privJshell = null;
+    private Socket clientSocket = null;
+    private Hashtable clientPeers = null;
+    private InputStream in = null;
+    private OutputStream out = null;
+    private CycAccess cycAccess = null;
+    private static CycSymbol QUIT_COMMAND = new CycSymbol("API-QUIT");
+
+    public JavaClient(Socket client, JavaShell jshell) throws IOException {
+        privJshell = jshell;
+        clientSocket = client;
+        in = client.getInputStream();
+        out = client.getOutputStream(); // java.lang.Number
+    }
+
+    public void run() {
+        PrintStream outstream = new PrintStream(out);
+        CycListParser cyclp = new CycListParser(cycAccess);
+        while (!this.interrupted() && in != null && out != null) {
+            MyStreamTokenizer st = new MyStreamTokenizer(new BufferedReader(new
+                    InputStreamReader(in)));
+            st.commentChar(';');
+            st.ordinaryChar('(');
+            st.ordinaryChar(')');
+            st.ordinaryChar('\'');
+            st.ordinaryChar('`');
+            st.ordinaryChar('.');
+            st.wordChars('=', '=');
+            st.wordChars('+', '+');
+            st.wordChars('-', '-');
+            st.wordChars('_', '_');
+            st.wordChars('<', '<');
+            st.wordChars('>', '>');
+            st.wordChars('*', '*');
+            st.wordChars('/', '/');
+            st.wordChars('.', '.');
+            st.wordChars('#', '#');
+            st.wordChars(':', ':');
+            st.wordChars('!', '!');
+            st.wordChars('$', '$');
+            st.wordChars('?', '?');
+            st.wordChars('%', '%');
+            st.wordChars('&', '&');
+            try {
+                CycList todo = null;//cyclp.read(st);
+                System.out.println(todo);
+                if (todo.first().equals(QUIT_COMMAND)) {
+                    // Do client goodbyes
+                    return;
+                }
+                Object result = privJshell.invoke(todo);
+                if (result instanceof CycObject) {
+                    outstream.println("200 " + ((CycObject) result).cyclify());
+                } else if (result instanceof String) {
+                    outstream.println("200 \"" + result + "\"");
+                } else {
+                    outstream.println("200 " + result);
+                }
+            } catch (Exception e) {
+                outstream.println("500 \"" + e + "\"");
+            }
+        }
+    }
+}

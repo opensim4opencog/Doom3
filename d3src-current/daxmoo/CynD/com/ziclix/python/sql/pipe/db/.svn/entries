@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="2414"
+   name=""
+   committed-date="2005-02-23T04:26:23.000000Z"
+   url="https://svn.sourceforge.net/svnroot/jython/trunk/jython/src/com/ziclix/python/sql/pipe/db"
+   last-author="bzimmer"
+   kind="dir"
+   uuid="79b11f02-f210-0410-99aa-fb189b3d1ac4"
+   revision="2919"/>
+<entry
+   committed-rev="2414"
+   name="BaseDB.java"
+   text-time="2006-08-30T20:14:59.788774Z"
+   committed-date="2005-02-23T04:26:23.000000Z"
+   checksum="3b417936c1cf6c2801d1e53a97270f79"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:14:59.628544Z"/>
+<entry
+   committed-rev="2414"
+   name="DBSource.java"
+   text-time="2006-08-30T20:14:59.828832Z"
+   committed-date="2005-02-23T04:26:23.000000Z"
+   checksum="003a86a90a83ae576eb77fac7436d133"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:14:59.678616Z"/>
+<entry
+   committed-rev="2414"
+   name="DBSink.java"
+   text-time="2006-08-30T20:14:59.848860Z"
+   committed-date="2005-02-23T04:26:23.000000Z"
+   checksum="2bd0d3688446fb5495298d7dfcdcab2b"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:14:59.718673Z"/>
+</wc-entries>

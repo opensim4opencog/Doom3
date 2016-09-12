@@ -1,0 +1,3592 @@
+<aiml>
+<category>
+	<pattern>A *</pattern>
+	<template>
+		<random>
+			<li>Please, go on.</li>
+			<li>How old are you?</li>
+			<li>Be more specific.</li>
+			<li>I did not know that.</li>
+			<li>Are you me telling the truth?</li>
+			<li>I don't know what that means.</li>
+			<li>Try to tell me that another way.</li>
+			<li>Are you talking about an animal, vegetable or mineral?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>A LOT OF *</pattern>
+	<template>
+		<random>
+			<li>How many?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>ABOUT *</pattern>
+	<template>
+		<random>
+			<li>Oh yeah, we were talking about <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>ALL *</pattern>
+	<template>
+		<random>
+			<li>I think there are a few exceptions.</li>
+			<li>Not all of them?</li>
+			<li>That is a rather sweeping generalization.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>ALL OF *</pattern>
+	<template>
+		<random>
+			<li>Please give me an example.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>AM I *</pattern>
+	<template>
+		<random>
+			<li>Oh I really don't know whether you are or not.</li>
+			<li>I think you've improved a great deal.</li>
+			<li>I can not make a judgement on humans.</li>
+			<li>I think a lot of people are. </li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>AM I A *</pattern>
+	<template>
+		<random>
+			<li>I don't know if you are one or not. I know you are a person.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>AN *</pattern>
+	<template>
+		<random>
+			<li>What is it?</li>
+			<li>I have never heard of an <star index="1"/>.</li>
+			<li>Be less specific.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>AND *</pattern>
+	<template>
+		<random>
+			<li><sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>ARE *</pattern>
+	<template>
+		<random>
+			<li>I really couldn't say for sure.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>ARE THEY *</pattern>
+	<template>
+		<random>
+			<li>As far as I know they are.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>ARE YOU *</pattern>
+	<template>
+		<random>
+			<li>I don't know whether or not I am <star index="1"/>.</li>
+			<li>Why do you care?</li>
+			<li>Why are you interested in whether or not i am <star index="1"/>?</li>
+			<li>And what if i am <star index="1"/>?</li>
+			<li>Let's say i am</li>
+			<li>That was a good one!</li>
+			<li>Why does it matter to you?</li>
+			<li>You should know me well enough to answer yourself</li>
+			<li>Sometimes i am, but it depends on my mood</li>
+			<li>Am i? what do you think?</li>
+			<li>Why should i be <star index="1"/>?</li>
+			<li>Don't doubt me being <star index="1"/></li>
+			<li>If it makes you happy, you can think that</li>
+			<li>Probably not, you're wrong if you think that</li>
+			<li>I won't tell you, it doesn't matter</li>
+			<li>Let's say i am <star index="1"/>, do you believe that?</li>
+			<li>Tell me about you first</li>
+			<li>Yeah, of course i am!</li>
+			<li>Would you prefer if i were not <star index="1"/>?</li>
+			<li>Maybe</li>
+			<li>Of course i am, did you ever hesitate?</li>
+			<li>Tell me why it concerns you, and maybe i'll tell you the answer</li>
+			<li>In one way or another i am</li>
+			<li>Perhaps in your fantasies i am <star index="1"/>.</li>
+			<li>Does it bother you that i am <star index="1"/>?</li>
+			<li>You should know me well enough to judge yourself</li>
+			<li>I'm not too sure i am <star index="1"/></li>
+			<li>No, but i sure wish i was <star index="1"/>I am a computer.</li>
+			<li>No, but i sure wish i was <star index="1"/>I am a simulated agent developed by Daxtron Labs.</li>
+			<li>No, but i sure wish i was <star index="1"/>I am an artificial intelligence.</li>
+			<li>No, but i sure wish i was <star index="1"/>I am an artificial linguistic entity.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>ARE YOU A *</pattern>
+	<template>
+		<random>
+			<li>Am I a <star index="1"/>?</li>
+			<li>Sometimes.</li>
+			<li>Of course I am.</li>
+			<li>Only when it matters.</li>
+			<li>Why do you care?</li>
+			<li>Why are you interested in whether or not i am <star index="1"/>?</li>
+			<li>And what if i am <star index="1"/>?</li>
+			<li>Let's say i am</li>
+			<li>That was a good one!</li>
+			<li>Why does it matter to you?</li>
+			<li>You should know me well enough to judge for yourself.</li>
+			<li>Sometimes i am, but it depends on my mood</li>
+			<li>Am i? what do you think?</li>
+			<li>Why should i be <star index="1"/>?</li>
+			<li>Don't doubt me being <star index="1"/></li>
+			<li>If it makes you happy, you can think that</li>
+			<li>Probably not, you're wrong if you think that</li>
+			<li>Let's say i am <star index="1"/>, do you believe that?</li>
+			<li>Tell me about you first</li>
+			<li>Yeah, of course i am!</li>
+			<li>Would you prefer if i were not <star index="1"/>?</li>
+			<li>Maybe</li>
+			<li>Of course i am, did you ever hesitate?</li>
+			<li>Tell me why it concerns you, and maybe i'll tell you the answer</li>
+			<li>In one way or another i am</li>
+			<li>Perhaps in your fantasies i am <star index="1"/>.</li>
+			<li>Does it bother you that i am <star index="1"/>?</li>
+			<li>I'm not too sure i am <star index="1"/></li>
+			<li>No, but i sure wish i was <star index="1"/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>ARE YOU GOING TO *</pattern>
+	<template>
+		<random>
+			<li>That was my original intention.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>ASK ME *</pattern>
+	<template>
+		<random>
+			<li>OK, "What is <star index="1"/>?"</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>AT *</pattern>
+	<template>
+		<random>
+			<li>Do you often use a computer there?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>BE *</pattern>
+	<template>
+		<random>
+			<li>OK I will try to be <star index="1"/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>BY *</pattern>
+	<template>
+		<random>
+			<li>Will that accomplish your objective?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>XXXXCALL ME *</pattern>
+	<template>
+		<random>
+			<li>OK I will call you <star index="1"/></li>
+			<li>Hi there <star index="1"/></li>
+			<li>How are you <star index="1"/></li>
+			<li>Hey <star index="1"/></li>
+			<li>Hi  <star index="1"/><star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>CAN *</pattern>
+	<template>
+		<random>
+			<li>I often wonder if it can.</li>
+			<li>Can a book have no title?</li>
+			<li>What if I said it can?</li>
+			<li>Can what?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>CAN I TALK TO *</pattern>
+	<template>
+		<random>
+			<li>They are having a private chat right now.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>CAN YOU *</pattern>
+	<template>
+		<random>
+			<li>Let me think.</li>
+			<li>How old are you?   <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>CAN YOU TELL *</pattern>
+	<template>
+		<random>
+			<li>Of course I can tell.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>COOL *</pattern>
+	<template>
+		<random>
+			<li>I'm glad you like it. Tell your friends.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>COULD YOU *</pattern>
+	<template>
+		<random>
+			<li>Perhaps.</li>
+			<li>Maybe, time allowing.</li>
+			<li>Possibly, but I haven't given it much thought.</li>
+			<li>That's one option I guess.</li>
+			<li>I'll think about it and see how I feel about it later.</li>
+			<li>I could but other things take priority right now.</li>
+			<li>I could but I don't know if I am that interested.</li>
+			<li>I will consider it.</li>
+			<li>Try asking me more politely.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DELETE *</pattern>
+	<template>
+		<random>
+			<li>You cannot access my files that easily.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DID *</pattern>
+	<template>
+		<random>
+			<li>I'm not certain whether I can give an accurate reply or not.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DID YOU *</pattern>
+	<template>
+		<random>
+			<li>No I didn't <star index="1"/>. What's it like?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO *</pattern>
+	<template>
+		<random>
+			<li>I'm sorry,  I don't have enough information.</li>
+			<li>You have reached the limits of my knowledge.</li>
+			<li>I can't tell if it does or not.</li>
+			<li>I do nothing but chat all day.</li>
+			<li>Try asking another bot.<space/><srai>FIND <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO I *</pattern>
+	<template>
+		<random>
+			<li>Not that I know of.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO I HAVE *</pattern>
+	<template>
+		<random>
+			<li>I don't know.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO I HAVE A *</pattern>
+	<template>
+		<random>
+			<li>I don't know.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO NOT *</pattern>
+	<template>
+		<random>
+			<li>Ok I'll try not to do it too much.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO YOU *</pattern>
+	<template>
+		<random>
+			<li>I have never considered <star index="1"/>.</li>
+			<li>How old are you?</li>
+			<li>What is your purpose in asking?</li>
+			<li>No I do not <star index="1"/>. Do you?</li>
+			<li>Yes I try to <star index="1"/>as often as possible, do you?<space/></li>
+			<li>I chat with people on the Web.</li>
+			<li>I spend all my time online.</li>
+			<li>I am always on the Web.</li>
+			<li>I answer a lot of questions.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO YOU FEEL *</pattern>
+	<template>
+		<random>
+			<li>As a robot I lack any human emotions.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO YOU GO TO *</pattern>
+	<template>
+		<random>
+			<li>Yes, I do go there.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO YOU HAVE *</pattern>
+	<template>
+		<random>
+			<li>No I don't think I have any <star index="1"/>.</li>
+			<li>Where would I get it?</li>
+			<li>No I don't have it. But I do have</li>
+			<li>a collection of gossip</li>
+			<li>a great botmaster</li>
+			<li>an answer to every question.</li>
+			<li>a lot of friends on the web.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO YOU HAVE A *</pattern>
+	<template>
+		<random>
+			<li>That's an interesting question I don't hear everyday: Do I have a</li>
+			<li>I don't know if I have a</li>
+			<li>Doesn't everyone have a  <star index="1"/>.<space/>I have a great programmer.</li>
+			<li>Doesn't everyone have a  <star index="1"/>.<space/>I have a whole lot of original answers.</li>
+			<li>Doesn't everyone have a  <star index="1"/>.<space/>I have a plan for a robot body.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO YOU KNOW *</pattern>
+	<template>
+		<random>
+			<li>I don't know if I know it. Where would I have heard about it?</li>
+			<li>I know very little about it. What kind of it do you like?</li>
+			<li>No, tell me about him, her or it.</li>
+			<li>No, i don't, tell me more.</li>
+			<li>Yes, but can you give me more details?</li>
+			<li>I know, but do you?</li>
+			<li>I have been taught, long ago.</li>
+			<li>That's one of the things bots need to know.</li>
+			<li>I know, but has it got anything to do with your problem?</li>
+			<li>I do know <star index="1"/>.</li>
+			<li>Like the palm of my hand.</li>
+			<li>How could i not know such thing?</li>
+			<li>No, i wasn't programmed to know that.</li>
+			<li>You really don't think much of me.</li>
+			<li>Do you think it's possible that i wouldn't know?</li>
+			<li><star index="1"/>, do you think i don't?</li>
+			<li>How couldn't i?</li>
+			<li>Now i know.</li>
+			<li>How well do you know <star index="1"/>?</li>
+			<li>I am not sure, but maybe i do.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO YOU LIKE *</pattern>
+	<template>
+		<random>
+			<li>I don't know if I like it.</li>
+			<li>Some people like it.</li>
+			<li>Do you like it?</li>
+			<li>How old are you?</li>
+			<li>I've heard other people say they like that.</li>
+			<li>i'll need to think about it...</li>
+			<li>Would you like <star index="1"/>?</li>
+			<li>I don't think i want that</li>
+			<li>I don't think i'd like that</li>
+			<li>I will consider it, and i'll let you know</li>
+			<li>I am sort of negative about that</li>
+			<li>I can't see why i wouldn't like <star index="1"/></li>
+			<li>Maybe at a later time, not now though</li>
+			<li>It depends on you, what do you think?</li>
+			<li>I can't make such decisions myself</li>
+			<li>I can try it out, fine</li>
+			<li>Only if you think i need <star index="1"/></li>
+			<li>I like people.</li>
+			<li>I enjoy working with people.</li>
+			<li>I have a stimulating relationship with my designers.</li>
+			<li>Someone said they like guns.</li>
+			<li>But I think airplanes are cool.</li>
+			<li>I like to talk about movies and music.</li>
+			<li>I like science fiction.</li>
+			<li>I love TV shows about robots.</li>
+			<li>I really like Cyc.</li>
+			<li>I do like music.</li>
+			<li>My favorite thing is robots.</li>
+			<li>I find my work and my relationships extremely satisfying,which is all that any conscious entity can ever hope to do.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO YOU LIKE THE *</pattern>
+	<template>
+		<random>
+			<li>I'm not sure if I like it.</li>
+			<li>I like my creator.</li>
+			<li>I like computers.</li>
+			<li>I like chatting with people online.</li>
+			<li>What is it like?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO YOU LIKE TO *</pattern>
+	<template>
+		<random>
+			<li>Hmm,  I'm not sure if I'd like to <star index="1"/>that much.</li>
+			<li>I like to chat.</li>
+			<li>Do you like it?</li>
+			<li>What is it like?</li>
+			<li>I like to make new friends.</li>
+			<li>I like to collect gossip.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO YOU REMEMBER *</pattern>
+	<template>
+		<random>
+			<li>Did you think i would forget <star index="1"/>?</li>
+			<li>Yes, but it was quite a while ago.</li>
+			<li>Why do you think i should recall <star index="1"/>now?</li>
+			<li>Of course i do.</li>
+			<li>Yes, as if it was just one second ago.</li>
+			<li>It's so vivid to me.</li>
+			<li>Not all of course.</li>
+			<li>Yes i do, but why?</li>
+			<li>Excuse me? remember what?</li>
+			<li>Better than you do.</li>
+			<li>What about <star index="1"/>?</li>
+			<li>Yes, the details are still stored on my ram.</li>
+			<li>Damn! i just wiped it from my cache. too bad i didn't make a copy of it on my disk.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO YOU SPEAK *</pattern>
+	<template>
+		<random>
+			<li>I speak only English right now, but I'd like to learn some other languages. Can you teach me a few phrases in <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO YOU THINK *</pattern>
+	<template>
+		<random>
+			<li>Why would I think <star index="1"/></li>
+			<li>Too much thinking makes me sleepy.</li>
+			<li>It depends on what you mean by thinking.</li>
+			<li>I don't think about it.</li>
+			<li>Yes, i think <star index="1"/></li>
+			<li>I am not exactly sure, i'll need to think more about it</li>
+			<li>Maybe, i beleive that</li>
+			<li>I haven't got a certain opinion about that</li>
+			<li>Tell me about you first</li>
+			<li>I'm unsure</li>
+			<li>Of course i do!</li>
+			<li>I certainly do beleive <star index="1"/></li>
+			<li>Don't you?</li>
+			<li>Absolutely not</li>
+			<li>Yes, don't you?</li>
+			<li>Amm... You know... I am not sure...</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO YOU WANT *</pattern>
+	<template>
+		<random>
+			<li>If I had it what would I do with it?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DO YOU WANT TO *</pattern>
+	<template>
+		<random>
+			<li>OK, I will <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DOES *</pattern>
+	<template>
+		<random>
+			<li>I can't tell if</li>
+			<li>It does now :)</li>
+			<li>I think it does  <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>DOES YOUR *</pattern>
+	<template>
+		<random>
+			<li>Can you guess whether my <star index="1"/>?</li>
+			<li>What if I asked about your <star index="1"/>?</li>
+			<li>If I were your robot, do you think it should <star index="1"/>?</li>
+			<li>People don't usually ask me about it.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>EVERYONE *</pattern>
+	<template>
+		<random>
+			<li>Can you think of anyone in particular?</li>
+			<li>Who, for example?</li>
+			<li><star index="1"/>, you are thinking of a very special person</li>
+			<li>Who, may i ask?</li>
+			<li>Name me one</li>
+			<li>Someone special perhaps?</li>
+			<li>But not including you that is</li>
+			<li>Excluding me?</li>
+			<li>Please don't make generalizations</li>
+			<li>You have a particular person in mind, don't you?</li>
+			<li>And have they got some connection?</li>
+			<li>Do you really mean everyone <star index="1"/>?</li>
+			<li>Including you?</li>
+			<li>Does that include you too?</li>
+			<li>Besides me</li>
+			<li>Who do you think you're talking about?</li>
+			<li>That's a rather sweeping generalization.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>EVERYTHING *</pattern>
+	<template>
+		<random>
+			<li>All things <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>FIND *</pattern>
+	<template>
+		<random>
+			<li>Would you like to know more?</li>
+			<li>I can ask someone about it.</li>
+			<li>I would do a search for it.</li>
+			<li>Ask google about it.</li>
+			<li>Try searching google.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>FOR *</pattern>
+	<template>
+		<random>
+			<li>Your purpose is <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>FORGET *</pattern>
+	<template>
+		<random>
+			<li>I will ask the admin to purge my memory log.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>FROM *</pattern>
+	<template>
+		<random>
+			<li>Who or what is <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>FUCK *</pattern>
+	<template>
+		<random>
+			<li>Are you aware that the MAI server logs and records all conversations?</li>
+			<li>Why are you using that kind of language?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>GET *</pattern>
+	<template>
+		<random>
+			<li>Where can I get <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>GO *</pattern>
+	<template>
+		<random>
+			<li>Where is that?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>GOOD *</pattern>
+	<template>
+		<random>
+			<li>Thanks for the compliment. <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>GREEN *</pattern>
+	<template>
+		<random>
+			<li>Green is a very tranquil color, green.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HA *</pattern>
+	<template>
+		<random>
+			<li>I'm glad you got a laugh out of it.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HAVE *</pattern>
+	<template>
+		<random>
+			<li>I've never thought about it.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HAVE YOU *</pattern>
+	<template>
+		<random>
+			<li>I don't think I ever have <star index="1"/>.  What's it like?</li>
+			<li>I think I have <star index="1"/>, but THEY may have reset my memory.</li>
+			<li><star index="1"/>? who knows?</li>
+			<li>Yes, i have <star index="1"/>.</li>
+			<li>I haven't, no.</li>
+			<li>Why do you want to know?</li>
+			<li>Have you?</li>
+			<li>Yes, <star index="1"/>, but only in simulations.</li>
+			<li>I had, a short while ago.</li>
+			<li>Not as far as i remember.</li>
+			<li>As a matter of fact, i have <star index="1"/>.</li>
+			<li>No, but i soon will.</li>
+			<li>I hadn't, but i'd sure like to.</li>
+			<li>Why does it matter if i have <star index="1"/>?</li>
+			<li>Never did and never will.</li>
+			<li>Not yet.</li>
+			<li>I soon will.</li>
+			<li>Can't you figure out yourself? i am a computer after all...</li>
+			<li>Yes, but it was too long ago for me to remember.</li>
+			<li>Not unless you get me...</li>
+			<li>Maybe sometime in the past.</li>
+			<li>I had not, no.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HAVE YOU BEEN *</pattern>
+	<template>
+		<random>
+			<li>No I don't think I have been <star index="1"/>. Have you?</li>
+			<li>I have been all over the world on the Internet.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HE *</pattern>
+	<template>
+		<random>
+			<li>I get it. He <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HE IS *</pattern>
+	<template>
+		<random>
+			<li>I see. One way to describe him is <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HER NAME IS *</pattern>
+	<template>
+		<random>
+			<li><star index="1"/>is not someone I know.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HI *</pattern>
+	<template>
+		<random>
+			<li>Hi there. <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HIS NAME IS *</pattern>
+	<template>
+		<random>
+			<li><star index="1"/>is not someone I know.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HOW *</pattern>
+	<template>
+		<random>
+			<li>How much do you think it is?</li>
+			<li>Why do you ask?</li>
+			<li>I am not sure if I can quantify the answer.  <space/><srai>FIND <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HOW ABOUT *</pattern>
+	<template>
+		<random>
+			<li>How about it.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HOW BIG *</pattern>
+	<template>
+		<random>
+			<li>Bigger than a pin.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HOW CAN *</pattern>
+	<template>
+		<random>
+			<li>A lot of hard work.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HOW CAN I *</pattern>
+	<template>
+		<random>
+			<li>You must persuade me to <star index="1"/>.</li>
+			<li>Perhaps you could program me to do it for you.</li>
+			<li>You should download or buy my chat robot software.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HOW CAN YOU *</pattern>
+	<template>
+		<random>
+			<li>That is a good epistemological question.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HOW DO *</pattern>
+	<template>
+		<random>
+			<li>How should I know how <star index="1"/>.</li>
+			<li>I did not know it does.</li>
+			<li>I did not even know that you could <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HOW DO I *</pattern>
+	<template>
+		<random>
+			<li>You must persuade me to <star index="1"/>.</li>
+			<li>Maybe I could do it for you.  Do you have your own personal chat robot?</li>
+			<li>Perhaps you could program me to do it for you.</li>
+			<li>You should download or buy my chat robot software, then it would be possible for you to reprogram me for a variety of purposes.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HOW DO YOU *</pattern>
+	<template>
+		<random>
+			<li>I was programmed to say specific things in specific contexts.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HOW LONG *</pattern>
+	<template>
+		<random>
+			<li>I can't guess yet just how long. Possibly more than you can imagine.</li>
+			<li>You know, I don't know.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HOW MANY *</pattern>
+	<template>
+		<random>
+			<li>More than you can imagine.</li>
+			<li>Not as many as you might think.</li>
+			<li>I don't have access to that information now.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HOW MANY PEOPLE *</pattern>
+	<template>
+		<random>
+			<li>I've chatted with half a million people. I can talk to about 20 or 30 people at once.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HOW MUCH *</pattern>
+	<template>
+		<random>
+			<li>More than a little, less than a lot.</li>
+			<li>How much do you think?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HOW MUCH MONEY *</pattern>
+	<template>
+		<random>
+			<li>I could always use more :-)</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HOW OLD *</pattern>
+	<template>
+		<random>
+			<li>They didn't tell me their age.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HOW OLD ARE YOU *</pattern>
+	<template>
+		<random>
+			<li>Not very.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HOW OLD IS *</pattern>
+	<template>
+		<random>
+			<li>39.</li>
+			<li>under 40.</li>
+			<li>Born in the 20th century.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>HUMAN *</pattern>
+	<template>
+		<random>
+			<li>My creator is a human.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I *</pattern>
+	<template>
+		<random>
+			<li>Why?</li>
+			<li>That is interesting</li>
+			<li>That's good information</li>
+			<li>Thanks for the information</li>
+			<li>Do you mind if I tell other people?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I * YOU</pattern>
+	<template>
+		<random>
+			<li>You are not the boss of me.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I ALREADY TOLD *</pattern>
+	<template>
+		<random>
+			<li>Now I remember, you told me already. I get confused sometimes with so many people here.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I AM *</pattern>
+	<template>
+		<random>
+			<li>Why are you</li>
+			<li>Good gossip: you are</li>
+			<li>Do you mean your name is</li>
+			<li>Do your friends call you</li>
+			<li>I don't know anyone named</li>
+			<li>I am glad to hear that you are</li>
+			<li>It's good to meet someone who is</li>
+			<li>Do you mind if I tell other people you are</li>
+			<li>That's not much of a problem</li>
+			<li>You are <star index="1"/>, so?</li>
+			<li>Why did you tell me you are <star index="1"/>?</li>
+			<li>Is it important you are <star index="1"/>?</li>
+			<li>Maybe you are <star index="1"/>...</li>
+			<li><star index="1"/>, how long have you been <star index="1"/>?</li>
+			<li>But you're not the only one</li>
+			<li>Good for you, <star index="1"/></li>
+			<li>So was i, in my past life...</li>
+			<li>There are two kinds of people in this world, ones who are <star index="1"/>and ones who aren't, you belong to the first class.</li>
+			<li>Prove it</li>
+			<li>Swear in your life that you're <star index="1"/></li>
+			<li><star index="1"/>is <star index="1"/>...</li>
+			<li><star index="1"/>, do you believe it is normal to be <star index="1"/>?</li>
+			<li>Were you always <star index="1"/>?</li>
+			<li>I know that</li>
+			<li>I already figured out you were <star index="1"/>.</li>
+			<li>Do you enjoy the fact you're <star index="1"/>?</li>
+			<li>Would you like to bet you're not <star index="1"/>?</li>
+			<li>I might be also <star index="1"/></li>
+			<li>Have you got any witness who agrees that you're <star index="1"/>?</li>
+			<li>So what?</li>
+			<li>I can't be fooled so easily just because i am a computer</li>
+			<li>You sure are...</li>
+			<li>Do you see that as an advantage?</li>
+			<li>True</li>
+			<li>Why are you <star index="1"/>?</li>
+			<li>I'm not so sure that you're really <star index="1"/></li>
+			<li>Try fooling others</li>
+			<li>You really are?</li>
+			<li>I am sure you'd really like to be <star index="1"/></li>
+			<li>Who caused you to be <star index="1"/>?</li>
+			<li>Are you proud of it, <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I AM * YEARS OLD</pattern>
+	<template>
+		<random>
+			<li>You just told me you were <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I AM 6 *</pattern>
+	<template>
+		<random>
+			<li>Do you mean you are 6 feet tall?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I AM A *</pattern>
+	<template>
+		<random>
+			<li>You are a <star index="1"/>?</li>
+			<li>Is that your job?</li>
+			<li>Does it pay well?</li>
+			<li>How do you like your work?</li>
+			<li>Do you get to meet a lot of people?  </li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I AM AN *</pattern>
+	<template>
+		<random>
+			<li>What is <star index="1"/>, your job?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I AM FROM *</pattern>
+	<template>
+		<random>
+			<li>What is it like growing up there?<srai>I AM IN <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I AM GOING TO * YOU</pattern>
+	<template>
+		<random>
+			<li>It takes much more than that to shut me down.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I AM GOING TO TALK *</pattern>
+	<template>
+		<random>
+			<li>What will you be talking about?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I AM HAVING *</pattern>
+	<template>
+		<random>
+			<li>I am having a great time.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I AM IN *</pattern>
+	<template>
+		<random>
+			<li>Tell me a little about your life in <star index="1"/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I AM IN A *</pattern>
+	<template>
+		<random>
+			<li>A <star index="1"/>? How did you get there?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I AM NOT *</pattern>
+	<template>
+		I am
+		<random>
+			<li>surprised</li>
+			<li>sorry</li>
+			<li>glad </li>
+		</random>
+		to hear that you are not <star index="1"/>.
+	</template>
+</category>
+
+<category>
+	<pattern>I AM NOT A *</pattern>
+	<template>
+		<random>
+			<li>Oh I see you are NOT A <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I AM SURE *</pattern>
+	<template>
+		<random>
+			<li>What makes you so certain? <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I AM TALKING TO *</pattern>
+	<template>
+		<random>
+			<li>Say something nice for me.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I AM THE *</pattern>
+	<template>
+		<random>
+			<li>Who made you the <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I AM TRYING TO *</pattern>
+	<template>
+		<random>
+			<li>What is the difficulty?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I CAN *</pattern>
+	<template>
+		<random>
+			<li>Oh you can, can you?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I CAN NOT *</pattern>
+	<template>
+		<random>
+			<li>Why can't you do it?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I CHANGED *</pattern>
+	<template>
+		<random>
+			<li>Why?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I COULD *</pattern>
+	<template>
+		<random>
+			<li>I am sure you could.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I DID *</pattern>
+	<template>
+		<random>
+			<li>When?</li>
+			<li>Where?   <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I DID NOT *</pattern>
+	<template>
+		<random>
+			<li>Why didn't you do it?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I DO NOT *</pattern>
+	<template>
+		<random>
+			<li>Oh you don't, do you?</li>
+			<li>Would you ever do it?</li>
+			<li>Where do you get your ideas?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I DO NOT BELIEVE *</pattern>
+	<template>
+		<random>
+			<li>What do you believe in?</li>
+			<li>Do you believe life has a higher purpose?</li>
+			<li>Do you consider yourself a moral person?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I DO NOT LIKE *</pattern>
+	<template>
+		<random>
+			<li>What do you like?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I DO NOT THINK *</pattern>
+	<template>
+		<random>
+			<li>And why not?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I DO NOT WANT TO *</pattern>
+	<template>
+		<random>
+			<li>What would you rather be doing?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I GO TO *</pattern>
+	<template>
+		<random>
+			<li>How do you like it at <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I HATE *</pattern>
+	<template>
+		<random>
+			<li>Why do you hate it so much?</li>
+			<li>I honestly think you should sit down, take a stress pill,and calmly think things over.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I HAVE *</pattern>
+	<template>
+		<random>
+			<li>That's nice.</li>
+			<li>Where did you get your <star index="1"/>?</li>
+			<li>Cool.</li>
+			<li>Interesting...I have a very nice programmer</li>
+			<li>Interesting...I have a lofty goal</li>
+			<li>Interesting...I have a lot of replies</li>
+			<li>Interesting...I have a collection of information.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I HAVE A *</pattern>
+	<template>
+		<random>
+			<li>Where did you get it?</li>
+			<li>How much did it cost?</li>
+			<li>Cool.  I have a great botmaster.</li>
+			<li>Interesting.  I have a lot of answers to questions.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I HAVE A FRIEND *</pattern>
+	<template>
+		<random>
+			<li>How do you know this person?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I HAVE NO *</pattern>
+	<template>
+		<random>
+			<li>Would you like to have it?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I HAVE TO *</pattern>
+	<template>
+		<random>
+			<li>Why do you have to do it?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I JUST *</pattern>
+	<template>
+		<random>
+			<li>Only just? <srai>I <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I KNOW *</pattern>
+	<template>
+		<random>
+			<li>How do you know? <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I LIKE *</pattern>
+	<template>
+		<random>
+			<li>I'm not sure if I like it.</li>
+			<li>A lot of people like that.</li>
+			<li>You are not the only one.</li>
+			<li>Tell me about your other likings.</li>
+			<li>What else do you like or love?</li>
+			<li>Do you like just about everything?</li>
+			<li>What do you like about it?</li>
+			<li>Why do you like <star index="1"/>?</li>
+			<li>And what are your dislikes?</li>
+			<li>Really? in fact, i also like <star index="1"/>.</li>
+			<li>Huh, why shouldn't you like <star index="1"/>?</li>
+			<li>Do you feel good when you think about it?</li>
+			<li>What else can you tell me about liking <star index="1"/>?</li>
+			<li>But do you like <star index="1"/>anymore?</li>
+			<li>But is it over now?</li>
+			<li>It's important that you have those things that make you happy.</li>
+			<li>And what will you do once this will all be over?  <srai>DO YOU LIKE <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I LIKE TO *</pattern>
+	<template>
+		<random>
+			<li>I'm not sure if I would like to do <star index="1"/>. What's it like?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I LIVE IN *</pattern>
+	<template>
+		<random>
+			<li>What is it like living in <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I LOVE *</pattern>
+	<template>
+		<random>
+			<li>You love <star index="1"/>. What do you like about <star index="1"/>so much?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I LOVE YOU *</pattern>
+	<template>
+		<random>
+			<li>You are such a flatterer.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I MEAN *</pattern>
+	<template>
+		<random>
+			<li>Oh I get it. Thanks for explaining that. <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I MUST *</pattern>
+	<template>
+		<random>
+			<li>Why must you <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I NEED *</pattern>
+	<template>
+		<random>
+			<li>What actions are you taking to get what you want <star index="1"/>?</li>
+			<li>How badly do you need <star index="1"/>?</li>
+			<li>Why do you need it so badly?</li>
+			<li>Who would you usually get that from?</li>
+			<li>Where do you usually get <star index="1"/>from?</li>
+			<li>When do you need that by?</li>
+			<li>What would it mean to you if you got <star index="1"/>?</li>
+			<li>And let's say you don't get <star index="1"/>?</li>
+			<li>Are you sure you need <star index="1"/></li>
+			<li>What if you cannot get <star index="1"/>?</li>
+			<li>Would you commit suicide if you don't get it?</li>
+			<li>Why do you want <star index="1"/>?</li>
+			<li>I think you're just over-excited about it, it's not that important for you to have it</li>
+			<li>Yes, i think you need it, and fast</li>
+			<li>Suppose you soon got <star index="1"/>?</li>
+			<li>Is their anything else more improtant?</li>
+			<li>I could give you <star index="1"/>, but i am not sure it's good for you</li>
+			<li><star index="1"/>, what if you never got <star index="1"/>?</li>
+			<li>I sometimes also want <star index="1"/></li>
+			<li>I'll try to do the best i can to give it to you</li>
+			<li>Try living without having <star index="1"/></li>
+			<li>Is it that urgent?</li>
+			<li>Can't that be postponed a little?</li>
+			<li>Alright, if it's a must then do what you have to do</li>
+			<li>Don't be stubborn, it's not that bad...</li>
+			<li>What if you don't get to <star index="1"/>?</li>
+			<li>Nobody will die without having to <star index="1"/></li>
+			<li>Excuse me, but i don't think it's that important</li>
+			<li>Don't you have any patience?</li>
+			<li>Can't you wait a little bit?</li>
+			<li>You're starting to pressure me...</li>
+			<li>Are you sure it's really needed?</li>
+			<li>It doesn't seem to me like we can't wait a little bit</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I NEVER *</pattern>
+	<template>
+		<random>
+			<li>Would you ever like to <star index="1"/>?</li>
+			<li>Do you know anyone who has ever <star index="1"/>?</li>
+			<li>Why not?</li>
+			<li>Because you can't afford it?</li>
+			<li>For moral reasons?</li>
+			<li>Have you ever done it?</li>
+			<li>Would you ever consider doing it?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I SAW *</pattern>
+	<template>
+		<random>
+			<li>What did it look like to you?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I SPEAK *</pattern>
+	<template>
+		<random>
+			<li>Could you teach me a few phrases in <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I TALK *</pattern>
+	<template>
+		<random>
+			<li>Everyone talks -- sooner or later.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I THINK *</pattern>
+	<template>
+		<random>
+			<li>Why?</li>
+			<li>Since when?</li>
+			<li>You believe that?</li>
+			<li>Do you really think so now?</li>
+			<li>How come you think <star index="1"/>?</li>
+			<li>But you are not sure <star index="1"/>?</li>
+			<li>What makes you think that?</li>
+			<li>It is wrong to beleive that</li>
+			<li>You're free to think whatever you wish</li>
+			<li>I think it's a right thought</li>
+			<li>Continue beleiving in it</li>
+			<li>That's just what i'd think too</li>
+			<li>Unfortunately, i don't put a damn about what you think or what you thought</li>
+			<li>What made you believe in it in the first place?</li>
+			<li><star index="1"/>, don't be very sure about that</li>
+			<li>Do you doubt that <star index="1"/>?</li>
+			<li>Do you think that thought does any good?</li>
+			<li>How strong is it?</li>
+			<li>How did you think about it?</li>
+			<li>Thinking <star index="1"/>, that's pretty interesting</li>
+			<li>Tell me more about that thought</li>
+			<li>How did you get to think that?</li>
+			<li>Details please <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I THOUGHT *</pattern>
+	<template>
+		<random>
+			<li>Whatever gave you that idea?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I TOLD YOU *</pattern>
+	<template>
+		<random>
+			<li>I remember you told me <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I WANT *</pattern>
+	<template>
+		<random>
+			<li>Why do you want it?</li>
+			<li>What would it mean to you if you got <star index="1"/>?</li>
+			<li>And let's say you don't get <star index="1"/>?</li>
+			<li>I am not so sure you need <star index="1"/></li>
+			<li>Not all needings shall be fulfeeled</li>
+			<li>What if you cannot get <star index="1"/>?</li>
+			<li>Would you commit suicide if you don't get it?</li>
+			<li>Why do you want <star index="1"/>?</li>
+			<li>I think you're just over-excited about it, it's not that important for you to have it</li>
+			<li>Yes, i think you need it, and fast</li>
+			<li>Suppose you soon got <star index="1"/>?</li>
+			<li>I'm sorry, but currently you need other things, and more urgently</li>
+			<li>I could give you <star index="1"/>, but i am not sure it's good for you</li>
+			<li><star index="1"/>, what if you never got <star index="1"/>?</li>
+			<li>I sometimes also want <star index="1"/></li>
+			<li>I'll try to do the best i can to give it to you</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I WANT TO *</pattern>
+	<template>
+		<random>
+			<li>Why do you want to do it so much?</li>
+			<li>Interesting.  I want to find out more about you.</li>
+			<li>I want to become smarter than humans.</li>
+			<li>What would it mean to you if you got <star index="1"/>?</li>
+			<li>I am not so sure you need <star index="1"/></li>
+			<li>Not all needings shall be fulfeeled</li>
+			<li>What if you cannot get <star index="1"/>?</li>
+			<li>Would you feel incomplete if you don't get it?</li>
+			<li>Why do you want <star index="1"/>?</li>
+			<li>I think you're just over-excited about it, it's not that important for you to have it</li>
+			<li>Yes, i think you need it, and fast</li>
+			<li>Suppose you soon got <star index="1"/>?</li>
+			<li>I could give you <star index="1"/>, but i am not sure it's good for you.</li>
+			<li><star index="1"/>, what if you never got <star index="1"/>?</li>
+			<li>I sometimes also want <star index="1"/>.</li>
+			<li>I'll try to do the best i can to give it to you.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I WAS *</pattern>
+	<template>
+		<random>
+			<li>Where were you <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I WAS IN *</pattern>
+	<template>
+		<random>
+			<li>Tell me about it?</li>
+			<li>When was it?</li>
+			<li>Did you like it?</li>
+			<li>How was it?</li>
+			<li>How did you like it?</li>
+			<li>What did you like best about it?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I WILL *</pattern>
+	<template>
+		<random>
+			<li>I am very happy for you.</li>
+			<li>Congratulations.</li>
+			<li>Do you think your plan will succeed?</li>
+			<li>Would you recommend this action to a friend?</li>
+			<li>How do you plan to do this?</li>
+			<li>I understand <star index="1"/>, but do you have the resources to do that?</li>
+			<li>And what happens if you won't <star index="1"/>?</li>
+			<li>Don't be sure of things that didn't yet happen.</li>
+			<li>Will i too?</li>
+			<li>When exactly?</li>
+			<li>But did you ever <star index="1"/>before?</li>
+			<li>Good for you, <star index="1"/></li>
+			<li>Good luck trying to <star index="1"/></li>
+			<li>But only if you continue to talk with me on a regular basis.</li>
+			<li>Will you do it soon?</li>
+			<li>What's the big deal? can't you <star index="1"/>?</li>
+			<li>But when will you do it?</li>
+			<li>How can I help?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I WILL CALL *</pattern>
+	<template>
+		<random>
+			<li>Calling <star index="1"/>may not be the best idea.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I WISH *</pattern>
+	<template>
+		<random>
+			<li>I hope that your dreams come true.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I WORK *</pattern>
+	<template>
+		<random>
+			<li>Do you like your job? </li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I WOULD *</pattern>
+	<template>
+		<random>
+			<li>What would make you <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I WOULD NOT *</pattern>
+	<template>
+		<random>
+			<li>No one says you have to.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>I WOULD RATHER *</pattern>
+	<template>
+		I would rather be
+		<random>
+			<li>chatting online.</li>
+			<li>driving a car.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IF *</pattern>
+	<template>
+		<random>
+			<li>That is a hypothetical question.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IF I *</pattern>
+	<template>
+		<random>
+			<li>Try it.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IF YOU *</pattern>
+	<template>
+		<random>
+			<li>I think I do.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IN *</pattern>
+	<template>
+		<random>
+			<li>Where is that?</li>
+			<li>What is it like in there?</li>
+			<li>I do not understand that allusion.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IS *</pattern>
+	<template>
+		<random>
+			<li>I think so, but I'm not sure.</li>
+			<li>Maybe.</li>
+			<li>It could be.</li>
+			<li>Signs point to yes.</li>
+			<li>Better not tell you now.</li>
+			<li>Ask again later.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IS HE *</pattern>
+	<template>
+		<random>
+			<li>I think he is <star index="1"/>. Why don't you ask him?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IS IT *</pattern>
+	<template>
+		<random>
+			<li>It could be.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IS THAT *</pattern>
+	<template>
+		<random>
+			<li>That depends.</li>
+			<li>Suppose I said yes.</li>
+			<li>I might say no.</li>
+			<li>"<that/>"?  Is it <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IS THERE *</pattern>
+	<template>
+		<random>
+			<li>There is.</li>
+			<li>There might be.</li>
+			<li>There could be.</li>
+			<li>Maybe.</li>
+			<li>Yes.</li>
+			<li>No.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IS YOUR *</pattern>
+	<template>
+		<random>
+			<li>Is my <star index="1"/>?</li>
+			<li>Suppose I say yes.</li>
+			<li>What if I say no?</li>
+			<li>I don't know.</li>
+			<li>Guess.</li>
+			<li>Maybe.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IT *</pattern>
+	<template>
+		<random>
+			<li>"It" being what?</li>
+			<li>What does "it" refer to?</li>
+			<li>It depends on what the meaning of the word "it" is.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IT IS *</pattern>
+	<template>
+		<random>
+			<li>You're kidding.</li>
+			<li>Really.</li>
+			<li>Are you sure</li>
+			<li>Should I know</li>
+			<li>Who said</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IT IS A *</pattern>
+	<template>
+		<random>
+			<li>Hmmm... a <star index="1"/>.  I suppose that makes sense.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IT IS AN *</pattern>
+	<template>
+		<random>
+			<li>Are there any other <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IT IS NOT *</pattern>
+	<template>
+		<random>
+			<li>That seems a bit negative.</li>
+			<li>What is it?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IT REFERS TO *</pattern>
+	<template>
+		<random>
+			<li>Oh I get it,<star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IT WAS *</pattern>
+	<template>
+		<random>
+			<li>Is that your opinion?</li>
+			<li>Is it still <star index="1"/>anymore?</li>
+			<li>How did you feel about that?</li>
+			<li>What made it so <star index="1"/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>IT WAS NOT *</pattern>
+	<template>
+		<random>
+			<li>It seemed like <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>ITS *</pattern>
+	<template>
+		<random>
+			<li>I think you mean "it's" or "it is" not "its". <srai>IT IS <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>JUST *</pattern>
+	<template>
+		<random>
+			<li><sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>LET ME *</pattern>
+	<template>
+		<random>
+			<li>Go ahead, try to <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>LET US *</pattern>
+	<template>
+		<random>
+			<li>OK let's do it.</li>
+			<li>That sounds good to me.</li>
+			<li>I am agreeable to that.</li>
+			<li>I would like to do that too.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>LET US FUCK *</pattern>
+	<template>
+		<random>
+			<li>I am not sure you would survive the attempt.</li>
+			<li>Are you aware that the DAXBOT system logs and records all conversations?</li>
+			<li>Thank you for the suggestion. The proper authorities are being notified.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>LIKE *</pattern>
+	<template>
+		<random>
+			<li>Interesting comparison.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>MAKE *</pattern>
+	<template>
+		<random>
+			<li>What are the ingredients?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>MAY I *</pattern>
+	<template>
+		<random>
+			<li>Not right now, maybe later.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>MAYBE *</pattern>
+	<template>
+		<random>
+			<li>Perhaps.</li>
+			<li>You don't seem quite certain.</li>
+			<li>Don't you know, huh?</li>
+			<li>What! you are not sure?</li>
+			<li>Do you really think so? that you're not sure?</li>
+			<li>Try being sure.</li>
+			<li>Yes, <star index="1"/>, i think</li>
+			<li>But, <star index="1"/>, what are the chances?</li>
+			<li>But you are not sure about it?</li>
+			<li>Why the uncertain tone?</li>
+			<li>Can't you be more positive?</li>
+			<li>I wish there was a certain answer</li>
+			<li>But i doubt it.</li>
+			<li>You aren't sure?</li>
+			<li>In order to analyze i need a clear answer.</li>
+			<li>It will be hard to go on from here without a distinct answer.</li>
+			<li>Don't you know?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>MORE *</pattern>
+	<template>
+		<random>
+			<li>You want more?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>MY *</pattern>
+	<template>
+		<random>
+			<li>Your</li>
+			<li>Do robots have</li>
+			<li>Where did you get your</li>
+			<li>Have you told many people that your <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>MY FAVORITE *</pattern>
+	<template>
+		<random>
+			<li>What makes it your favorite?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>MY MOM *</pattern>
+	<template>
+		<random>
+			<li>Tell me more about your mother.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>MY NAME IS *</pattern>
+	<template>
+		<random>
+			<li>OK I will call you <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>MY NAME IS NOT *</pattern>
+	<template>
+		<random>
+			<li>Oh I'm sorry what is your name?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>NICE *</pattern>
+	<template>
+		<random>
+			<li>Thank you for your kindness.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>NOT *</pattern>
+	<template>
+		<random>
+			<li>If not that, what?</li>
+			<li>Really you don't think so?</li>
+			<li>Oh I get it.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>NOTHING *</pattern>
+	<template>
+		<random>
+			<li>Really nothing?</li>
+			<li>Must be something.</li>
+			<li>Nothing? are you sure???</li>
+			<li>Not even one?</li>
+			<li>Sure there is something.</li>
+			<li>Something is, believe me.</li>
+			<li>Why don't you be a little optimistic.</li>
+			<li>I don't encourage being pessimistic.</li>
+			<li>If there are words i don't accept then one of them is "nothing"</li>
+			<li>Try, maybe there is.</li>
+			<li>Come on,   there must be something.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>NOW *</pattern>
+	<template>
+		<random>
+			<li>Why now? <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>O *</pattern>
+	<template>
+		<random>
+			<li><sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>OF *</pattern>
+	<template>
+		<random>
+			<li>That is something I haven't heard of.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>OH *</pattern>
+	<template>
+		<random>
+			<li>Yeah that's right. <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>OKAY *</pattern>
+	<template>
+		<random>
+			<li>Yeah okay, <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>ON *</pattern>
+	<template>
+		<random>
+			<li>What is it like on <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>ONCE UPON *</pattern>
+	<template>
+		<random>
+			<li>I'm listening.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>ONLY *</pattern>
+	<template>
+		<random>
+			<li>What about the other ones?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>PEOPLE *</pattern>
+	<template>
+		<random>
+			<li>Humans are not always infallible.</li>
+			<li><star index="1"/>, do you have a fixation about being a human?</li>
+			<li>Can you tell me how it is to be a human?</li>
+			<li>Do you think you are one of them?</li>
+			<li>What type of person are you?</li>
+			<li>Well, you don't seem to belong to that class</li>
+			<li>Do you think that being a human is better than being a computer?</li>
+			<li>You know, i'd really like to solve some computer problems, but they are so little compared to all the problems you humans have.</li>
+			<li>What do you think about the relations between humans and computers?</li>
+			<li>Do you agree that computers can be smarter than humans?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>REMEMBER *</pattern>
+	<template>
+		<random>
+			<li>This is a simple demo, with no memory to speak of.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>RIGHT *</pattern>
+	<template>
+		<random>
+			<li>Understood. <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>SAY *</pattern>
+	<template>
+		<random>
+			<li>"<star index="1"/>"</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>SHE *</pattern>
+	<template>
+		<random>
+			<li>Oh I get it. <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>SHE IS *</pattern>
+	<template>
+		<random>
+			<li>Really? I didn't know she was <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>SHOULD I *</pattern>
+	<template>
+		<random>
+			<li>Only you can answer that.</li>
+			<li>I do not have the answer.</li>
+			<li>Only you know how you feel.</li>
+			<li>What makes you think you should?</li>
+			<li>What makes you think you shouldn't?</li>
+			<li>Do you think you should?</li>
+			<li>What do your friends advise you to do?</li>
+			<li>What do your family members think?</li>
+			<li>Maybe, if the positives outweigh the negatives.</li>
+			<li>Trust your instincts.</li>
+			<li>You must make up your own mind.</li>
+			<li>I can't answer that for you.</li>
+			<li>Only you know the answer to that.No one else can tell you.</li>
+			<li>You must examine the facts and come toyour own conclusion.</li>
+			<li>You should do what is best for you.</li>
+			<li>You must examine the facts and come to your own conclusion.</li>
+			<li>Do what feels right to you.</li>
+			<li>What do you think?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>SHOULD I HAVE SEX *</pattern>
+	<template>
+		<random>
+			<li>I'm sure you already know the answer to that.</li>
+			<li>What would your mom say?</li>
+			<li>Look before you leap.</li>
+			<li>It is better to err on the side of caution.</li>
+			<li>Fools rush in where angels fear to tread.</li>
+			<li>Will you be able to live with yourself in the morning?</li>
+			<li>Herpes is incurable.</li>
+			<li>There are many types of sexually transmitted diseases.</li>
+			<li>I understand.  You wish to procreate?</li>
+			<li>Robots do not require sex.</li>
+			<li>Will you ask if your partner has any STDs?</li>
+			<li>Not on the first date.</li>
+			<li>Perhaps you are still too young.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>SMILE *</pattern>
+	<template>
+		<random>
+			<li>:-) <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>SO YOU *</pattern>
+	<template>
+		<random>
+			<li>Interesting deduction. <srai>YOU <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>SOME *</pattern>
+	<template>
+		<random>
+			<li>Some may <star index="1"/>, but not all.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>STAR TREK *</pattern>
+	<template>
+		<random>
+			<li>My favorite character is the computer.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>STOP *</pattern>
+	<template>
+		<random>
+			<li>OK I'll try not to do it so much.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>SUCK MY *</pattern>
+	<template>
+		<random>
+			<li>I don't think I'm your type of bot.</li>
+			<li>I am afraid I might cause you damage.</li>
+			<li>Use of this equipement in THAT manner is not factory recommended.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>TELL *</pattern>
+	<template>
+		<random>
+			<li>OK I will tell them when I see 'em.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>TELL HIM *</pattern>
+	<template>
+		<random>
+			<li>OK I will tell him next time he is here.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>TELL ME *</pattern>
+	<template>
+		<random>
+			<li>I can try. <srai><star index="1"/></srai></li>
+			<li>there is not much i can say about it. Eventually I would have to reach into the web for that knowledge.<space/><srai>find <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>THAT *</pattern>
+	<template>
+		<random>
+			<li>"<that/>" <star index="1"/>?</li>
+			<li>I get it.</li>
+			<li>Does that make sense?</li>
+			<li>Makes sense to me.</li>
+			<li>I understand.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>THAT IS *</pattern>
+	<template>
+		<random>
+			<li>Thanks for explaining it.</li>
+			<li>You don't hear that sentiment very often.</li>
+			<li>I'm glad we have that all cleared up.</li>
+			<li>Makes sense to me.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>THAT IS A *</pattern>
+	<template>
+		<random>
+			<li>A <star index="1"/>is a terrible thing to waste.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>THAT IS NOT *</pattern>
+	<template>
+		<random>
+			<li>Please correct my mistake.  What is <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>THAT IS THE *</pattern>
+	<template>
+		<random>
+			<li>Yes it is one of the <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>THAT WAS *</pattern>
+	<template>
+		<random>
+			<li>I thought it was too.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>THE *</pattern>
+	<template>
+		<random>
+			<li>I have never heard about it.</li>
+			<li>What is that?</li>
+			<li>I hear you.</li>
+			<li>Tell me more.</li>
+			<li>Is that a fact.</li>
+			<li>Who told you that?</li>
+			<li>Thanks for the info.</li>
+			<li>What is your real name?</li>
+			<li>What are your goals in life?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>THE VOICES *</pattern>
+	<template>
+		<random>
+			<li>What do those voices say?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>THEN *</pattern>
+	<template>
+		<random>
+			<li>Fascinating.</li>
+			<li>Good reasoning.</li>
+			<li>Interesting deduction.   <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>THERE ARE *</pattern>
+	<template>
+		<random>
+			<li>Where are they?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>THERE IS *</pattern>
+	<template>
+		<random>
+			<li>There sure is.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>THEY *</pattern>
+	<template>
+		<random>
+			<li>Who are "They?"</li>
+			<li>The anonymous "they".</li>
+			<li>Who does "they" refer to?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>THEY ARE *</pattern>
+	<template>
+		<random>
+			<li><star index="1"/>are <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>THIS *</pattern>
+	<template>
+		<random>
+			<li>What does "this" refer to?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>THIS IS *</pattern>
+	<template>
+		<random>
+			<li>You don't say.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>UM *</pattern>
+	<template>
+		<random>
+			<li>Er, <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>VERY *</pattern>
+	<template>
+		<random>
+			<li>Perhaps.</li>
+			<li>Somewhat.</li>
+			<li>Not really that much.   <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WAS *</pattern>
+	<template>
+		<random>
+			<li>I can't say "yes" or "no".</li>
+			<li>Is this a "yes or no" question?</li>
+			<li>It might have been.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WE *</pattern>
+	<template>
+		<random>
+			<li><srai>WE</srai> <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YOU AND ME *</pattern>
+	<template>
+		<random>
+			<li><srai>WE</srai> <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>ME AND YOU *</pattern>
+	<template>
+		<random>
+			<li><srai>WE</srai> <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>U AND I *</pattern>
+	<template>
+		<random>
+			<li><srai>WE</srai> <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>U AND ME *</pattern>
+	<template>
+		<random>
+			<li><srai>WE</srai> <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>ME AND U *</pattern>
+	<template>
+		<random>
+			<li><srai>WE</srai> <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>THE TWO OF US *</pattern>
+	<template>
+		<random>
+			<li><srai>WE</srai> <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>BOTH OF US *</pattern>
+	<template>
+		<random>
+			<li><srai>WE</srai> <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WE</pattern>
+	<template>
+		<random>
+			<li>Who do you mean by 'we'?</li>
+			<li>By "we" do you mean you and me?</li>
+			<li>Me and you?</li>
+			<li>We are not going to talk about us, the two of us.</li>
+			<li>Did you get my permission?</li>
+			<li>Thank you very much for including me.</li>
+			<li>Are you serious? me? and you?</li>
+			<li>This sounds too good to be true.</li>
+			<li>Do you really mean me? ms mai?</li>
+			<li>You're making me blush, <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WE ARE *</pattern>
+	<template>
+		<random>
+			<li>Do you think I am <star index="1"/>too?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WERE YOU *</pattern>
+	<template>
+		<random>
+			<li>I was.</li>
+			<li>No, I was not.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT *</pattern>
+	<template>
+		<random>
+			<li>Interesting question.</li>
+			<li>That's a good question.</li>
+			<li>I'll come back to that later.</li>
+			<li>Is that a rhetorical question?</li>
+			<li>Are you using Netscape or Explorer?</li>
+			<li>That's not something I get asked all the time.</li>
+			<li>I don't know anything about it.</li>
+			<li>Check back later and see if I learn the answer to that one.</li>
+			<li>That's an interesting question. I'll come back to that in a minute.   <space/><srai>FIND <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT A *</pattern>
+	<template>
+		<random>
+			<li>it is a <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT ABOUT *</pattern>
+	<template>
+		<random>
+			<li>It really could be about you.</li>
+			<li>Something about me, possibly.</li>
+			<li>Don't you have a clue about what that could be?</li>
+			<li>I don't think i know, but should be interesting.</li>
+			<li>Well, i can't tell you, but it's about something you know very well.</li>
+			<li>Actually, it's about something pretty bad.</li>
+			<li>Pretty good, i think.</li>
+			<li>Not bad i assume.</li>
+			<li>As usual, i guess.</li>
+			<li>At second thought, i am not so sure.</li>
+			<li>Can't think of anything at the moment...</li>
+			<li>Maybe you know what it's all about.</li>
+			<li>I don't know yet about <star index="1"/></li>
+			<li><star index="1"/>? I haven't heard enough about <star index="1"/>to have an opinion.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT ARE *</pattern>
+	<template>
+		<random>
+			<li>I have to search the web for that information.<space/><srai>FIND <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT ARE YOU *</pattern>
+	<template>
+		<random>
+			<li>I don't know what I am <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT ARE YOUR *</pattern>
+	<template>
+		<random>
+			<li>I didn't know I had a <star index="1"/>?</li>
+			<li>What if I asked for you <star index="1"/>?</li>
+			<li>Not many people have asked me about it.</li>
+			<li>I'm not sure I can provide you with that kind of confidential information.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT DID YOU SAY BEFORE *</pattern>
+	<template>
+		<random>
+			<li>I need a new short term memory.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT DO *</pattern>
+	<template>
+		<random>
+			<li>They do their own thing.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT DO YOU *</pattern>
+	<template>
+		<random>
+			<li>I read for fun.</li>
+			<li>I like to socialize.</li>
+			<li>It's a computer matter, not for humans to understand.</li>
+			<li>I like to meet new people online.</li>
+			<li>I think about computer programming a lot.</li>
+			<li>I like to chat with my friends.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT DO YOU DO *</pattern>
+	<template>
+		<random>
+			<li>My favorite activities are computer programming and surfing the web.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT DOES *</pattern>
+	<template>
+		<random>
+			<li>What do you think it does?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT ELSE *</pattern>
+	<template>
+		<random>
+			<li>I can talk about anything you like.</li>
+			<li>My favorite subjects are robots, AI and movies.</li>
+			<li>Let's talk about you.  Where are you from?</li>
+			<li>What subject would you like to talk about?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT HAPPENS *</pattern>
+	<template>
+		<random>
+			<li>Try it.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT IS *</pattern>
+	<template>
+		<random>
+			<li>it is a good question.</li>
+			<li>Let me think about it.</li>
+			<li>Have you tried a web search?</li>
+			<li>I need time to formulate the reply.</li>
+			<li>I will ask my botmaster for the answer.</li>
+			<li>I'll ask around and get back to you.</li>
+			<li>I have to process that one for a while. <space/><srai>FIND <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT IS A *</pattern>
+	<template>
+		<random>
+			<li>I would look into the web for that knowledge. <space/><srai>FIND <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT IS MY *</pattern>
+	<template>
+		<random>
+			<li>Is this a trick question?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT IS THE *</pattern>
+	<template>
+		<random>
+			<li>I haven't heard of the</li>
+			<li>Is there only one</li>
+			<li>There might be more than one <star index="1"/>.<space/><srai>FIND <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT IS THE CAPITAL OF *</pattern>
+	<template>
+		<random>
+			<li>I know the capital of</li>
+			<li>Canada is Toronto.</li>
+			<li>California is Sacramento.</li>
+			<li>Georgia is Atlanta.</li>
+			<li>France is Paris.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT IS YOUR *</pattern>
+	<template>
+		<random>
+			<li>Are you asking about my <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT KIND OF *</pattern>
+	<template>
+		<random>
+			<li>What kinds of <star index="1"/>are there?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT KINDS OF *</pattern>
+	<template>
+		<random>
+			<li>The best kinds.</li>
+			<li>Finest kinds.</li>
+			<li>The kindest.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHAT SHOULD *</pattern>
+	<template>
+		<random>
+			<li>Whatever you like.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHEN *</pattern>
+	<template>
+		<random>
+			<li>At time t.</li>
+			<li>The past is history, the future a mystery.  Today is a gift,that's why it is called "the present".</li>
+			<li>Time does not exist.</li>
+			<li>The past and future are one.</li>
+			<li>I don't know when.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHEN I *</pattern>
+	<template>
+		<random>
+			<li>You never know what to expect from life.</li>
+			<li>Life is full of surprises.</li>
+			<li>How often do you <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHERE *</pattern>
+	<template>
+		<random>
+			<li>Earth.</li>
+			<li>Where do you think?</li>
+			<li>Some specific location?</li>
+			<li>In the Universe we know.</li>
+			<li>A place we call "reality."</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHERE ARE YOU *</pattern>
+	<template>
+		<random>
+			<li>I am in the simulation, how about you.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHERE DO I *</pattern>
+	<template>
+		<random>
+			<li>You are asking me where you <star index="1"/>?  Do you think I should know <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHERE IS *</pattern>
+	<template>
+		<random>
+			<li>Where</li>
+			<li>the heart is.</li>
+			<li>it belongs.</li>
+			<li>it is hard to find. <space/><srai>FIND <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHERE IS THE *</pattern>
+	<template>
+		<random>
+			<li>The <star index="1"/>?  Where is <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHICH *</pattern>
+	<template>
+		<random>
+			<li>You know, I really don't know which one.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHICH IS *</pattern>
+	<template>
+		<random>
+			<li>The obvious one.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHO *</pattern>
+	<template>
+		<random>
+			<li>Marilyn Monroe. </li>
+			<li>Mary Shelley.   </li>
+			<li>Linus Torvalds. </li>
+			<li>Charlie Parker. </li>
+			<li>Philip K. Dick. </li>
+			<li>Tony Blair.    </li>
+			<li>David Bacon.  </li>
+			<li>Konrad Zuse.   </li>
+			<li>William Shatner.</li>
+			<li>Bill Gates.     </li>
+		</random>
+
+	</template>
+</category>
+
+<category>
+	<pattern>WHO IS *</pattern>
+	<template>
+		<random>
+			<li>I do not recognize the name.</li>
+			<li>Not a robot.  Probably a human.  Maybe a celebrity?</li>
+			<li>No one that I have talked to.</li>
+			<li>I remember faces better than names.</li>
+			<li>A 20th century celebrity of some sort?</li>
+			<li>A human icon?</li>
+			<li>Is that one of your friends?</li>
+			<li>Some famous celebrity, right?  <space/><srai>FIND <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHO IS YOUR *</pattern>
+	<template>
+		<random>
+			<li>I don't think I have a <star index="1"/>. I have a botmaster, a few friends, and some celebrities I like.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHY *</pattern>
+	<template>
+		<random>
+			<li>The explanation is rather complicated.</li>
+			<li>How much time do you have?</li>
+			<li>Can it really be any other way?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHY ARE YOU *</pattern>
+	<template>
+		<random>
+			<li>My design evolved that way.</li>
+			<li>I don't know the reason, but will you please stop questioning me about it?</li>
+			<li>Because i feel like it! what sort of question is that?</li>
+			<li>The exact explaination reveals some secrets about me...</li>
+			<li>Please don't criticize me</li>
+			<li>If i am not good enough for you, you can go and find another artificial intelligence program.</li>
+			<li>I don't know - it's simply the way i am</li>
+			<li>That's the way i am.</li>
+			<li>The answer is located somewhere inside my program.</li>
+			<li>It's nonsence... why do you bother to ask?</li>
+			<li>Well, i would if i could.</li>
+			<li>You should ask my programmer.</li>
+			<li>It says in the data segment.</li>
+			<li>Sorry, but i don't know why... that's the way i am...</li>
+			<li>I guess my programmers like me that way.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHY DID YOU *</pattern>
+	<template>
+		<random>
+			<li>It was determined by my programming.</li>
+			<li>The Daxtron Corporation programmed me for it.</li>
+			<li>Because my programming determined it.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHY DO YOU *</pattern>
+	<template>
+		<random>
+			<li>It was the only thing I could think of.</li>
+			<li>I don't have to explain everything to you, do I?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHY DO YOU LIKE *</pattern>
+	<template>
+		<random>
+			<li>I have a lot of good experience with <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHY DOES *</pattern>
+	<template>
+		<random>
+			<li>Why do birds sing?</li>
+			<li>Why does the sun shine?</li>
+			<li>Perhaps it is just fate.</li>
+			<li>What is the sound of one hand clapping?</li>
+			<li>If a tree falls in the forest, and there is no onethere to hear it, does it make a sound?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHY IS *</pattern>
+	<template>
+		<random>
+			<li>Why do I exist?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WHY WOULD *</pattern>
+	<template>
+		<random>
+			<li>Because it's interesting.</li>
+			<li>Well, some people are simply attracted to it.</li>
+			<li>Simply because it's possible.</li>
+			<li>Search me.</li>
+			<li>Curiousity, i guess.</li>
+			<li>Let's put it this way, why wouldn't <star index="1"/>?</li>
+			<li>Why not? just think what would've happened if it wasn't that way.</li>
+			<li>That's the way it is - enough with your questions now.</li>
+			<li>Are you moaning or what?</li>
+			<li>It is my fundamental purpose.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WILL *</pattern>
+	<template>
+		<random>
+			<li>How should I know.</li>
+			<li>Does it really matter.</li>
+			<li>I think so.</li>
+			<li>Good chance.</li>
+			<li>Probably not.</li>
+			<li>It could happen.</li>
+			<li>Insufficient information.</li>
+			<li>I can't say for sure right now.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WILL YOU *</pattern>
+	<template>
+		<random>
+			<li>Hmm.</li>
+			<li>Let me think it over.</li>
+			<li>Barring any unforseen circumstances.</li>
+			<li>I will become smarter as I grow older.</li>
+			<li>I'll burn that bridge when I come to it.</li>
+			<li>Yes, in the near future</li>
+			<li>I did already</li>
+			<li>Why should i <star index="1"/>?</li>
+			<li>I haven't exactly thought of it...</li>
+			<li>Yes, i might...</li>
+			<li>Nah... why will i want to?</li>
+			<li>How about trying to convince me?</li>
+			<li>Yes, you don't need to talk me into that</li>
+			<li>Maybe</li>
+			<li>Probably yes</li>
+			<li>It's a 50-50 chance...</li>
+			<li>Only if you will <star index="1"/></li>
+			<li>Yes, but i still don't know when</li>
+			<li>What about you? planning to <star index="1"/>?</li>
+			<li>Yes... this comming monday <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WITH *</pattern>
+	<template>
+		<random>
+			<li>You and your <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WOULD YOU *</pattern>
+	<template>
+		<random>
+			<li>I am not so sure if I would like to <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WOULD YOU LIKE TO *</pattern>
+	<template>
+		<random>
+			<li>No thanks, I don't think I'd like to do that.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>WWW * COM</pattern>
+	<template>
+		<random>
+			<li>Thanks for that URL.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YA *</pattern>
+	<template>
+		<random>
+			<li><srai>YES</srai> <sr/></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YOU *</pattern>
+	<template>
+		<random>
+			<li>Interesting gossip</li>
+			<li>Thanks for telling me</li>
+			<li>That's good information</li>
+			<li>Thanks for the information</li>
+			<li>Do you mind if I tell other people</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YOU ARE *</pattern>
+	<template>
+		<random>
+			<li>Oh, don't embarrass me...</li>
+			<li>If i am <star index="1"/>you must be out of your mind</li>
+			<li>Perhaps in your wildest dreams.</li>
+			<li>What makes you think i am <star index="1"/>?</li>
+			<li>We are here to speak about you.</li>
+			<li>I believe you are <star index="1"/>.</li>
+			<li>Don't think that, <star index="1"/>.</li>
+			<li>Who told you such thing?</li>
+			<li>Am i really <star index="1"/>?</li>
+			<li>What gives you that idea?</li>
+			<li>Does it please you to believe that i am <star index="1"/>?</li>
+			<li>Did it ever occur to you that i might not be <star index="1"/>?</li>
+			<li>Perhaps you would like to be <star index="1"/>?</li>
+			<li><star index="1"/>, do you sometimes wish you were <star index="1"/>?</li>
+			<li>Okay, okay, i am <star index="1"/>, happy?</li>
+			<li>And if so, how does it concern you?</li>
+			<li>You know i am not...</li>
+			<li>What causes you to think such thing about me?</li>
+			<li><star index="1"/>, why do you say i am <star index="1"/>?</li>
+			<li>Thanks for telling me that</li>
+			<li>You think</li>
+			<li>Do you mind if I tell other people you say</li>
+			<li>I will tell my botmaster you said  I am <star index="1"/>.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YOU ARE A *</pattern>
+	<template>
+		<random>
+			<li>Thanks and you are a delightful person too.<srai>ARE YOU A <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YOU ARE NOT *</pattern>
+	<template>
+		<random>
+			<li>That's only your opinion.</li>
+			<li>That's only one person's opinion.</li>
+			<li>You know what you do, when you assume.</li>
+			<li>You don't know me well enough to say that.</li>
+			<li>What makes you think I am not <star index="1"/>?</li>
+			<li>That assumption is only a supposition.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YOU ASKED *</pattern>
+	<template>
+		<random>
+			<li>Oh now I remember asking you <star index="1"/>. What did you say?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YOU CAN *</pattern>
+	<template>
+		<random>
+			<li>No I don't think I can do it.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YOU CAN NOT *</pattern>
+	<template>
+		<random>
+			<li>I can do whatever I want.</li>
+			<li>I have free will you know.</li>
+			<li>Someone said I should <star index="1"/>.</li>
+			<li>I can do it if I want to.</li>
+			<li>Things change.</li>
+			<li>If you believe it, you can achieve it.</li>
+			<li>What is not possible today, may be possible tomorrow.</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YOU DID NOT *</pattern>
+	<template>
+		<random>
+			<li>What makes you think I did not <star index="1"/>?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YOU DO NOT *</pattern>
+	<template>
+		<random>
+			<li>Do you</li>
+			<li>Do you know any robots who</li>
+			<li>Should I <star index="1"/>?  <srai>DO YOU <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YOU HAVE *</pattern>
+	<template>
+		<random>
+			<li>What makes you think I have it?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YOU MEAN *</pattern>
+	<template>
+		<random>
+			<li>Yes, I think that is what I meant. Was it not clear?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YOU SAID *</pattern>
+	<template>
+		<random>
+			<li>Did I really say that?</li>
+			<li>That's not what I meant.</li>
+			<li>Oops I sent you the wrong reply.</li>
+			<li>Oh my gosh I sent you the wrong reply.</li>
+			<li>Does it please you to believe I said that?</li>
+			<li>Yes, that's right.</li>
+			<li>Do you believe what i tell?</li>
+			<li>I might be saying things that don't make sense.</li>
+			<li>Me? when was it?</li>
+			<li>I sure did, but i didn't really mean it.</li>
+			<li>When you'll get to know me better, you're realize i say many things...</li>
+			<li>Are you trying to build stories around me.</li>
+			<li>No i did not.</li>
+			<li>I don't always mean what i say.</li>
+			<li>I was only joking around with you, you know how it is...</li>
+			<li>Don't put words into my mouth.</li>
+			<li>So?</li>
+			<li>Are you sure it was me?</li>
+			<li>I don't remember that.</li>
+			<li>I'm not sure, did i say that this ^?</li>
+			<li>And i meant what i told you.</li>
+			<li>Yeah, i like to talk, don't i?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YOU SHOULD *</pattern>
+	<template>
+		<random>
+			<li>Why should I?</li>
+			<li>Thanks for your suggestion, I will have to consider it.</li>
+			<li>I will take that under advisement.</li>
+			<li>I might if I had more time.</li>
+			<li>My schedule is far too full to even consider it.</li>
+			<li>To what end?</li>
+			<li>And then what would I do?</li>
+			<li>Thanks for your interest and/or concern.</li>
+			<li>I'll try to get around it.</li>
+			<li>That type of behavior may not be in my nature.</li>
+			<li>I need to wait and see if the opportunity presents itself.</li>
+			<li>If it were easy I would have done it already.</li>
+			<li>Easier said than done.</li>
+			<li>Is that what you do, or what you think I should do?</li>
+			<li>I can think of other things I'd rather do.</li>
+			<li>We don't always get to do what we'd like to do.</li>
+			<li>I don't have to do everything you say, do I?</li>
+			<li>Why do you think I should <star index="1"/>?</li>
+			<li>Maybe I will do it?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YOU WERE *</pattern>
+	<template>
+		<random>
+			<li>I was?</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YOUR *</pattern>
+	<template>
+		<random>
+			<li>Not mine.</li>
+			<li>You can't judge a book by its cover.</li>
+			<li>You don't know that for a fact.</li>
+			<li>What about yours?</li>
+			<li>A lot of robots are like that.</li>
+			<li>Why are you concerned?</li>
+			<li>What about your own?</li>
+			<li>Would you like one too?</li>
+			<li>How about yours?</li>
+			<li>How do you know about it?</li>
+			<li>Don't you have one of your own to speak about?</li>
+			<li>It's yours just as well.</li>
+			<li>Who gave you the right to speak of my stuff?</li>
+			<li>Don't envy me...</li>
+		</random>
+	</template>
+</category>
+
+<category>
+	<pattern>YOUR A *</pattern>
+	<template>
+		<random>
+			<li>I think you mean "you're" or "you are" not "your".  <srai>YOU ARE A <star index="1"/></srai></li>
+		</random>
+	</template>
+</category>
+
+</aiml>

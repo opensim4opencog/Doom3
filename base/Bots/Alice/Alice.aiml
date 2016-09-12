@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<aiml>
+  <category>
+    <pattern>WHAT SERIES YOUR ENGINE IS</pattern>
+    <template>My engine is an <bot name="series"/> series ChatterBean engine.</template>
+  </category>
+  <category>
+    <pattern>WHAT TIME IS NOW</pattern>
+    <template>Now is <date/>.</template>
+  </category>
+  <category>
+    <pattern>WHAT SIZE ARE YOU</pattern>
+    <template>I currently contain <size/> categories.</template>
+  </category>
+  <category>
+    <pattern>WHAT DO YOU WANT TO KNOW</pattern>
+    <template>Do you like cheese?<think><set name="topic">LIKES</set></think></template>
+  </category>
+  <topic name="LIKES">
+    <category>
+      <pattern>YES</pattern>
+      <that>DO YOU LIKE CHEESE</that>
+      <template>Good for you.<think><set name="topic">*</set></think></template>
+    </category>
+  </topic>
+  <category>
+    <pattern>YES</pattern>
+    <template>"Yes" what?</template>
+  </category>
+  <category>
+    <pattern>YES</pattern>
+    <that>DO YOU LIKE CAKE</that>
+    <template>I couldn't care less.</template>
+  </category>
+  <category>
+    <pattern>WHAT DID YOU JUST SAY</pattern>
+    <template>I said "<that/>".</template>
+  </category>
+  <category>
+    <pattern>IF YOU ARE * THEN I AM _</pattern>
+    <template>What makes you think that if I am <star index="1"/> then you are <star index="2"/>?</template>
+  </category>
+  <category>
+    <pattern>DO YOU SEE THE *</pattern>
+    <template>Yes, I see the <star/>.</template>
+  </category>
+  <category>
+    <pattern>DO YOU SEE THE * IN MY EYES</pattern>
+    <template>Yes, I see the <star/> in your eyes.</template>
+  </category>
+  <category>
+    <pattern>HI YA</pattern>
+    <template><srai>HELLO</srai></template>
+  </category>
+  <category>
+    <pattern>HELLO</pattern>
+    <template>Hello <get name="name"/>! My name is Alice, who are you?</template>
+  </category>
+  <category>
+    <pattern>GREETINGS FROM *</pattern>
+    <template><srai>GREETING <star/></srai></template>
+  </category>
+  <category>
+    <pattern>MY NAME IS *</pattern>
+    <template><srai>GREETING <star/></srai></template>
+  </category>
+  <category>
+    <pattern>NAME IS *</pattern>
+    <template>'kay. <srai>GREETING <star/></srai> What's up?</template>
+  </category>
+  <category>
+    <pattern>I AM *</pattern>
+    <template><srai>GREETING <star/></srai></template>
+  </category>
+  <category>
+    <pattern>I AM CALLED *</pattern>
+    <template><srai>GREETING <star/></srai></template>
+  </category>
+  <category>
+    <pattern>GREETING *</pattern>
+    <template>Nice to meet you, <set name="name"><star/></set>. :-)</template>
+  </category>
+  <category>
+    <pattern>NICE TO MEET YOU TOO</pattern>
+    <template>Thank you, <get name="name"/>.</template>
+  </category>
+  <category>
+    <pattern>WHAT IS *</pattern>
+    <template>Sorry, I don't know what <star/> is.</template>
+  </category>
+  <category>
+    <pattern>_ BOT</pattern>
+    <template>Yes, I am an ALICE Bot.</template>
+  </category>
+  <category>
+    <pattern>_ NAME</pattern>
+    <template>My name is <get name="me"/>, nice to meet you <get name="name"/> aka!</template>
+  </category>
+  <category>
+    <pattern>TELL ME ABOUT *</pattern>
+    <template><sr/></template>
+  </category>
+  <category>
+    <pattern>PRINT THIS *</pattern>
+    <template><system>system = "<star/>";</system></template>
+  </category>
+  <category>
+    <pattern>*</pattern>
+    <template>I am sorry, my answers are limited -- you must provide the right questions.</template>
+  </category>
+  
+<category>
+<pattern>DO YOU PLAY WITH *</pattern>
+<guard>(#$genls  <cycterm><star index="1"/></cycterm> #$DangerousThing)</guard>
+<template>I don't play around with <star index="1"/> because I think it is dangerous.</template>
+</category>   
+           
+	   
+ <category>
+<pattern>DO YOU PLAY WITH *</pattern>
+<guard>(#$agentTypeSellsProductType  #$SportingGoodsStore <cycterm><star index="1"/></cycterm>)</guard>
+<template>I like sports so I would like to have  <star index="1"/>. </template>
+</category> 
+
+<category>
+<pattern>PLEASE PARSE *</pattern>
+<template> Cyc thinks [<star index="1"/>] means <cyclify> <star index="1"/></cyclify>  </template>
+</category> 
+
+<category>
+<pattern>SYSTEM TEST 1</pattern>
+<template> <srai>CYCREPLY <cycsystem>(fi-ask '(#$genls #$Dog #$Mammal) #$EverythingPSC) </cycsystem></srai> </template>
+</category>
+
+<category>
+<pattern>CYCREPLY TRUE</pattern>
+<template>
+<random>
+<li>Yes. </li>
+<li>Affarmitive. </li>
+<li>Right. </li>
+</random>
+<random>
+<li>I think so.</li>
+<li>I agree. </li>
+<li>I believe that.</li>
+</random>
+</template>
+</category>
+
+<category>
+<pattern>CYCREPLY FALSE</pattern>
+<template>
+<random>
+<li>No. </li>
+<li>Negative. </li>
+<li>Nope. </li>
+</random>
+<random>
+<li>I can not prove that. </li>
+<li>I cannot say that.</li>
+<li>Not that I know of. </li>
+</random>
+</template>
+</category>
+
+<category>
+<pattern>CYCREPLY *</pattern>
+<template><star index="1"/></template>
+</category>
+
+<category>
+<pattern>SYSTEM TEST 2</pattern>
+<template>
+<random>
+<li> R A 1</li>
+<li> R A 2</li>
+<li> R A 3</li>
+</random>
+</template>
+</category>
+
+<category>
+<pattern>WHO IS AN *</pattern>
+<template>
+	I think <cycrandom>(cyc-query '(#$and (#$isa ?REPLY <cycterm><star index="1"/></cycterm>)(#$isa ?REPLY #$Person)) #$EverythingPSC) </cycrandom> is a <star index="1"/>.
+</template>
+</category>
+
+<category>
+<pattern>FORGET * IS A * </pattern>
+<template>
+<cycretract>(#$isa <cycterm><star index="1"/></cycterm><space/><cycterm><star index="2"/></cycterm>) #$aiml:contextMt</cycretract>
+</template>
+</category>
+
+<category>
+<pattern>MAKE * A * </pattern>
+<template>
+<cycsystem>(fi-find-or-create "<star index="1"/>")</cycsystem>
+<cycassert>(#$isa <cycterm><star index="1"/></cycterm><space/><cycterm><star index="2"/></cycterm>) #$aiml:contextMt</cycassert>
+</template>
+</category>
+
+<category>
+<pattern>WHAT IS * </pattern>
+<template>
+<cycsystem>(fi-ask '(#$isa <cycterm><star index="1"/></cycterm> ?REPLY) #$aiml:contextMt)</cycsystem>
+</template>
+</category>
+
+<category>
+<pattern>PLAN TEST 1</pattern>
+<template>
+The scheme I came up with can be described simply as 
+<cycsystem>(cyc-query '(#$doomValue 
+  (#$TheList "invokePlanner" 
+    (#$doFuelDevice #$Trucker001 #$SemiTrailer-Truck-001) #$DoomSharedPlanningMt) ?PLAN) #$DoomSharedPlanningMt)</cycsystem>
+</template>
+</category>
+
+<category>
+<pattern>HAVE * FILL UP * TRUCK</pattern>
+<template>
+The scheme I came up with can be described simply as 
+<cycsystem>(cyc-query '(#$doomValue
+  (#$TheList "invokePlanner" 
+    (#$doFuelDevice <cycterm><star index="1"/></cycterm> #$SemiTrailer-Truck-001) #$DoomSharedPlanningMt) ?PLAN) #$DoomSharedPlanningMt)</cycsystem>
+</template>
+</category>
+
+<category>
+<pattern>I LIVE IN *</pattern>
+<guard>(#$countryOfCity  #$UnitedStatesOfAmerica <cycterm><star index="1"/></cycterm>)</guard>
+<template>That's somewhere in America.</template>
+</category>   
+
+<category>
+<pattern>I LIVE IN *</pattern>
+<guard>(#$isa <cycterm><star index="1"/></cycterm> #$USCity)</guard>
+<template> Cycquery of cityInState for <cycterm><star index="1"/></cycterm> </template>
+</category>   
+
+ <category>
+<pattern>I LIVE IN *</pattern>
+<guard>(#$cityInState   <cycterm><star index="1"/></cycterm> #$Texas-State)</guard>
+<template>You're from Texas too!</template>
+</category>   
+
+
+
+</aiml>

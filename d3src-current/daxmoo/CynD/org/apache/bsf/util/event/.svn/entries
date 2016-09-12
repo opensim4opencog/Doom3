@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="431333"
+   name=""
+   committed-date="2006-08-14T12:48:02.547874Z"
+   url="https://svn.apache.org/repos/asf/jakarta/bsf/trunk/src/org/apache/bsf/util/event"
+   last-author="henning"
+   kind="dir"
+   uuid="13f79535-47bb-0310-9956-ffa450edef68"
+   revision="438605"/>
+<entry
+   committed-rev="431333"
+   name="EventProcessor.java"
+   text-time="2006-08-30T19:54:45.092126Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="3665c002439245e1731a96df8ca8ef8b"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:43.810283Z"/>
+<entry
+   committed-rev="431213"
+   name="EventAdapter.java"
+   text-time="2006-08-30T19:54:45.112155Z"
+   committed-date="2006-08-13T19:35:58.717139Z"
+   checksum="1e51d431b0e5d57c4ce9c5850e7ddb63"
+   last-author="sanka"
+   kind="file"
+   prop-time="2006-08-30T19:54:43.840326Z"/>
+<entry
+   name="adapters"
+   kind="dir"/>
+<entry
+   committed-rev="431213"
+   name="EventAdapterImpl.java"
+   text-time="2006-08-30T19:54:45.132184Z"
+   committed-date="2006-08-13T19:35:58.717139Z"
+   checksum="74a9a9c3970f9d9779468b5b14713c7b"
+   last-author="sanka"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.811723Z"/>
+<entry
+   name="generator"
+   kind="dir"/>
+<entry
+   committed-rev="431333"
+   name="EventAdapterRegistry.java"
+   text-time="2006-08-30T19:54:45.152212Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="c188c31ba7811e852bddcbdba4e0236e"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:45.072097Z"/>
+</wc-entries>

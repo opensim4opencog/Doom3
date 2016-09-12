@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="2414"
+   name=""
+   committed-date="2005-02-23T04:26:23.000000Z"
+   url="https://svn.sourceforge.net/svnroot/jython/trunk/jython/src/com/ziclix/python/sql/util"
+   last-author="bzimmer"
+   kind="dir"
+   uuid="79b11f02-f210-0410-99aa-fb189b3d1ac4"
+   revision="2919"/>
+<entry
+   committed-rev="2414"
+   name="PyArgParser.java"
+   text-time="2006-08-30T20:15:03.393958Z"
+   committed-date="2005-02-23T04:26:23.000000Z"
+   checksum="633a14e5ac8fcfe150dd0ccbaac4bfac"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:15:02.943310Z"/>
+<entry
+   committed-rev="2414"
+   name="BCP.java"
+   text-time="2006-08-30T20:15:03.464059Z"
+   committed-date="2005-02-23T04:26:23.000000Z"
+   checksum="4464c144fc390d95887ac8a6ec354686"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:15:03.023425Z"/>
+<entry
+   committed-rev="2414"
+   name="Queue.java"
+   text-time="2006-08-30T20:15:03.754476Z"
+   committed-date="2005-02-23T04:26:23.000000Z"
+   checksum="9ae3238686174e8287815ecef57aaa0e"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:15:03.063483Z"/>
+<entry
+   committed-rev="2414"
+   name="QueueClosedException.java"
+   text-time="2006-08-30T20:15:03.824577Z"
+   committed-date="2005-02-23T04:26:23.000000Z"
+   checksum="04a50085392048dbaa4b2ccca162df23"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:15:03.103540Z"/>
+</wc-entries>

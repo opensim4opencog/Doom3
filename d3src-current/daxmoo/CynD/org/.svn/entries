@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="2232"
+   name=""
+   committed-date="2006-09-07T01:40:03.803887Z"
+   url="http://svn.codehaus.org/jruby/trunk/jruby/src/org"
+   last-author="headius"
+   kind="dir"
+   uuid="961051c9-f516-0410-bf72-c9f7e237a7b7"
+   revision="2232"/>
+<entry
+   name="ablaf"
+   kind="dir"/>
+<entry
+   name="jruby"
+   kind="dir"/>
+</wc-entries>

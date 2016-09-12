@@ -1,0 +1,3276 @@
+package daxclr.doom;
+
+import java.io.*;
+import java.lang.reflect.*;
+import java.util.List;
+import java.util.*;
+
+import daxclr.java.*;
+import daxclr.ext.*;
+import daxclr.doom.ui.AbstractPanelModule;
+//import com.touchgraph.graphlayout.*;
+import java.awt.*;
+import javax.swing.*;
+import java.lang.SecurityException;
+import java.security.*;
+
+
+import java.beans.*;
+import java.util.*;
+import java.io.*;
+import daxclr.ext.util.*;
+import daxclr.ext.*;
+import daxclr.ext.swing.*;
+import org.apache.log4j.*;
+
+/**
+ *
+ */
+public class DaxDoom implements java.io.Serializable,VetoableChangeListener, PropertyChangeListener,IDoomCommand {
+
+    public boolean invokeCommand(Object[] cmdArgs) {
+        if ((""+cmdArgs[0]).equalsIgnoreCase("listplugins")) {
+            Iterator its  = thePlugins.iterator();
+            while (its.hasNext()) {
+                Object plug = its.next();
+                String info = "Plugin '"+plug+ "' ";
+                if (plug instanceof IDoomCommand) {
+                    info += " IDoomCommand";
+                }
+                if (plug instanceof IDoomMapListener) {
+                    info += " IDoomMapListener";
+                }
+                if (plug instanceof IDoomModule) {
+                    info += " IDoomModule";
+                }
+                info += " " + plug.getClass();
+                debugln(info);
+            }
+            debugln("initializingComplete = " + (initThread==null));
+            debugln("gameMonitorThread = " + (gameMonitorThread==null));
+            debugln("mapListenersKnow = " + (mapListenersKnow));
+            return true;
+        }
+
+        if ((""+cmdArgs[0]).startsWith("bsh")) {
+            String evalme = joinString(cmdArgs,1," ");
+            try {
+                debugln("bsh: "+evalme);
+                debugln(""+theBeanShell.eval(evalme));
+                return true;
+            } catch (Throwable e) {
+                debugln(e);
+            }
+        }
+        return false;
+    }
+
+    static public DaxDoom theGame= new DaxDoom();
+    static public IBeansContext theBeanBowlContext = null;
+    static public IBeansContext getBeanBowlContext() {
+        return theBeanBowlContext;
+    }
+
+    /**
+     * Starts an instance of a DoomServer from commandline
+     * Call only if doom hasn't started
+     * 
+     * @param args[]
+     */
+    static public void main(String args[]) {
+        //TODO Parse args[] properly
+        if (args.length > 0) {
+            setBootFile(args[0]);
+        }
+        Runtime.getRuntime().loadLibrary("base/gamex86");    
+        init();
+    }
+    public String toString() {
+        return "doom";
+    }
+    /* Working Directory when started */
+    static public String pathToBase = "c:\\doom3\\base\\";
+    static public String pathToJars = "c:\\doom3\\base\\lib\\";
+    static public String pathToClasses = "c:\\doom3\\base\\classes\\";
+    /* Bootfile when started */
+    static public String pluginconfig = "plugins.cfg";
+    static public String bootFile = null;
+    /* once started = true */
+    static public boolean m_isInitialized = false;
+    /* Introspections version of a String.getClass() */
+    static public Class stringClass = String.class;
+    /* Introspections version of the String Class in a 1-D array containing a Class[0]=String.getClass() */
+    static public Class[] stringClassArrayOfOne = new Class[] {stringClass};
+    /* Debug=0 (None), Debug=1 (Minor), Debug=2 (Extreme) */
+    static public int levelDebug = 2;
+    /* Dictionary of All objects available to Scripting engine */
+    // static public DoomIrcBot theBot = null;
+    static public NClassLoader theClassLoader = new NClassLoader(null);
+
+    static public bsh.NameSpace theNameSpace;
+    static public String theNameSpacePrefix = "daxclr.doom.";
+    static public bsh.BshClassManager theClassManager = new bsh.BshClassManager();
+    static public bsh.Interpreter theBeanShell;
+    //==== Static variables ===================
+    static public Category cat = Category.getInstance(DaxDoom.class);
+    //==== Transient instance variables ===================
+    static public transient PropertyChangeSupport propSupport = new PropertyChangeSupport(theGame);
+    static public transient Set bowlListeners =  new LinkedHashSet();
+    //===== Serializable instance variables ================
+    //Maps beans to their objectInfos
+    // private Map beansToObjectInfos = new HashMap();
+    //private Map objectInfosToBeans = new HashMap();
+    //The currently selected bean
+    static public Object selected = null;
+    //private List beanList = new LinkedList();
+    static public LinkedList objectInfoList = new LinkedList();
+    //Maps bean objectInfo name to bean objectInfo
+    static public Map nameIndex = new Hashtable();
+    //An ordered list of beans
+    static public LinkedList beanList = new LinkedList();
+
+    /* Ensures Scripting Engine is running*/
+    /**
+    *
+    * @return
+    */
+    static public daxclr.ext.bbowl.gui.BeanBowlGUI gui= new daxclr.ext.bbowl.gui.BeanBowlGUI(theGame);
+    static public Thread initThread = null;
+    //============ Constructors ==================================================
+    /* Creates a non-started Server */
+    public DaxDoom() {
+        // super(new bsh.NameSpace(),"daxclr.doom.DaxDoom");
+        //theNameSpace = this;
+        if (theGame == null) {
+            setGame(this);
+        }
+    }
+
+    public DaxDoom(bsh.Interpreter bs) {
+        this();
+        setBeanShell(bs);
+    }
+    static public DaxDoom getWorld() {
+        return getGame();
+    }
+    static public DaxDoom getInstance() {
+        return getGame();
+    }
+    static public DaxDoom getGame() {
+        if (theGame == null) {
+            theGame = new DaxDoom();
+        }
+        return theGame;
+    }
+
+    static public void eventInGame(Object args[]) {
+        if (args!=null) {
+            Object[] cmdArgs = new Object[args.length+1];
+            cmdArgs[0]="event";
+            for (int i=0;i<args.length;i++) {
+                cmdArgs[i+1]=args[i];
+            }
+            evalJavaCommand(cmdArgs);
+        }
+    }
+
+    static public void eventInGameSay(boolean team, String name, String text) {
+        //  debugln("Java heard "+name+" say: "+text);
+        eventInGame(new String[]{"say",name,text});
+    }
+
+    static public NClassLoader getClassLoader() {
+        return theClassLoader;
+    }
+    static public boolean delayedInit2() {
+        if (initThread!=null) return true;
+        initThread =new Thread() {
+            public void run() {
+                debugln("JAVA: init Starting in 2 seconds ");
+                waitmsecs(2000);
+                DaxDoom.init();
+            }
+        };
+        if (!initThread.isAlive()) {
+            initThread.start();
+        }
+        return true;
+    }
+    static public boolean delayedInit() {
+        return init();
+    }
+
+    synchronized static public boolean init() {
+        if (isM_isInitialized()) {
+            return true;
+        }
+        setM_isInitialized(true);
+        debugln("JAVA: init going ");
+        try {
+            System.setSecurityManager(new DoomSecurityManager());
+            getClassManager().setClassLoader(getClassLoader());
+        } catch (Throwable e) {
+            debugln(e);
+        }
+        debugln("JAVA: init bsh ");
+        try {
+            setNameSpace(new bsh.NameSpace(getClassManager(), getNameSpacePrefix()));
+        } catch (Throwable e) {
+            debugln(e);
+        }
+
+        try {
+            setBeanShell(new bsh.Interpreter());
+        } catch (Throwable e) {
+            debugln(e);
+        }
+        setNamedObject("doom", theGame);
+        PrintStream ps = getPrintStream();
+        try {
+            System.setOut(ps);
+            System.setErr(ps);
+            System.setIn(getInputStream());
+        } catch (Throwable e) {
+            debugln(e);
+        }
+        try {
+            getBeanShell().setStrictJava(false);
+            getBeanShell().setClassLoader(getClassLoader());
+        } catch (Throwable e) {
+            debugln(e);
+        }
+
+        try {
+            getBeanShell().setErr(ps);
+            getBeanShell().setOut(ps);
+            getBeanShell().setExitOnEOF(false);
+        } catch (Throwable e) {
+            debugln(e);
+        }
+        try {
+            // theNameSpace.loadDefaultImports();
+        } catch (Throwable e) {
+            debugln(e);
+        }
+        try {
+            // theNameSpace.doSuperImport();
+        } catch (Throwable e) {
+            //	debugln(e);
+        }
+        try {
+            addBean(DaxDoom.class);
+            addBean(System.class);
+            addBean(Runtime.getRuntime());
+            setNamedObject("theBeanShell", getBeanShell());
+            setNamedObject("theClassManager", getClassManager());
+            setNamedObject("theClassLoader", getClassLoader());
+            setNamedObject("theNameSpace", getNameSpace());
+            setNamedObject("out", getPrintStream());
+            setNamedObject("err", getPrintStream());
+            setNamedObject("in", getInputStream());
+        } catch (Throwable e) {
+            debugln(e);
+        }
+        setStringClass(String.class);
+        setStringClassArrayOfOne(new Class[]  {getStringClass()});
+        loadPlugins();
+
+        return true;
+    }
+
+    static PrologServer prologserver = null;
+    static public void loadPlugins() {
+        try {
+            initThread = new Thread() {
+                public void run() {
+                    loadPluginsNow();
+                }
+            };
+            initThread.start();
+        } catch (Throwable ee) {
+            debugln(ee);
+        }
+    }
+    static public void loadPluginsNow() {
+        try {
+            gui = getGui();
+            gui.setSize(600,500);
+            gui.setVisible(true);
+            gui.repaint();
+            if (prologserver==null) {
+                prologserver = new PrologServer(PrologAPI.current(),3691);
+            }
+            if (!prologserver.isAlive()) {
+                prologserver.start();
+            }
+        } catch (Throwable e) {
+            debugln(e);
+        }
+        commandAdd("listplugins");
+        commandAdd("bsh");
+        commandAdd("event");
+        addPlugin(getGame());
+        int found = 0;
+        //             createWindow("theJConsole " + getConsole().getIn() + " " + getConsole().getOut(), getConsole());
+        try {
+            debugln("InitPlugins " + getPathToBase() + getPluginconfig());
+            FileReader filer = new FileReader(pathToBase + pluginconfig);
+            BufferedReader br = new BufferedReader(filer);
+            while (br.ready()) {
+                final String line = br.readLine();
+                found++;
+                try {
+                    loadPlugin(line);
+                } catch (Throwable ee) {
+                    debugln(ee);
+                }
+            }
+            br.close();
+            setLevelDebug(0);
+            debugln("lines in cfg = " + found);
+        } catch (Throwable e) {
+            debugln(e);
+        }
+        initThread = null;
+        startMapMonitor();
+        //startMapMonitor();
+    }
+
+    static public Thread gameMonitorThread;
+    static public boolean mapListenersKnow = false;
+    static public void startMapMonitor() {
+        if (gameMonitorThread==null) {
+            gameMonitorThread = new Thread() {
+                public void run() {
+                    while (true) {
+                        waitmsecs(3000);
+                        if (initThread == null) {
+                            if (!mapListenersKnow) {
+                                if (safeIsGameUnderway()) {
+                                    signalMapLoad();
+                                }
+                            } else {
+                                if (!safeIsGameUnderway()) {
+                                    signalMapUnload();
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            gameMonitorThread.start();
+        }
+    }
+    static public void signalMapLoad() {
+        debugln("signalMapLoad()");
+        //        addBean(gui);
+        //        setNamedObject("LinkedHashSet-thePlugins", getPlugins());
+        Iterator its = getPlugins().iterator();
+        while (its.hasNext()) {
+            Object o = its.next();
+            if (o instanceof IDoomMapListener) {
+                IDoomMapListener l = (IDoomMapListener)o;
+                try {
+                    l.onMapLoad();
+                } catch (Throwable e) {
+                    debugln(e);
+                }
+            } else {
+                if (o instanceof Thread || o instanceof Runnable) {
+                    startObject(o);
+                }
+            }
+        }
+        mapListenersKnow = true;
+    }
+    static public void signalMapUnload() {
+        debugln("signalMapUnload()");
+        Iterator its = getPlugins().iterator();
+        while (its.hasNext()) {
+            Object o = its.next();
+            if (o instanceof IDoomMapListener) {
+                IDoomMapListener l = (IDoomMapListener)o;
+                try {
+                    l.onMapUnload();
+                } catch (Throwable e) {
+                    debugln(e);
+                }
+            }
+        }
+        mapListenersKnow = false;
+    }
+    /**
+    * Add Plugin thats an IDoomModule
+    * @param plug
+    */
+    static public void addPlugin(IDoomModule plug) {
+        getPlugins().add(plug);
+        addBean(plug);
+    }
+    /**
+    * Add Plugin thats an IDoomCommand
+    * @param plug
+    */
+    static public void addPlugin(IDoomCommand plug) {
+        getPlugins().add(plug);
+        addBean(plug);
+    }
+    /**
+    * Add Plugin thats an IDoomMapListener
+    * @param plug
+    */
+    static public void addPlugin(IDoomMapListener plug) {
+        getPlugins().add(plug);
+        addBean(plug);
+    }
+    static public Set thePlugins = new LinkedHashSet(20);
+    /**
+    *
+    * @param line
+    */
+    static public void loadPlugin(String line) {
+        if (line == null) {
+            return;
+        }
+        line = line.trim();
+        if (line.length() < 5) {
+            return;
+        }
+        if (line.startsWith("/")) {
+            //debugln(line);
+            return;
+        }
+        try {
+            // CycAPI
+            String[] theConfigLine = line.split(" ");
+            String named = theConfigLine[0];
+            String classname = theConfigLine[1];
+            Object thePlug = null;
+            debugln("START module " + named + " " + classname);
+            try {
+                Class newClass = forName(classname);
+                try {
+                    thePlug = newClass.newInstance();
+                } catch (Throwable eee) {
+                    debugln("could not create an instance of " + classname + " (" +   named + ")");
+                    debugln(eee);
+                    return;
+                }
+            } catch (Throwable ee) {
+                debugln("could not find class for an instance of " + classname + " (" +   named + ")");
+                debugln(ee);
+                return;
+            }
+            if (thePlug == null) {
+                return;
+            }
+            if (thePlug instanceof IDoomModule) {
+                IDoomModule plug = (IDoomModule) thePlug;
+                try {
+                    plug.initializeModule(theConfigLine, getGame());
+                } catch (Throwable eee) {
+                    debugln(eee);
+                    debugln("ERROR module " + plug);
+                    return;
+                }
+            }
+            if (false && safeIsGameUnderway()) {
+                if (thePlug instanceof IDoomMapListener) {
+                    IDoomMapListener plug = (IDoomMapListener) thePlug;
+                    try {
+                        plug.onMapLoad();
+                    } catch (Throwable eee) {
+                        debugln(eee);
+                        debugln("ERROR module " + plug);
+                        return;
+                    }
+                }
+            }
+            if (thePlug instanceof IDoomCommand) {
+                IDoomCommand plug = (IDoomCommand) thePlug;
+            }
+            //if (thePlug instanceof Thread) addThread((Thread)thePlug);
+            getPlugins().add(thePlug);
+            setNamedObject(named, thePlug);
+            debugln("COMPLETE module " + thePlug);
+        } catch (Throwable e) {
+            debugln(e);
+        }
+    }
+    static public void startObject(Object plug) {
+        String name = ""+plug;
+        Thread thread = null;
+        boolean isPlugStarted = false;
+        if (plug instanceof Thread) {
+            thread = (Thread) plug;
+            thread.setName(name);
+            isPlugStarted = thread.isAlive();
+            if (!isPlugStarted) {
+                if (!thread.isAlive()) {
+                    thread.start();
+                }
+                debugln("starting the plugin: " + name + "");
+            } else {
+                debugln("ussing the plugin: " + name + "");
+            }
+        } else if (plug instanceof Runnable) {
+            thread = (Thread) findObject(name + "_thread");
+            if (thread == null) {
+                thread = new Thread((Runnable) plug);
+                thread.setName(name + "_thread");
+                setNamedObject(name + "_thread", thread);
+            } else {
+                isPlugStarted = thread.isAlive();
+            }
+            if (!isPlugStarted) {
+                if (!thread.isAlive()) {
+                    thread.start();
+                }
+                debugln("starting the plugin: " + name + "_thread");
+            } else {
+                debugln("ussing the plugin: " + name + "_thread");
+            }
+        } else {
+            debugln("assuming the plugin is already running: " +name);
+        }
+    }
+    /**
+    *
+    * @param name
+    */
+    static public void startPlugin(String name) {
+        if (name != null) {
+            if (name.length() > 2) {
+                try {
+                    Object plug = findObject(name);
+                } catch (Throwable e) {
+                    debugln(e);
+                }
+            }
+        }
+    }
+
+
+    static public ISys getSys() {
+        return IdGameLocal.getGameLocal().getSys();
+    }
+
+    static public class DoomThreadGroup extends ThreadGroup {
+        public DoomThreadGroup() {
+            super("DoomThreadGroup");
+        }
+        //	public void addThread(Thread thread) {
+        // 	this.add(thread);
+        //	}
+    }
+    /**
+    *
+    * @param arr
+    * @param chars
+    * @return
+    */
+    static public String joinString(Object arr[], String chars) {
+        return joinString(arr,0,chars);
+    }
+    static public String joinString(Object arr[], int start,String chars) {
+        if (arr == null) {
+            return "";
+        }
+        if (chars == null) {
+            chars = " ";
+        }
+        java.lang.StringBuffer buffer = new java.lang.StringBuffer();
+        int len = arr.length;
+        for (int i = start; i < len; i++) {
+            buffer.append("" + arr[i]);
+            if (i < len - 1) {
+                buffer.append(chars);
+            }
+        }
+        return buffer.toString();
+    }
+
+    static public Object[] prependArray(Object bot, Object[] args) {
+        if (args == null) {
+            if (bot==null) return new Object[1];
+            Object[] r = (Object[])Array.newInstance(bot.getClass(),1);
+            r[0]=bot;
+            return r;
+        }
+        int len = args.length;
+        Class clz = args.getClass().getComponentType();
+        Object[] toret = (Object[])Array.newInstance(clz,len+1);
+        toret[0] = bot;
+        for (int i = 0; i < args.length; i++) {
+            toret[i + 1] = args[i];
+        }
+        return toret;
+    }
+
+
+    static public Hashtable idMethodTable =  new Hashtable(1000);
+    static public Hashtable theClassTable=  new Hashtable(1000);
+    /**
+    *
+    * @param hmap
+    * @return
+    */
+    static public LinkedHashSet keysOfMap(java.util.Dictionary hmap) {
+        Enumeration list = hmap.keys();
+        LinkedHashSet keyset = new LinkedHashSet();
+        while (list.hasMoreElements()) {
+            keyset.add(list.nextElement());
+        }
+        return keyset;
+    }
+    /**
+    *
+    * @return
+    */
+    static public Set getIdMethodSet() {
+        return keysOfMap((Hashtable) getIdMethodMap());
+    }
+    static public Map theEntityMap = new Hashtable(30);
+    static public IdEntity findEntity(String entname,int ordinal) {
+        IdEntity ident = (IdEntity)theEntityMap.get(entname);
+        if (ident!=null) return ident;
+        ident = new IdEntity(entname,ordinal);
+        theEntityMap.put(entname,ident);
+        return ident;
+    }
+    /**
+    * Returns the Set of entities that are in the game
+    *
+    */
+    static public Map getEntityMap() {
+        if (theEntityMap == null) {
+            theEntityMap = new HashMap();
+        }
+        for (int i = 1; i < 4096; i++) {
+            String name = entityName(i);
+            if (name != null) {
+                if (!name.equals("<noent>")) {
+                    theEntityMap.put(name,findEntity(name,i));
+                }
+            }
+        }
+        return theEntityMap;
+    }
+    /**
+    * Returns the Set of entities that are in the game
+    *
+    */
+    static public List getEntitySet() {
+        List set = new ArrayList(30);
+        for (int i = 1; i < 4096; i++) {
+            String name = entityName(i);
+            if (name != null) {
+                if (!name.equals("<noent>")) {
+                    Object o = findEntity(name,i);
+                    if (o!=null)set.add(o);
+                }
+            }
+        }
+        return set;
+    }
+    /**
+    *
+    * @return
+    */
+    static public Hashtable getIdMethodMap() {
+        if (idMethodTable == null) {
+            idMethodTable = (new Hashtable(1000));
+            for (int i = 1; i < 4096; i++) {
+                String name = scriptName(i);
+                if (name != null) {
+                    if (!name.equals("<nofunct>")) {
+                        IdMethod ent = new IdMethod(name, i, scriptClass(i), scriptSignature(i), scriptArity(i));
+                        idMethodTable.put(name, ent);
+                    }
+                }
+            }
+        }
+        return idMethodTable;
+    }
+    static public Reader theReader = new StringReader(""); //=new StringWriter();
+    static public class DoomInputStream extends InputStream {
+        public DoomInputStream() {
+        }
+        /**
+        *
+        * @throws java.io.IOException
+        * @return
+        */
+        public int read() throws IOException {
+            if (getReader() == null) {
+                return -1;
+            }
+            return getReader().read();
+        }
+    }
+
+    /**
+    *
+    * @return
+    */
+    static public InputStream getInputStream() {
+        return new BufferedInputStream(new DoomInputStream());
+    }
+    /**
+    *
+    * @param s
+    * @return
+    */
+    static public String setStringReader(String s) {
+        String old = "" + getReader();
+        setReader(new StringReader(s));
+        return old;
+    }
+    /**
+    *
+    * @param s
+    */
+    static public void setReader(Reader s) {
+        theReader = s;
+    }
+    static public class DoomOutputStream extends OutputStream {
+        //Appendable buffer = new StringBuffer(100);
+        StringBuffer buffer = new StringBuffer(100);
+        public DoomOutputStream() {
+            // buffer = new StringBuffer(100);
+        }
+        /**
+        *
+        * @return
+        */
+        public StringBuffer getBuffer() {
+            return buffer;
+        }
+        public void clear() {
+            buffer = new StringBuffer(100);
+        }
+        /**
+        *
+        * @param c
+        * @throws java.io.IOException
+        */
+        public void write(int c) throws IOException {
+            if (c == 10 || buffer.length() > 120) {
+                flush();
+            } else {
+                if (buffer == null) {
+                    buffer = new StringBuffer(100);
+                }
+                buffer.append((char) c);
+            }
+        }
+        public void finalize() {
+            if (buffer != null) {
+                debugln((String) buffer.toString());
+            }
+            buffer = null;
+        }
+        public void close() {
+            flush();
+        }
+        public void flush() {
+            if (buffer != null) {
+                debugln((String) buffer.toString());
+            }
+            buffer = new StringBuffer(100);
+        }
+    }
+
+    /**
+    *
+    * @param output
+    */
+    static public void println(String output) {
+        try {
+            print("" + output + "\n");
+        } catch (UnsatisfiedLinkError le) {
+        }
+    }
+    /**
+    *
+    * @param e
+    */
+    static public void debugln(Throwable e) {
+        PrintStream outputs = getPrintStream();
+        try {
+            exceptionClear();
+        } catch (UnsatisfiedLinkError le) {
+        }
+        e.printStackTrace(outputs);
+        println("debugln: " + e);
+        outputs = null;
+    }
+    /**
+    *
+    * @param entname
+    * @return
+    */
+    static public String entityType(String entname) {
+        return entityType(entityNumber(entname));
+    }
+    /**
+    *
+    * @param entname
+    * @return
+    */
+    static public String entityClass(String entname) {
+        return entityClass(entityNumber(entname));
+    }
+    /**
+    *
+    * @param entname
+    * @param argname
+    * @param defaultval
+    * @return
+    */
+    static public String getSpawnArg(String entname, String argname,
+                                     String defaultval) {
+        return getSpawnArg(entityNumber(entname), argname, defaultval);
+    }
+    /**
+    *
+    * @param entname
+    * @param argname
+    * @return
+    */
+    static public String getSpawnArg(String entname, String argname) {
+        return getSpawnArg(entityNumber(entname), argname);
+    }
+    /**
+    *
+    * @param entname
+    * @param argname
+    * @param value
+    */
+    static public void setSpawnArg(String entname, String argname, String value) {
+        setSpawnArg(entityNumber(entname), argname, value);
+    }
+    /**
+    *
+    * @param x
+    * @param y
+    * @param z
+    * @return
+    */
+    static public IdVector toVector(float x, float y, float z) {
+        return new IdVector(x, y, z);
+    }
+    /**
+    *
+    * @param clzz
+    * @param entname
+    * @param funcname
+    * @return
+    */
+    static public String funInfo(String clzz, String entname, String funcname) {
+        return funInfo(scriptNumber(clzz, entityNumber(entname), funcname));
+    }
+    /**
+    *
+    * @param funcnum
+    * @return
+    */
+    static public String funInfo(int funcnum) {
+        String buf = scriptParameter(funcnum, -1) + " " +
+                     scriptParameter(funcnum, 0) + "::" + scriptName(funcnum) +
+                     "(";
+        int len = scriptArity(funcnum);
+        for (int i = 1; i <= len; i++) {
+            buf += scriptParameter(funcnum, i);
+            if (i < len) {
+                buf += ",";
+            }
+        }
+        return buf + "); // " + funcnum;
+    }
+    /**
+    *
+    * @param s
+    * @return
+    */
+    static public Object[] tokenizeString(String s) {
+        StringTokenizer st = new StringTokenizer(s);
+        ArrayList ss = new ArrayList(st.countTokens());
+        while (st.hasMoreElements()) {
+            ss.add(st.nextElement());
+        }
+        return(Object[]) ss.toArray();
+    }
+    /**
+    *
+    * @param s
+    * @return
+    */
+    static public String[] splitString(String s) {
+        //		if (s.contains(" ")) {
+        return(""+s).split(" ");
+        // 	}
+        /*	Object[] obj = tokenizeString(s);
+        String[] rs = new String[obj.length];
+        for (int i = 0; i < obj.length; i++) {
+        rs[i] = "" + obj[i];
+        }
+        return rs;*/
+    }
+    /**
+    *
+    * @param scope
+    * @param fnname
+    * @return
+    */
+    static public boolean isJavaFn(String scope, String fnname) {
+        if (scope == null) {
+            return false;
+        }
+        if ((scope.equals("java"))) {
+            return true;
+        }
+        if ((scope.equals("bsh"))) {
+            return true;
+        }
+        if ((scope.equals("doom"))) {
+            return true;
+        }
+        return(scriptNumber(scope, 0, fnname) == 0);
+        /*
+        int dot = scopeAndFn.indexOf('.');
+        if (dot<0) return false;
+        String scope = scopeAndFn.substring(0,dot-1);
+        Object obj = findObject(scope);
+        if (obj==null) return false;
+        String fn = scopeAndFn.substring(dot+1);
+        if (obj.getClass().getMethod()) {
+        }*/
+        //		return false;
+    }
+    /**
+    *
+    * @param o
+    * @return
+    */
+    static public String toString(Object o) {
+        if (o instanceof IObjectInfo) {
+            return((IObjectInfo)o).getEntname();
+        }
+        String name = "" + o;
+        return name.substring(name.lastIndexOf(":")+1);
+    }
+    /**
+    *
+    * @param innerClass
+    * @param objs
+    * @return
+    */
+    static public Object createCollection(Class innerClass, Object[] objs) {
+        try {
+            Collection col = (Collection) (innerClass.newInstance());
+            for (int i = 0; i < objs.length; i++) {
+                col.add(objs[i]);
+            }
+            return col;
+        } catch (Throwable e) {
+            debugln(e);
+            return null;
+        }
+    }
+    /**
+    *
+    * @param o
+    * @return
+    */
+    static public float floatValue(Object o) {
+        if (o instanceof Number) {
+            return(((Number) o).floatValue());
+        }
+        try {
+            return new Float("" + o).floatValue();
+        } catch (NumberFormatException e) {
+            debugln(e);
+            return 0.0f;
+        }
+    }
+    /**
+    *
+    * @param o
+    * @return
+    */
+    static public int intValue(Object o) {
+        if (o instanceof Number) {
+            return(((Number) o).intValue());
+        }
+        if (o instanceof IdVector) {
+            return(((IdVector) o).value.length);
+        }
+        if (o instanceof IdEntity) {
+            return((IdEntity) o).idordinal;
+        }
+        try {
+            return new Integer("" + o).intValue();
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+    /**
+    *
+    * @return
+    */
+    static public ThreadGroup getTGroup() {
+        return getTGroup(Thread.currentThread());
+    }
+    /**
+    *
+    * @return
+    * @param thread
+    */
+    static public ThreadGroup getTGroup(Thread thread) {
+        return thread.getThreadGroup();
+    }
+    /**
+    *
+    * @param thread
+    */
+    static public void addThread(Thread thread) {
+        //getTGroup().add(thread);
+        // Method
+    }
+    /**
+    *
+    * @return
+    * @param a
+    * @param i
+    */
+    static public float floatArrayValue(Object a, int i) {
+        if (a instanceof IdVector) {
+            return floatArrayValue(((IdVector)a).value,i);
+        }
+        if (a instanceof float[]) {
+            return(((float[]) a)[i]);
+        }
+        if (a instanceof double[]) {
+            return new Double(((double[]) a)[i]).floatValue();
+        }
+        if (a instanceof Object[]) {
+            return floatValue(((Object[]) a)[i]);
+        }
+        return floatValue(a);
+    }
+    /**
+    *
+    * @return
+    * @param o
+    */
+    static public Object toObject(Object arg) {
+        if (arg==null) return null;
+        if (arg instanceof CharSequence) {
+            return toObject(arg.toString());
+        }
+        if (arg.getClass().isArray()) {
+            return toObject((Object[]) arg);
+        }
+        return arg;
+    }
+    /**
+    *
+    * @return
+    * @param o
+    */
+    static public Object toObject(String o) {
+        if (o==null) return null;
+        if (o.equals("")) return null;
+        Object obj = findObject(o);
+        if (obj != null) {
+            return obj;
+        }
+        obj = o;
+        char a1 = o.charAt(0);
+        switch (a1) {
+            case 'o':
+                obj = findObject(o);
+                if (obj != null) {
+                    return obj;
+                }
+                break;
+            case '"':
+            case '\'':
+                return o.substring(1, o.length() - 2);
+            case 'n':
+                if (o.equals("null")) {
+                    return null;
+                }
+                break; 
+            case '$':
+                if (o.equals("$null")) {
+                    return null;
+                }
+                return toObject(evalDoom(o));
+            default:
+                break;
+        }
+        String[] oo = o.split(" ");
+        if (oo.length == 3) {
+            try {
+                return new IdVector(o);
+            } catch (NumberFormatException fe) {
+            }
+        }
+        if (oo.length == 1) {
+            try {
+                int entnum = entityNumber(o);
+                if (entnum > 0) {
+                    return findEntity(entnum);
+                }
+            } catch (UnsatisfiedLinkError le) {
+            }
+            try {
+                if (o.indexOf('.') >= 0) {
+                    return new Float(o);
+                } else {
+                    return new Integer(o);
+                }
+            } catch (NumberFormatException fe) {
+            }
+        }
+        return o;
+    }
+
+    /**
+    *
+    * @return
+    * @param cmdArgs
+    */
+    static public boolean evalJavaCommand(final Object[] cmdArgs) {
+        (new Thread() {
+             public void run() {
+                 evalJavaCommandNow(cmdArgs);
+             }
+         }).start();
+        return true;
+    }
+
+    static private void evalJavaCommandNow(Object[] cmdArgs) {
+        if (cmdArgs ==null || cmdArgs.length < 1) return;
+        // if (gameMonitorThread !=null) {
+        final Object[] argz = cmdArgs;
+        debugln("evalJavaCommand: ->" + joinString(cmdArgs,"<->")+"<-");
+        Iterator its = getPlugins().iterator();
+        while (its.hasNext()) {
+            Object obj = its.next();
+            if (obj instanceof IDoomCommand) {
+                IDoomCommand plug = (IDoomCommand) obj;
+                try {
+                    plug.invokeCommand(argz);
+                } catch (Throwable e) {
+                }
+            }
+        }
+    }
+    /**
+    *
+    * @return
+    * @param cmdArgs
+    */
+    static public Object evalJavaVar(String cmdArgs) {
+        return toObject(cmdArgs);
+    }
+    /**
+    *
+    * @return
+    * @param obj
+    */
+    static public Class classFromInstance(Object obj) {
+        if (obj == null) {
+            return Object.class;
+        }
+        if (obj instanceof Class) {
+            return(Class) obj;
+        }
+        return obj.getClass();
+    }
+    /**
+    *
+    * @return
+    * @param obj
+    */
+    static public Class toClass(Object obj) {
+        String clazz = null;
+        if (obj instanceof CharSequence) {
+            clazz = obj.toString();
+            obj = findObject(clazz);
+            if (obj == null) {
+                try {
+                    obj = forName(clazz);
+                } catch (ClassNotFoundException cnf) {
+                }
+            }
+        }
+        return classFromInstance(obj);
+    }
+    /**
+    *
+    * @return
+    */
+    static public Hashtable getClassTable() {
+        if (theClassTable== null) {
+            theClassTable = new Hashtable(100);
+            theClassTable.put("entity", IdEntity.class);
+            theClassTable.put("idScriptEvent", IdMethod.class);
+            theClassTable.put("vector", IdVector.class);
+            theClassTable.put("string", String.class);
+            theClassTable.put("s", String.class);
+
+            theClassTable.put("float", float.class);
+            theClassTable.put("f", float.class);
+            theClassTable.put("F", float.class);
+            theClassTable.put("Z", boolean.class);
+
+            theClassTable.put("d", int.class);            
+            theClassTable.put("I", int.class);
+            theClassTable.put("int", int.class);
+
+            theClassTable.put("boolean", int.class);
+            theClassTable.put("bool", boolean.class);
+
+            theClassTable.put("void", Void.class);
+            theClassTable.put("V", Void.class);
+
+            theClassTable.put("double", double.class);
+            theClassTable.put("D", double.class);
+            theClassTable.put("long", long.class);
+
+            theClassTable.put("J", long.class);
+            theClassTable.put("long", long.class);
+
+            theClassTable.put("byte", byte.class);
+
+            theClassTable.put("char", char.class);
+        }
+        return theClassTable;
+    }
+    /**
+    *
+    * @return
+    * @param named
+    */
+    static public Class toJavaClass(String named) {
+        Class clazz = (Class) getClassTable().get(named);
+        if (clazz != null) {
+            return clazz;
+        }
+        return toClass(named);
+    }
+    static public Class forName(String name) throws ClassNotFoundException {
+        boolean isArray = false;
+        if (name.endsWith("[]")) {
+            name = name.substring(0,name.length()-2);
+            isArray = true;
+        } else if (name.charAt(0)=='[') {
+            name = name.substring(1);
+            isArray = true;
+        }
+        if (name.startsWith("L") && name.contains("/")) {
+            name = name.substring(1);
+            CycAPI.removeChars(name,";");
+            CycAPI.replaceChars(name,"/",".");
+        }
+        Map clzmap = getClassTable();
+        Class clazz = forName0(name);
+        clzmap.put(name,clazz);
+        addBean(clazz);
+        if (isArray) {
+            clazz = Array.newInstance(clazz,0).getClass();
+        }
+        return clazz;
+    }
+    static public Class forName0(String name) throws ClassNotFoundException {
+        Map clzmap = getClassTable();
+        Class clazz = (Class) clzmap.get(name);
+        if (clazz != null) {
+            return clazz;
+        }
+        if (name.lastIndexOf(".")>-1) {
+            clazz = getClassLoader().findClass(name);
+            return clazz;
+        }
+        try {
+            clazz = getClassLoader().findClass("xxxxxxdaxclr.ext." + name);
+            return clazz;
+        } catch (ClassNotFoundException e) {
+            try {
+                clazz = getClassLoader().findClass("xxxxxxxdaxclr.doom." + name);
+                return clazz;
+            } catch (ClassNotFoundException e1) {
+                try {
+                    clazz = getClassLoader().findClass("java.lang." + name);
+                    return clazz;
+                } catch (ClassNotFoundException e2) {
+                    clazz = getClassLoader().findClass(name);
+                    return clazz;
+                }
+            }
+        }
+    }
+    /**
+    * Returns the function or event calling parameters as well as the return type into a string array
+    *
+    * @param proxy
+    * @param method
+    * @param args
+    *
+    * @return the function or event calling parameters as well as the return type into a string array
+    * @exception Throwable
+    */  /*
+    static public Object invoke(IdEntity proxy, Method method, Object[] args) throws Throwable {
+        return invokeScript(proxy.toString(), method.getName(), args); 
+        //return invokeScript(proxy.getTypeDef(),method.getName(),args);
+    }     */
+    /**
+    *
+    * @return
+    * @param proxy
+    * @param method
+    * @param args
+    * @throws java.lang.Throwable
+    */
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        // if (proxy==null) throw new NullPointerException("null object for " + method);
+        if (proxy instanceof IdEntity) {
+            return invoke((IdEntity) proxy, method, args);
+        }
+        if (IdEntity.class.isAssignableFrom(method.getDeclaringClass())) {
+            return invoke(findEntity("" + proxy), method, args);
+        }
+        return method.invoke(proxy, args);
+    }
+
+    /**
+    *
+    * @param objname
+    * @param cmd
+    * @param args
+    * @return
+    */
+    static public Object evalJavaMethod(String objname, String cmd, Object args[]) {
+        debugln("evalJavaMethod=>" + objname + " " + cmd + "(" + joinString(args, ",") + ")");
+        if (args == null) {
+            args = new Object[] {
+            };
+        }
+        Object obj = toObject(objname);
+        Object ret;
+        Class useClass = toClass(objname);
+        for (int i = 0; i < args.length; i++) {
+            args[i] = toObject(args[i]);
+        }
+        try {
+            ret = invokeSomething(classFromInstance(args[0]), args[0], cmd, args);
+        } catch (Throwable e1) {
+            try {
+                ret = invokeSomething(classFromInstance(useClass), obj, cmd, args);
+            } catch (Throwable e) {
+                debugln(e);
+                ret = e;
+            }
+        }
+        if (ret != null) {
+            debugln("returning: " + ret.getClass().getName() + " '" + ret + "'");
+        } else {
+            debugln("returning: '" + ret + "'");
+        }
+        return ret;
+    }
+
+    /**
+    *
+    * @param innerClass
+    * @param innerInstance
+    * @param methodName
+    * @param args
+    * @throws java.lang.Throwable ( NoSuchMethodException,IllegalAccessException,InvocationTargetException )
+    * @return
+    */
+    static public Object invokeSomething(Class innerClass, Object innerInstance, String methodName, Object[] args) throws NoSuchMethodException {
+        Throwable was =null;
+        String message = "invokeSomething: ((" + innerClass + ")" + innerInstance + ")." + methodName + "(" + joinString(args, ",") + ")";
+        debugln(message);
+        if (args == null || args.length == 0) {
+            try {
+                return innerClass.getMethod(methodName, (Class[])null).invoke(innerInstance,args);
+            } catch (IllegalAccessException iae) {
+                was = iae;
+            } catch (InvocationTargetException iae) {
+                was = iae;
+            }
+        } else {
+            Class[] clasparams = getClasses(args);
+            Method[] methods = innerClass.getMethods();
+            Object[] calling = new Object[args.length];
+            for (int i = 0; i < methods.length; i++) {
+                Class[] methodParms = methods[i].getParameterTypes();
+                if (methodParms.length == clasparams.length && methodName.equals(methods[i].getName())) {
+                    try {
+                        if (convertTypeArray(args, clasparams, calling,methodParms)) {
+                            return methods[i].invoke(innerInstance, (Object[]) calling);
+                        }
+                    } catch (InvocationTargetException iae) {
+                        was = iae;
+                    } catch (IllegalAccessException iae) {
+                        was = iae;
+                    } catch (IllegalArgumentException iae) {
+                        was = iae;
+                    }
+                }
+            }
+        }
+        if (was!=null) throw new RuntimeException(message,was);
+        throw new NoSuchMethodException(message);
+    }
+    /**
+    *
+    * @param innerInstance
+    * @param methodName
+    * @param args
+    * @throws java.lang.Throwable
+    * @return
+    */
+    static public Object invokeObject(Object innerInstance, String methodName,Object[] args) throws Throwable {
+        // Get/Set Fields
+        if (methodName.startsWith("field")) {
+            Field innerField;
+            if (methodName.charAt(7) == 's') {
+                innerField = getFieldForObject(innerInstance, (String) args[0]);
+                innerField.set(innerInstance, args[1]);
+                return innerField.get(innerInstance);
+            }
+            if (methodName.charAt(7) == 'g') {
+                innerField = getFieldForObject(innerInstance, (String) args[0]);
+                return innerField.get(innerInstance);
+            }
+        }
+        // Invokes Methods
+        Class[] classes = getClasses(args);
+        String message = "getMethodForObject"+innerInstance+"("+methodName+","+joinString(classes,",")+")";
+        debugln(message);
+        Method m = getMethodForObject(innerInstance, methodName,classes);
+        if (m == null) throw new NoSuchMethodException(message);
+        if (convertTypeArray(args,classes,args,m.getParameterTypes())) {
+            return m.invoke(innerInstance,args );
+        }
+        throw new NoSuchMethodException("not convertable "+message);  
+    }
+
+    static public AbstractPanelModule addMDIChild2(String name,java.awt.Container cont) {
+        AbstractPanelModule panel = new AbstractPanelModule() {
+            public void initializeModule(Object[] config, DaxDoom shell) {
+            }
+            public void removeModule() {
+            }
+            public void run() {
+            }
+        };
+        cont.setVisible(true);
+        //cont.show();
+        cont.setSize(400,300);
+        // AbstractPanelModule
+        //        panel.setContentPane(cont);
+        panel.add(cont);
+        //panel.setDoubleBuffered(true);
+        panel.setVisible(true);
+        panel.setSize(500,400);
+        // AbstractPanelModule.setContentOfFrame(gui.getDesk(),panel,cont);
+        //panel.show();
+        panel.repaint();
+        setNamedObject(name,cont);
+        //		addPlugin(panel);
+        //.add(cont);
+        //panel.setContentPane(cont);
+        return panel;
+    }
+    static public void createWindow(String name,Component comp) {
+        JInternalFrame existing = null;
+        //Get an icon for the bean
+        // Icon icon = BeanWrapper.getIcon(null);
+        //Create an internal panel to hold the GUI
+        JInternalFrame panel = new JInternalFrame(name, true, true, true, true);
+        panel.setResizable(true);
+        //Put the GUI and icon in the panel
+        //panel.setFrameIcon(icon);
+        panel.getContentPane().add(comp);
+        //Make the size correct
+        JDesktopPane desk = getGui().getDesk();
+        Dimension preferred = panel.getPreferredSize();
+        Dimension deskSize = desk.getSize();
+        Dimension size = new Dimension( Math.min(preferred.width, deskSize.width),Math.min(preferred.height, deskSize.height));
+        panel.setSize(size);
+
+        //Listen to the panel, so we notice if it closes
+        //        panel.addInternalFrameListener(listener);
+        //Add the panel to the desk and bring it to the front
+        desk.add(panel);
+        panel.toFront();
+        panel.show();
+        comp.show();
+        panel.setSize(500,400);
+        panel.setVisible(true);
+        comp.setSize(500,400);
+        comp.setVisible(true);
+        panel.repaint();
+        comp.repaint();
+        //comp.FRAMEBITS
+    }
+
+    static public IdUserInterface getUserInterface() {
+        Object o=getGUI();
+        o=""+o;
+        if (o.equals("<no_gui>")) {
+            return null;
+        }
+        return IdUserInterface.getUserInterface(o.toString());
+    }
+    static public void setUserInterface(IdUserInterface ui) {
+        setGUI(ui.toString());
+    }
+    /**
+    *
+    * @return
+    * @param entnum
+    */
+    static public IdEntity findEntity(int entnum) {
+        if (entnum<1) return null;
+        return findEntity(entityName(entnum));
+    }
+    /**
+    * Returns an IdEntity denoted by the object
+    *
+    * @param entname
+    * @return
+    */
+    static public IdEntity findEntity(Object entname) {
+        if (entname == null) {
+            return null;
+        }
+        if (entname instanceof IdEntity) {
+            return(IdEntity) entname;
+        }
+        if (entname instanceof IEntity) {
+            return findEntity(((IEntity) entname).toObject());
+        }
+        if (entname instanceof Number) {
+            return findEntity(entityName(((Number) entname).intValue()));
+        }
+        entname = entname.toString();
+        if (getEntityMap() == null) {
+            getEntitySet();
+        }
+        Object ret = getEntityMap().get(entname);
+        if (ret != null) {
+            return findEntity(ret);
+        }
+        ret = findObject((String) entname);
+        if (ret != null) {
+            return findEntity(ret);
+        }
+        //		ret = new IdEntity(entname,DaxDoom.theGame.entityNumber(entname));
+        return findEntity(findEntity((String) entname, entityNumber((String) entname)));
+    }
+
+    static public IEntity toEntity(int ti) {
+        return findEntity(entityName(ti),ti).toEntity();
+    }
+
+    static public IEntity toEntity(String name) {
+        IdEntity ent = findEntity(name);
+        if (ent!=null) {
+            return findEntity(name).toEntity();
+        }
+        return null;
+    }
+
+
+    /**
+    *
+    *  entity sys_named_spawn( string classname ,string entityname, vector loc )
+    * @param name
+    * @param clazz
+    * @param loc
+    * @return
+    */
+    static public IdEntity spawnEntity(String classname,String name,  String locname) {
+        invokeScript("", "sys_named_spawn", new Object[] {classname, name, ""+locname});
+        return findEntity(name);
+    }
+    /**
+    *
+    * @param pname
+    * @return
+    */
+    static public String toLowerPropercase(String pname) {
+        return pname.substring(0, 1).toLowerCase() + pname.substring(1);
+    }
+    /**
+    *
+    * @param msecs
+    */
+    static public void waitmsecs(long msecs) {
+        try {
+            Thread.sleep(msecs);
+        } catch (Throwable e) {
+        }
+    }
+    // ?- new_java_object('daxclr.DaxDoom',D),assert(theGame(D)).
+    // ?- theGame(X),invoke_java_method(X,getField(X,theGame),Y).
+    /**
+    *
+    * @param o
+    * @param name
+    * @param value
+    * @throws java.lang.Throwable
+    */
+    static public void setFieldObject(Object o, String name, Object value) {
+        ClassInfo.getClassInfo(o.getClass()).set(o,name,value);
+    }
+    //static Object getObjectField(Object o, String name) throws Throwable {
+    //	return o.getClass().getField(name).get(o);
+    //	}
+    /**
+    *
+    * @return
+    * @param innerInstance
+    * @param fieldName
+    */
+    static public Object getObjectField(Object o, String fieldName) {
+        return ClassInfo.getClassInfo(o.getClass()).get(o, fieldName);
+    }
+
+    static public class DoomConsoleInterface implements bsh.ConsoleInterface {
+        /**
+        *
+        * @param input
+        */
+        public DoomConsoleInterface(Reader input) {
+            READER = input;
+        }
+        Reader READER = null;
+        /**
+        *
+        * @return
+        */
+        public java.io.Reader getIn() {
+            return READER;
+        }
+        /**
+        *
+        * @return
+        */
+        public java.io.PrintStream getOut() {
+            return new PrintStream(getOutputStream());
+        }
+        /**
+        *
+        * @param A
+        */
+        public void error(java.lang.Object A) {
+            debugln("error:" + A);
+        }
+        /**
+        *
+        * @return
+        */
+        public java.io.PrintStream getErr() {
+            return new PrintStream(getOutputStream());
+        }
+        /**
+        *
+        * @param A
+        */
+        public void println(java.lang.Object A) {
+            println("" + A);
+        }
+        /**
+        *
+        * @param A
+        */
+        public void print(java.lang.Object A) {
+            print("" + A);
+        }
+    }
+
+    /**
+    //new DoomConsoleInterface(new BufferedReader(new InputStreamReader(getInputStream())));
+    *
+    * @return
+    */
+    /**
+    *
+    * @return
+    */
+    static public PrintStream getPrintStream() {
+        return new PrintStream(new DoomOutputStream());
+        //return new DoomOutputStream();
+    }
+    /**
+    *
+    * @return
+    */
+    static public OutputStream getOutputStream() {
+        return new DoomOutputStream();
+        //return new DoomOutputStream();
+    }
+
+    /**
+    *
+    * @return
+    */
+    static public PrintWriter getWriter() {
+        return new PrintWriter(getOutputStream());
+    }
+
+    /**
+    *
+    * @return
+    * @param args
+    */
+    static public Object[] toObject(Object[] args) {
+        if (args==null) return new Object[0];
+        int len = args.length;
+        Object[] toReturnObjects = new Object[len];
+        while (len-->0)
+            toReturnObjects[len] = toObject((Object)args[len]);        
+        return toReturnObjects;
+    }
+
+    /**
+    *
+    * @return
+    * @param objs
+    */
+    static public Class[] getClasses(Object[] objs) {
+        if (objs==null) return new Class[0];
+        return getClasses(objs, objs.length);
+    }
+    /**
+    *
+    * @return
+    * @param objs
+    * @param len
+    */
+    static public Class[] getClasses(Object[] objs, int len) {
+        Class[] toReturnClasses = new Class[len];
+        for (int i = 0; i < len; i++) {
+            if (objs[i]!=null) {
+                toReturnClasses[i] = objs[i].getClass();
+            } else {
+                toReturnClasses[i] = Object.class;
+                //toReturnClasses[i] = null;
+            }
+        }
+        return toReturnClasses;
+    }
+
+    /**
+    *
+    * @param obj
+    * @param methodName
+    * @param argClasses
+    * @throws java.lang.Throwable
+    * @return
+    */
+    public static Method getMethodForObject(Object obj, String methodName, Class[] argClasses) throws  NoSuchMethodException {
+        Class clz =  classFromInstance(obj);
+        Method m = ClassInfo.findMethod(clz,methodName,argClasses);
+        if (m==null) throw new NoSuchMethodException("No method '"+methodName+"' on " + clz);
+        return m;
+    }
+    /**
+    *
+    * @return
+    * @param obj
+    * @param methodName
+    * @throws java.lang.Throwable
+    */
+    public static Field getFieldForObject(Object obj, String methodName) throws Throwable {
+        return classFromInstance(obj).getField(methodName);
+    }
+
+    /**
+    *
+    * @param value
+    * @return
+    */
+    static public Integer toInteger(int value) {
+        return new Integer(value);
+    }
+    /**
+    *
+    * @return
+    * @param value
+    */
+    static public Float toFloat(float value) {
+        return new Float(value);
+    }
+    /**
+    *
+    * @param tf
+    * @return
+    */
+    static public Boolean toBoolean(boolean tf) {
+        return new Boolean(tf);
+    }
+
+    /**
+    *
+    * @return
+    */
+    static public Object toNull() {
+        return null;
+    }
+
+    /**
+    *
+    * @return
+    * @param sub
+    * @param sup
+    */
+    static public boolean superClass(Class sub, Class sup) {
+        Class[] sups = sub.getClasses();
+        for (int i = 0; i < sups.length; i++) {
+            if (sups[i] == sup) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+    *
+    * @param objs
+    * @param from
+    * @param callArray
+    * @param to
+    * @return
+    */
+    static public boolean convertTypeArray(Object[] objs, Class[] from,Object callArray, Class[] to) {
+        for (int i = 0; i < to.length; i++) {
+            if (!convertType(objs[i], from[i], callArray, i, to[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+    /**
+    *
+    * @param to
+    * @param len
+    * @param objs
+    * @param from
+    * @param callArray
+    * @return
+    */
+    static public boolean fillArrayType(Class to, int len, Object[] objs,
+                                        Class[] from, Object callArray) {
+        for (int i = 0; i < len; i++) {
+            if (!convertType(objs[i], from[i], callArray, i, to)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+    *
+    * @param obj
+    * @param from
+    * @param callArray
+    * @param arg
+    * @param to
+    * @return
+    */
+    static public boolean convertType(Object obj, Class from, Object callArray,int arg, Class to) {
+        if (to.isAssignableFrom(from)) {
+            Array.set(callArray, arg, obj);
+            return true;
+        }
+        if (to == Number.class) {
+            to = Float.class;
+        } else if (to == Map.class) {
+            to = HashMap.class;
+        } else if (to == Set.class) {
+            to = LinkedHashSet.class;
+        } else if (to == List.class) {
+            to = ArrayList.class;
+        } else if (to == Collection.class) {
+            to = ArrayList.class;
+        }
+        if (to.isArray()) {
+            if (to == char[].class) {
+                if (obj instanceof String) {
+                    Array.set(callArray, arg, ((String) obj).toCharArray());
+                    return true;
+                }
+            }
+            if (!from.isArray()) {
+                return false;
+            }
+            Object[] objA = (Object[]) obj;
+            Object subCallArray = Array.newInstance(to, objA.length);
+            if (!fillArrayType(to.getComponentType(), objA.length, objA,
+                               getClasses(objA), subCallArray)) {
+                return false;
+            }
+            Array.set(callArray, arg, subCallArray);
+            return true;
+        }
+        if (!to.isPrimitive()) {
+            try {
+                Class[] fromA = {from};
+                //fromA[0]=from;
+                Constructor cons = to.getConstructor(fromA);
+                Object[] objA = {obj};
+                Array.set(callArray, arg, cons.newInstance(objA));
+                return true;
+            } catch (Throwable e) {
+            }
+            // Object to
+            if (from.isArray()) {
+                Object[] fromA = (Object[]) obj;
+                if (to == String.class) {
+                    Object puthere = Array.newInstance(char.class, fromA.length);
+                    if (!fillArrayType(char.class, fromA.length, fromA,
+                                       getClasses(fromA), puthere)) {
+                        return false;
+                    }
+                    Array.set(callArray, arg, puthere);
+                    return true;
+                }
+                if (superClass(to, Collection.class)) {
+                    try {
+                        Collection make = (Collection) to.newInstance();
+                        for (int i = 0; i < fromA.length; i++) {
+                            make.add(fromA[i]);
+                        }
+                        Array.set(callArray, arg, make);
+                    } catch (Throwable ie) {
+                        return false;
+                    }
+                    return true;
+                }
+                return false;
+            }
+            if (from == String.class) {
+                return false;
+            } else {
+                try {
+                    Class[] sa1 = {String.class};
+                    Object[] objA = {obj.toString()};
+                    Array.set(callArray, arg,to.getConstructor(sa1).newInstance(objA));
+                    return true;
+                } catch (Throwable e) {
+                }
+                return false;
+            }
+            //return false; // Object to;
+        } else {
+            // Primitive to
+            if (from.isArray()) {
+                return false;
+            }
+            if (to == boolean.class) {
+                if (obj == Boolean.TRUE) {
+                    Array.setBoolean(callArray, arg, true);
+                    return true;
+                }
+                if (obj == Boolean.FALSE) {
+                    Array.setBoolean(callArray, arg, false);
+                    return true;
+                }
+                return false;
+            }
+            if (obj instanceof Number) {
+                if (to == float.class) {
+                    Array.setFloat(callArray, arg, ((Number) obj).floatValue());
+                    return true;
+                }
+                if (to == int.class) {
+                    Array.setInt(callArray, arg, ((Number) obj).intValue());
+                    return true;
+                }
+                if (to == long.class) {
+                    Array.setLong(callArray, arg, ((Number) obj).longValue());
+                    return true;
+                }
+                if (to == double.class) {
+                    Array.setDouble(callArray, arg, ((Number) obj).doubleValue());
+                    return true;
+                }
+                if (to == short.class) {
+                    Array.setShort(callArray, arg, ((Number) obj).shortValue());
+                    return true;
+                }
+                if (to == byte.class) {
+                    Array.setByte(callArray, arg, ((Number) obj).byteValue());
+                    return true;
+                }
+                if (to == char.class) {
+                    Array.setChar(callArray, arg,
+                                  new Character((char) ((Number) obj).intValue()).
+                                  charValue());
+                    return true;
+                }
+                return false;
+            }
+            if (obj instanceof String) {
+                if (to == char.class) {
+                    Array.setChar(callArray, arg, ((String) obj).charAt(0));
+                    return true;
+                }
+                Float cvfloat = null;
+                try {
+                    cvfloat = new Float((String) obj);
+                } catch (Throwable e) {
+                    return false;
+                }
+                if (to == float.class) {
+                    Array.setFloat(callArray, arg, cvfloat.floatValue());
+                    return true;
+                }
+                if (to == int.class) {
+                    Array.setInt(callArray, arg, cvfloat.intValue());
+                    return true;
+                }
+                if (to == long.class) {
+                    Array.setLong(callArray, arg, cvfloat.longValue());
+                    return true;
+                }
+                if (to == double.class) {
+                    Array.setDouble(callArray, arg, cvfloat.doubleValue());
+                    return true;
+                }
+                if (to == short.class) {
+                    Array.setShort(callArray, arg, cvfloat.shortValue());
+                    return true;
+                }
+                if (to == byte.class) {
+                    Array.setByte(callArray, arg, cvfloat.byteValue());
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+
+    /**
+    *
+    * @param theType
+    * @param theData
+    * @throws java.lang.Throwable
+    * @return
+    */
+    static public Object mktype(String theType, String theData) throws
+    Throwable {
+        if (theType.equals("Long")) {
+            try {
+                return new java.lang.Long(theData);
+            } catch (Throwable e) {
+                warnEvent(e);
+                return new java.lang.Long(0);
+            }
+        }
+        if (theType.equals("Integer")) {
+            try {
+                return new java.lang.Integer(theData);
+            } catch (Throwable e) {
+                warnEvent(e);
+                return new java.lang.Integer(0);
+            }
+        }
+        if (theType.equals("Short")) {
+            try {
+                return new Short(theData);
+            } catch (Throwable e) {
+                warnEvent(e);
+                return new Short((short) 0);
+            }
+        }
+        if (theType.equals("Float")) {
+            try {
+                return new java.lang.Float(theData);
+            } catch (Throwable e) {
+                warnEvent(e);
+                return new java.lang.Float(0);
+            }
+        }
+        if (theType.equals("Byte")) {
+            try {
+                return new Byte(theData);
+            } catch (Throwable e) {
+                warnEvent(e);
+                return new Byte((byte) 0);
+            }
+        }
+        if (theType.equals("Byte")) {
+            try {
+                return new Byte(theData);
+            } catch (Throwable e) {
+                warnEvent(e);
+                return new Byte((byte) 0);
+            }
+        }
+        if (theType.equals("Boolean")) {
+            try {
+                return new Boolean(theData);
+            } catch (Throwable e) {
+                warnEvent(e);
+                return new Boolean(false);
+            }
+        }
+        if (theType.equals("Char")) {
+            try {
+                return new Character(theData.charAt(0));
+            } catch (Throwable e) {
+                warnEvent(e);
+                return new Character('\0');
+            }
+        }
+        if (theType.equals("Class")) {
+            try {
+                return forName(theData);
+            } catch (Throwable e) {
+                warnEvent(e);
+                return forName("Object");
+            }
+        }
+        if (theType.equals("String")) {
+            return theData;
+        }
+        // if (theType.equals("Date")) return new Date(theData);
+        return makeInstanceFromClass(theType, theData);
+    }
+    /**
+    *
+    * @param theType
+    * @param theData
+    * @throws java.lang.Throwable
+    * @return
+    */
+    static public Object makeInstanceFromClass(String theType, String theData) throws
+    Throwable {
+        Class newClass = forName(theType);
+        try {
+            return newClass.getConstructor(getStringClassArrayOfOne()).newInstance(new Object[]{theData});
+        } catch (Throwable e) {
+            return newClass.newInstance();
+        }
+    }
+    /**
+    Return public instance name (HashCode)
+    *
+    * @param innerInstance
+    * @return
+    */
+    static public String nameForInstance(Object innerInstance) {
+        return "'$java_instance'(o" + innerInstance.hashCode() + "," +
+        toScriptingName(innerInstance.getClass().getName()) + "('" +
+        innerInstance.toString() + "'))";
+    }
+    /**
+    *
+    * @param arg
+    * @return
+    */
+    static public Object mktype(String arg) {
+        int comma = arg.indexOf(',');
+        try {
+            return makeInstanceFromClass(arg.substring(5, comma++),
+                                         arg.substring(comma, arg.length() - 1));
+        } catch (Throwable e) {
+            return makeError(e);
+        }
+    }
+
+    /**
+    *
+    * @param e
+    */
+    static public void fatalEvent(Throwable e) {
+        debugln(e);
+    }
+    /**
+    *
+    * @param e
+    * @return
+    */
+    static public String makeError(Throwable e) {
+        return "error('" + e + "')";
+    }
+    /**
+    *
+    * @param e
+    * @return
+    */
+    static public String makeError(String e) {
+        return "error('" + e + "')";
+    }
+    /**
+    *
+    * @param someName
+    * @return
+    */
+    static public String typeToName(String someName) {
+        if (someName.equals("void")) {
+            return "void";
+        }
+        if (someName.startsWith("java.lang.")) {
+            return typeToName(someName.substring(10));
+        }
+        return toScriptingName(someName);
+    }
+    /**
+    *
+    * @param someName
+    * @return
+    */
+    static public String toScriptingName(String someName) {
+        return toString(someName);
+    }
+
+    /**
+    *
+    * returns true if Scripting Engine is running
+    */
+    static public boolean isStarted() {
+        return(getBeanShell() != null && isM_isInitialized());
+    }
+
+    /* Doom Will call these */
+    /**
+    *
+    * @param hashcode
+    * @return
+    */
+    static public boolean forgetObject(int hashcode) {
+        init();
+        try {
+            String intKey = "o" + hashcode;
+            if (findObject(intKey) == null) {
+                return false;
+            }
+            unsetNamedObject(intKey);
+            return true;
+        } catch (Throwable e) {
+            return false;
+        }
+    }
+    /**
+    *
+    * @param clasparams
+    * @return
+    */
+    static public String listToStringDebug(Object[] clasparams) {
+        if (clasparams == null) {
+            return "null";
+        }
+        StringBuffer buffer = new StringBuffer(" {");
+        for (int i = 0; i < clasparams.length; i++) {
+            buffer.append(" ").append("" + clasparams[i]);
+        }
+        return buffer.append("} ").toString();
+    }
+    /**
+    *
+    * @return
+    * @param innerClass
+    * @param methodName
+    * @param args
+    */
+    static public Object invokeStatic(Class innerClass, String methodName,Object[] args) throws NoSuchMethodException,IllegalAccessException,InvocationTargetException {
+        init();
+        return(invokeSomething(innerClass, null, methodName, args));
+    }
+
+    /**
+    *
+    * @return
+    * @param className
+    * @param params
+    */
+    static public Object createObject(String className, Object[] params) {
+        try {
+            Object innerInstance = newObject(forName(className), params);
+            addBean(innerInstance);
+            return(innerInstance);
+        } catch (Throwable e) {
+            return makeError(e);
+        }
+    }
+
+    /**
+    *
+    * @return
+    * @param innerClass
+    * @param args
+    * @throws java.lang.Throwable
+    */
+    static public Object newObject(Class innerClass, Object[] args) throws Throwable {
+        init();
+        try {
+            if (args == null || args.length == 0) {
+                return innerClass.newInstance();
+            }
+            Class[] clasparams = getClasses(args);
+            Constructor[] methods = innerClass.getConstructors();
+            Object calling = new Object[args.length];
+            for (int i = 0; i < methods.length; i++) {
+                Class[] methodParms = methods[i].getParameterTypes();
+                if (clasparams.length == methodParms.length) {
+                    try {
+                        if (convertTypeArray(args, clasparams, calling, methodParms)) {
+                            return methods[i].newInstance((Object[]) calling);
+                        }
+                    } catch (IllegalArgumentException iae) {
+                    }
+                }
+            }
+        } catch (Throwable e) {
+            throw new Throwable("" + innerClass + " " + listToStringDebug(getClasses(args)) + " " + listToStringDebug(args) + " " + e);
+        }
+        throw new InvalidClassException("" + innerClass + " " + listToStringDebug(getClasses(args)) + " " +listToStringDebug(args));
+    }
+
+    /**
+    *
+    * @return
+    * @param innerInstance
+    * @param fieldName
+    * @param prolog_value
+    */
+    static public String setObjectField(Object innerInstance, String fieldName, Object prolog_value) {
+        init();
+        try {
+            classFromInstance(innerInstance).getField(fieldName).set(innerInstance, prolog_value);
+            return "true";
+        } catch (Throwable e) {
+            return makeError(e);
+        }
+    }
+
+    /**
+    *
+    * @param e
+    */
+    static public void warnEvent(Throwable e) {
+        if (getLevelDebug() > 0) {
+            debugln("warning: " + e);
+            debugln(e);
+        }
+    }
+
+    static public synchronized void addObjectInfo(IObjectInfo objectInfo) {
+        Object obj = objectInfo.getObject();
+        Object name = objectInfo.getLogicName();
+        //Add it  obj
+        //beansToObjectInfos.put(obj, objectInfo);
+        getBeanList().add(obj);
+        getObjectInfoList().add(objectInfo);
+        //Add myself as listener
+        objectInfo.addVetoableChangeListener(theGame);
+        objectInfo.addPropertyChangeListener(theGame);
+        //Update the name index
+        getNameIndex().put(objectInfo.getLogicName(), objectInfo);
+        //notify bowlListeners
+        Iterator it = getBowlListeners().iterator();
+        while (it.hasNext()) {
+            //@temp
+            ((IBeansContextListener) it.next()).beanAdded(obj);
+        }
+    }
+
+    //==== Manipulating the collection of beans ==================
+    /**
+    * Creates a new object of the given class and adds to this bowl.
+    * The given class must have an empty constructor.
+    *
+    * @throws InstantiationException if the given Class represents an abstract class, an interface, an array class, a primitive type, or void; or if the instantiation fails for some other reason
+    * @throws IllegalAccessException if the given class or initializer is not accessible.
+    *
+    * @returns the newly created IObjectInfo
+    */
+    static public synchronized Object createAndAddBean(Class cl) throws InstantiationException, IllegalAccessException {
+        //Create the object
+        Object obj = cl.newInstance();
+        //Add it
+        addBean(obj);
+        return obj;
+    }
+    static public synchronized boolean addBean(String name,Object obj) {
+        if (containsBean(obj)) {
+            return false;
+        }
+        IObjectInfo objectInfo = ObjectInfo.newObjectInfo(name, obj);
+        addObjectInfo(objectInfo);
+        return true;
+    }
+    /**
+    * Adds the given object to the bean bowl, if it does not already exist.
+    *
+    * @returns true if the object was added, i.e. if it didn't already exist.
+    */
+    static public synchronized boolean addBean(Object object) {
+        if (object==null) return false;
+        if (object instanceof IObjectInfo) {
+            addObjectInfo((IObjectInfo) object);
+            return true;
+        }
+        return addBean(makeScriptName(object),object);
+    }
+    /**
+    * Removes the given bean, if it is inside this bowl.
+    * If not, nothing happens. <p>
+    *
+    * BeanListeners will be notified. <p>
+    *
+    * If the bean was selected, the current selection
+    * will change to null and property change listeners
+    * will be notified. <p>
+    *
+    * @returns true if the bean was removed, false if that bean wasn't in this context
+    */
+    static public synchronized boolean removeBean(Object obj) {
+        if (containsBean(obj)) {
+            //Find the objectInfo
+            IObjectInfo objectInfo = getObjectInfo(obj);
+            //Remove it
+            //beansToObjectInfos.remove(obj);
+            getBeanList().remove(obj);
+            getObjectInfoList().remove(objectInfo);
+            //Update the name index
+            getNameIndex().remove(objectInfo.getName());
+            //Deselect it if necessary
+            if (getSelected() == obj) {
+                try {
+                    //The bean will fire a PropertyChangeEvent which I will
+                    //catch, so I don't need to do setSelectedBean(null)
+                    objectInfo.setSelected(false);
+                } catch (PropertyVetoException err) {
+                    getCat().warn("In DaxDoom.removeBean(...) I was unable to deselect the removed bean. I'll ignore the problem, i.e. leave it selected and remove it anyway.", err);
+                }
+            }
+            //notify bowlListeners
+            Iterator it = getBowlListeners().iterator();
+            while (it.hasNext()) {
+                try {
+                    ((IBeansContextListener) it.next()).beanRemoved(obj);
+                } catch (Throwable t) {
+                    debugln(t);
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //==== Queries ========================
+    /**
+    * Returns an iterator over all the beans
+    */
+    static public Iterator getBeans() {
+        return getBeanList().iterator();
+    }
+    /**
+    * Returns an iterator over all the bean objectInfos.
+    * NOTE - this could be a bit slow! Avoid whenever possible.
+    * The code can be optimized for this, but it isn't right now.
+    */
+    static public Iterator getObjectInfos() {
+        LinkedList list = new LinkedList();
+        Iterator it = getBeans();
+        while (it.hasNext()) {
+            list.add(getObjectInfo(it.next()));
+        }
+        return list.iterator();
+    }
+    /**
+    * Returns the current number of beans in the bowl
+    */
+    static public int getBeanCount() {
+        return getBeanList().size();
+    }
+    /**
+    * Returns the bean at the given index
+    */
+    static public Object getBeanAt(int index) {
+        return getBeanList().get(index);
+    }
+    /**
+    *
+    * @param name
+    * @param obj
+    */
+    synchronized static public void setNamedObject(Object oname, Object obj) {
+        String name = toString(oname);
+        IObjectInfo info = null;
+        if (obj instanceof IObjectInfo) {
+            info = (IObjectInfo)obj;
+        } else {
+            info = getObjectInfo(obj);
+            if (info==null) {
+                info =  ObjectInfo.newObjectInfo(name,obj);
+            }
+        }
+        if (name == null) {
+            name = info.getName();
+        }
+        if (!name.equals(info.getName())) {
+            //do rename;
+        }
+        name = info.getName();
+        obj = info.getObject();
+        try {
+            // debugln("setting '" + info.getLogicName() + "' for " + info.getObject());
+            getBeanShell().set(name, obj);
+            addObjectInfo(info);
+        } catch (Throwable er) {
+            //		} catch (bsh.EvalError er) {
+            debugln(er);
+        }
+    }
+    /**
+    *
+    * @param name
+    */
+    synchronized static public void unsetNamedObject(Object oname) {
+        String name = toString(oname);
+        try {
+            debugln("unsetting '" + name + "'");
+            Object obj = getBeanShell().get(name);
+            getBeanShell().unset(name);
+            if (obj!=null) {
+                removeBean(obj);
+            }
+        } catch (bsh.EvalError er) {
+            debugln(er);
+        }
+    }
+
+    static public Object findObject(Object oname) {
+        String A = toString(oname);
+        Object ret = null;
+        if (A==null) return ret;
+        try {
+            ret = getBeanShell().get(A);
+            if (ret != null) {
+                return ret;
+            }
+        } catch (bsh.EvalError e1) {
+        }
+        try {
+            IObjectInfo oi = (IObjectInfo)getNameIndex().get(A);
+            if (oi!=null) {
+                ret=oi.getObject();
+                if (ret != null) {
+                    return ret;
+                }
+            }
+        } catch (Throwable e2) {
+        }
+        try {
+            ret = forName(A);
+        } catch (ClassNotFoundException cnf) {
+        }
+        if (ret != null) {
+            return ret;
+        }
+        try {
+            if (getBeanShell() != null) {
+                ret = getBeanShell().eval(A);
+            }
+            if (ret != null) {
+                return ret;
+            }
+        } catch (Throwable e) {
+            //debugln(e);
+        }
+        return ret;
+    }
+    /**
+    * Checks if this bowl contains the given bean
+    */
+    static public boolean containsBean(Object bean) {
+        return getBeanList().contains(bean);
+        // return beansToObjectInfos.containsKey(bean);
+    }
+    /**
+    * Checks if this bowl contains the given bean objectInfo
+    */
+    static public boolean containsObjectInfo(IObjectInfo objectInfo) {
+        return getObjectInfoList().contains(objectInfo);
+        // return beansToObjectInfos.containsValue(bean);
+    }
+    /**
+    * Returns all beans representing objects that are an instance of the given class
+    * or interface, either directly or indirectly.
+    */
+    static public Set getBeansOfType(Class type) {
+        Set result = new LinkedHashSet();
+        Iterator it = getBeans();
+        while (it.hasNext()) {
+            Object obj = it.next();
+            if (type.isInstance(obj)) {
+                result.add(obj);
+            }
+        }
+        return result;
+    }
+    /**
+    * Returns the bean with the given name, or null if none.
+    */
+    static public Object findBean(String name) {
+        IObjectInfo objectInfo = findObjectInfo(name);
+        if (objectInfo == null) {
+            return null;
+        } else {
+            return objectInfo.getObject();
+        }
+    }
+    /**
+    * Returns the objectInfo with the given name, or null if none.
+    */
+    static public IObjectInfo findObjectInfo(String name) {
+        return(IObjectInfo) getNameIndex().get(name);
+    }
+
+    /**
+    * Returns the objectInfo corresponding to the given object, i.e
+    * the IObjectInfo who's object corresponds to the given one.
+    * Returns null if the bean bowl does not contain the given object.
+    */
+    static public IObjectInfo getObjectInfo(Object object) {
+        if (object == null)
+            return null;
+        int i = getBeanList().indexOf(object);
+        if (i == -1) {
+            return null;
+        }
+        IObjectInfo objectInfo = (IObjectInfo) getObjectInfoList().get(i);
+        return objectInfo;
+    }
+
+    //===== Manipulating the selected bean ===============
+    /**
+    * Returns the currently selected bean,
+    * or null if none.
+    */
+    public Object getSelectedBean() {
+        return getSelected();
+    }
+
+    //==== Event listener registration ======================
+    /**
+    * Listeners will be notifed when the currently bean selection
+    * is changed.
+    */
+    public void addPropertyChangeListener(PropertyChangeListener p) {
+        getPropSupport().addPropertyChangeListener(p);
+    }
+    /**
+    * Listeners will be notifed when the currently bean selection
+    * is changed.
+    */
+    public void removePropertyChangeListener(PropertyChangeListener p) {
+        getPropSupport().removePropertyChangeListener(p);
+    }
+    /**
+    * Listeners will find out when beans are added or removed
+    */
+    public void addListener(IBeansContextListener l) {
+        getBowlListeners().add(l);
+    }
+    /**
+    * Listeners will find out when beans are added or removed
+    */
+    public void removeListener(IBeansContextListener l) {
+        getBowlListeners().remove(l);
+    }
+    //===== Property notifications (i.e. others notifying me) =========
+    /**
+    * This is used for BeanObjectInfos to tell their DaxDoom that a property
+    * such as "name" or "selected" has changed. The DaxDoom will update
+    * its state as necessary.
+    */
+    public synchronized void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("name")) {
+            //Name has changed - so update the name index
+            IObjectInfo bean = (IObjectInfo) (evt.getSource());
+            if (containsBean(bean.getObject())) {
+                String newName = (String) evt.getNewValue();
+                String oldName = (String) evt.getOldValue();
+                if (oldName != null) {
+                    getNameIndex().remove(oldName);
+                }
+                getNameIndex().put(newName, bean);
+            }
+        } else if (evt.getPropertyName().equals("selected")) {
+            //Selection has changed. Call notifySelected or notifyDeselected
+            //to update my internal state
+            Boolean newValue = (Boolean) evt.getNewValue();
+            IObjectInfo objectInfo = (IObjectInfo) evt.getSource();
+            Object object = objectInfo.getObject();
+            if (containsBean(object)) {
+                if (newValue.equals(new Boolean(true))) {
+                    try {
+                        setSelectedBean(object);
+                    } catch (PropertyVetoException err) {
+                        getCat().warn("The DaxDoom was notified that a bean has been selected, and when trying to update the internal state a PropertyVetoException occurred", err);
+                    }
+                } else if (newValue.equals(new Boolean(false))) {
+                    try {
+                        setSelectedBean(null);
+                    } catch (PropertyVetoException err) {
+                        getCat().warn("The DaxDoom was notified that a bean has been deselected, and when trying to update the internal state a PropertyVetoException occurred", err);
+                    }
+                }
+            }
+        }
+    }
+    /**
+    * Makes the given bean the currently selected one.
+    * The previously selected bean (if any) will be deselected,
+    * and a property change event will be fired.
+    *
+    * @throws PropertyVetoException if someone refused to let the selected bean change
+    */
+    public synchronized void setSelectedBean(Object object) throws PropertyVetoException {
+        if (selected != object && containsBean(object)) {
+            //Deselect the old objectInfo (if any)
+            Object oldSelected = selected;
+            IObjectInfo oldObjectInfo = getObjectInfo(oldSelected);
+            if (oldObjectInfo != null) {
+                oldObjectInfo.setSelected(false);
+            }
+            //Update my "selected" instance variable
+            setSelected(object);
+            //Make sure the corresponding objectInfo knows its selected
+            getObjectInfo(selected).setSelected(true);
+            //Fire a property change
+            getPropSupport().firePropertyChange("selected", oldSelected, getSelected());
+        }
+    }
+
+    /**
+    * This is used for BeanObjectInfos to tell their DaxDoom that a property
+    * such as "name" or "selected" is about to change, allowing
+    * the DaxDoom to fire a PropertyVetoException to stop the change if it likes. <p>
+    *
+    * This would happen, for example, if someone is trying to rename a bean to a
+    * name that another bean within this bowl already has.
+    */
+    public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
+        if (evt.getPropertyName().equals("name")) {
+            //The name of a objectInfo has changed. Make sure there are no name collisions
+            IObjectInfo objectInfo = (IObjectInfo) (evt.getSource());
+            Object object = objectInfo.getObject();
+            if (containsBean(object)) {
+                String name = (String) evt.getNewValue();
+                IObjectInfo otherObjectInfo = findObjectInfo(name);
+                if (otherObjectInfo != null && otherObjectInfo != objectInfo) {
+                    throw new PropertyVetoException("Another bean already has the name '" + name + "'", evt);
+                }
+            }
+        }
+    }
+    //====== Save and load operations ================================
+    public void save(File destination) throws IOException {
+        //getCat().debug("Saving bowl to " + destination);
+        FileOutputStream fileOut = new FileOutputStream(destination);
+        ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+        objectOut.writeObject(this);
+        fileOut.close();
+        //  getCat().debug("Successfully saved!");
+    }
+    static public DaxDoom load(File source) throws IOException, ClassNotFoundException {
+        FileInputStream fileIn = new FileInputStream(source);
+        ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+        DaxDoom b = (DaxDoom) objectIn.readObject();
+        fileIn.close();
+        b.initAfterLoading();
+        return b;
+    }
+    /**
+    * Tells the bowl that it has just been loaded from a file
+    * and needs to initialize itself. For example update
+    * transient instance variables that were "lost" during the
+    * serialization, and add itself as listener to all the beans.
+    */
+    void initAfterLoading() {
+        if (getBowlListeners() == null) {
+            setBowlListeners(new LinkedHashSet());
+        }
+        if (getPropSupport() == null) {
+            setPropSupport(new PropertyChangeSupport(this));
+        }
+        Iterator it = getObjectInfos();
+        while (it.hasNext()) {
+            IObjectInfo b = (IObjectInfo) it.next();
+            b.addVetoableChangeListener(this);
+            b.addPropertyChangeListener(this);
+        }
+    }
+
+    static public String knownName(Object o) {
+        if (o==null) return null; //"$null";
+        IObjectInfo OI = getObjectInfo(o);
+        if (OI!=null) return OI.getLogicName();
+        // return fun.toString();
+        Iterator its = getObjectInfos();
+        while (its.hasNext()) {
+            OI=(IObjectInfo)its.next();
+            if (OI!=null) {
+                if (OI.getObject()==o) {
+                    return OI.getLogicName();
+                }
+            }
+        }
+        return null;
+    }
+    //======== Utility methods ==================================
+    /**
+    * Generates a default name for the given bean, while will
+    * be something like "Button1", "Button2", etc.
+    */
+    static public String makeScriptName(Class o) {
+        if (o==null) return "null";
+        String name = o.getName();
+        if (Proxy.isProxyClass(o)) {
+            // Proxy.getInvocationHandler();
+            o = o.getInterfaces()[0];
+            name = o.getName()+"-Proxy";
+        }
+        int dot = name.lastIndexOf('.');
+        return name.substring(dot + 1);
+    }
+
+    static public String makeScriptName(Object o) {
+        if (o==null) return "null";
+        if (o instanceof Class) {
+            return "Class-"+makeScriptName((Class)o);
+        }
+        String name = knownName(o);
+        if (name!=null) {
+            return name;
+        }
+        name = o.toString();
+        ClassInfo clz = ClassInfo.getClassInfo(o.getClass());
+        try {
+            name = ""+clz.getFirst(o,new String[]{"scriptname","title","entname","shortname","name","tostring"});
+        } catch (NoSuchFieldError nsf) {
+        }
+        int dot = name.lastIndexOf('.');
+        if (dot<name.length()-2) {
+            name = name.substring(dot + 1);
+        }
+        dot = name.lastIndexOf('@');
+        if (dot<name.length()-2) {
+            name = name.substring(dot + 1);
+        }
+        //        dot = name.lastIndexOf('@');
+        //        name = name.substring(dot + 1);
+        //        name = name.split(" ")[0];
+        //        name = name.split("$")[0];
+        //        name = name.split(",")[0];
+        return makeScriptName(o.getClass())+"-"+name;
+    }
+    /**
+      Replace all occurences of 'a' in string 's' with 'b'
+    */
+    static public String replace(String s, String a, String b) {
+        int aLength = a.length();
+        int bLength = b.length();
+        StringBuffer buf = new StringBuffer(s);
+        //how much length changes after each replacement
+        int dif = b.length() - a.length();
+        int len = s.length();
+        int i = buf.toString().indexOf(a);
+        int startFrom = 0;
+        while (i != -1) {
+            buf.replace(i, i + aLength, b);
+            startFrom = i + bLength;
+            i = buf.toString().indexOf(a, startFrom);
+        }
+        return buf.toString();
+    }
+    static public void setGame(DaxDoom aGame) {
+        theGame = aGame;
+    }
+    static public void setBeanBowlContext(IBeansContext aTheBeanBowlContext) {
+        theBeanBowlContext = aTheBeanBowlContext;
+    }
+    static public String getPathToBase() {
+        return pathToBase;
+    }
+    static public void setPathToBase(String aPathToBase) {
+        pathToBase = aPathToBase;
+    }
+    static public String getPathToJars() {
+        return pathToJars;
+    }
+    static public void setPathToJars(String aPathToJars) {
+        pathToJars = aPathToJars;
+    }
+    static public String getPathToClasses() {
+        return pathToClasses;
+    }
+    static public void setPathToClasses(String aPathToClasses) {
+        pathToClasses = aPathToClasses;
+    }
+    static public String getPluginconfig() {
+        return pluginconfig;
+    }
+    static public void setPluginconfig(String aPluginconfig) {
+        pluginconfig = aPluginconfig;
+    }
+    static public String getBootFile() {
+        return bootFile;
+    }
+    static public void setBootFile(String aBootFile) {
+        bootFile = aBootFile;
+    }
+    static public boolean isM_isInitialized() {
+        return m_isInitialized;
+    }
+    static public void setM_isInitialized(boolean aM_isInitialized) {
+        m_isInitialized = aM_isInitialized;
+    }
+    static public Class getStringClass() {
+        return stringClass;
+    }
+    static public void setStringClass(Class aStringClass) {
+        stringClass = aStringClass;
+    }
+    static public Class[] getStringClassArrayOfOne() {
+        return stringClassArrayOfOne;
+    }
+    static public void setStringClassArrayOfOne(Class[] aStringClassArrayOfOne) {
+        stringClassArrayOfOne = aStringClassArrayOfOne;
+    }
+    static public int getLevelDebug() {
+        return levelDebug;
+    }
+    static public void setLevelDebug(int aLevelDebug) {
+        levelDebug = aLevelDebug;
+    }
+    static public void setClassLoader(NClassLoader aTheClassLoader) {
+        theClassLoader = aTheClassLoader;
+    }
+    static public bsh.NameSpace getNameSpace() {
+        if (theNameSpace==null) {
+            theNameSpace = new bsh.NameSpace(getClassManager(),getNameSpacePrefix());
+        }
+        return theNameSpace;
+    }
+    static public void setNameSpace(bsh.NameSpace aTheNameSpace) {
+        theNameSpace = aTheNameSpace;
+    }
+    static public String getNameSpacePrefix() {
+        if (theNameSpacePrefix==null) {
+            theNameSpacePrefix = "daxclr.doom.";
+        }
+        return theNameSpacePrefix;
+    }
+    static public void setNameSpacePrefix(String aTheNameSpacePrefix) {
+        theNameSpacePrefix = aTheNameSpacePrefix;
+    }
+    static public bsh.BshClassManager getClassManager() {
+        if (theClassManager==null) {
+            theClassManager = new bsh.BshClassManager();
+        }
+        return theClassManager;
+    }
+    static public void setClassManager(bsh.BshClassManager aClassManager) {
+        theClassManager = aClassManager;
+    }
+    static public bsh.Interpreter getBeanShell() {
+        if (theBeanShell==null) {
+            theBeanShell = new bsh.Interpreter();
+        }
+        return theBeanShell;
+    }
+    static public void setBeanShell(bsh.Interpreter aTheBeanShell) {
+        theBeanShell = aTheBeanShell;
+    }
+    static public Category getCat() {
+        return cat;
+    }
+    static public void setCat(Category aCat) {
+        cat = aCat;
+    }
+    static public PropertyChangeSupport getPropSupport() {
+        return propSupport;
+    }
+    static public void setPropSupport(PropertyChangeSupport aPropSupport) {
+        propSupport = aPropSupport;
+    }
+    static public Set getBowlListeners() {
+        return bowlListeners;
+    }
+    static public void setBowlListeners(Set aBowlListeners) {
+        bowlListeners = aBowlListeners;
+    }
+    static public Object getSelected() {
+        return selected;
+    }
+    static public void setSelected(Object aSelected) {
+        selected = aSelected;
+    }
+    static public LinkedList getObjectInfoList() {
+        return objectInfoList;
+    }
+    static public void setObjectInfoList(LinkedList aObjectInfoList) {
+        objectInfoList = aObjectInfoList;
+    }
+    static public Map getNameIndex() {
+        return nameIndex;
+    }
+    static public void setNameIndex(Map aNameIndex) {
+        nameIndex = aNameIndex;
+    }
+    static public LinkedList getBeanList() {
+        return beanList;
+    }
+    static public void setBeanList(LinkedList aBeanList) {
+        beanList = aBeanList;
+    }
+    static public daxclr.ext.bbowl.gui.BeanBowlGUI getGui() {
+        if (gui==null) {
+            gui = new daxclr.ext.bbowl.gui.BeanBowlGUI(getGame());
+        }
+        return(daxclr.ext.bbowl.gui.BeanBowlGUI)gui;
+    }
+    static public Reader getReader() {
+        return theReader;
+    }
+    static public Set getPlugins() {
+        return thePlugins;
+    }
+
+    static public native Object evalDoom(String s);
+    static public native Object evalConsole(String s);
+    /**
+    * Returns the result of the function or event by calling pred casted as the return type.
+    *
+    * @param func
+    * @param args
+    * @return the result of the function or event by calling pred casted as the return type.
+    */
+    static public native Object invokeScript(int func, Object[] args);
+
+    static public native int makeNewEntity(String classname,String entityname,String locationname);
+
+
+    /**
+    * Returns the result of the function or event by calling pred casted as the return type.
+    *
+    * @param cls
+    * @param cmd
+    * @param args
+    *
+    * @return the result of the function or event by calling pred casted as the return type.
+    */
+    static public native Object invokeScript(String cls, String cmd, Object[] args);
+
+    static public boolean safeIsGameUnderway() {
+        try {
+            return isGameUnderway();
+        } catch (UnsatisfiedLinkError ule) {
+            return false;
+        }
+    }
+    /**
+    * Returns true if the Game is Underway and being played
+    * @return
+    */
+    static public native boolean isGameUnderway();
+    static public native Object getGUI();
+    static public native void setGUI(String name);
+    static public native Object getLastClickedObject();
+    static public native IdVector getLastClickedXY();
+    static public native IdVector getLastXY();
+    static public native void setMouseXY(float x, float y);
+    static public native void setPixel(float x, float y,float r, float g,float b, float a);
+    static public native void setMouseImage(String o);
+    //static public native void setMouseCursor(int x, int y);
+    static public native int scriptNumber(String typename, int entnum,String method);
+    static public native String scriptParameter(int func, int num);
+    static public native String scriptParameterName(int func, int num);
+    static public native String scriptName(int func);
+    static public native String scriptFullname(int func);
+    static public native String scriptClass(int func);
+    static public native String scriptReturn(int func);
+    static public native String scriptSignature(int func);
+    static public native int scriptArity(int func);
+    static public native boolean respondsTo(int func, int entity);
+    static public native void exceptionClear();
+    static public native void debug(String output);
+    static public native void print(String output);
+
+    static public native void commandAdd(String cmdArgs);
+
+    static public void debugln(String ln) {
+        try {
+            debug(ln);
+        } catch (UnsatisfiedLinkError e) {
+	    System.err.println(ln);
+        }
+    }
+
+    static public void safeCommandAdd(String cmd, IDoomCommand plug) {
+        try {
+            commandAdd(cmd);
+            addPlugin(plug);
+        } catch (Throwable e) {
+            debugln(e);
+        }
+
+    }
+
+    /**
+   // Returns the entity number (+1 from its array location) for name but returns 0 if the entity not found
+    *
+    * @param name
+    * @return
+    */
+    static public native int entityNumber(String name);
+    /**
+    *Returns the entity name for name but returns null if the entity not found
+    * @param entnum
+    * @return
+    */
+    static public native String entityClass(int entnum);
+    /**
+    * Returns the entity name for name but returns null if the entity not found
+    *
+    * @param entnum
+    * @return
+    */
+    static public native String entityType(int entnum);
+    /**
+    * Returns the entity name for name but returns null if the entity not found
+    * @param entnum
+    * @return
+    */
+    static public native String entityName(int entnum);
+    /**
+    * Returns defaultvalue if the SpawnArg does not exist but will return null if the IdEntity does not exist
+    * @param entnum
+    * @param argname
+    * @param value
+    */
+    static public native void setSpawnArg(int entnum, String argname,String value);
+    /**
+    * Returns defaultvalue if the SpawnArg does not exist but will return null if the IdEntity does not exist
+    *
+    * @param entnum
+    * @param argname
+    * @param defaultvalue
+    * @return
+    */
+    static public native String getSpawnArg(int entnum, String argname,String defaultvalue);
+    /**
+    * Returns null if the SpawnArg does not exist
+    *
+    * @param entnum
+    * @param argname
+    * @return
+    */
+    static public native String getSpawnArg(int entnum, String argname);
+    /**
+    * Returns null if the SpawnArg does not exist
+    *
+    * @param entnum
+    * @return
+    */
+
+    static public native String getSpawnArgList(int entnum);
+
+
+    //
+    public static class DoomSecurityManager extends  //sun.reflect.Reflection {
+    java.lang.SecurityManager {
+        public void checkPermission(Permission perm) {
+            if (null==null) return;
+            if (perm==null) return;
+            String name = perm.getName();
+            String actions = perm.getActions();
+            StackTraceElement[] callers = Thread.currentThread().getStackTrace();
+            String actors = joinString(callers,"->");
+            if (actions.equals("read")) return;
+            //if (name.equals("suppressAccessChecks")) return;
+            //if (name.equals("createClassLoader")) return;
+            String message = "checkPermission="+actors+"="+name+ ":" + actions;
+            debugln(message);
+        }
+        
+        public void checkAccess(Thread t) {
+           // String message = "checkAccess="+t;
+            //debugln(message);
+        }
+        public void checkLink(String lib) {
+        }
+        public void checkPropertiesAccess() {
+        }
+        public void checkExit(int status) {
+            String message = "NAUGHTY: Something tried to exit: code="+status;
+            debugln(message);
+            throw new SecurityException(message);
+        }
+        public void checkExec(String cmd) {
+            String message = "NAUGHTY: Something tried to exec: "+cmd;
+            debugln(message);
+            throw new SecurityException(message);
+        }
+        public void checkWrite(FileDescriptor fd) {
+        }
+        public void checkRead(FileDescriptor fd) {
+        }
+        public void checkConnect(String host, int port, Object context) {
+        }
+        public void checkDelete(String file) {
+            String message = "Something naughty tried to delete the file: "+file;
+            debugln(message);
+            throw new SecurityException(message);
+        }
+        public void checkMulticast(java.net.InetAddress maddr, byte ttl) {
+        }
+        public void checkListen(int port) {
+        }
+        public void checkAccept(String host, int port) {
+        }
+        public void checkPrintJobAccess() {
+        }
+        public void checkPropertyAccess(String key) {
+        }
+        public boolean checkTopLevelWindow(Object window) {
+            return true;
+        }
+        public void checkSystemClipboardAccess() {
+        }
+        public void checkAwtEventQueueAccess() {
+        }
+        public void checkPackageAccess(String pkg) {
+        }
+        public void checkPackageDefinition(String pkg) {
+        }
+        public void checkSetFactory() {
+        }
+		// java1.5 public void checkMemberAccess(Class<?>clazz, int which) {        }
+		// java1.4
+		public void checkMemberAccess(Class clazz, int which) {        }
+		public void checkSecurityAccess(String target) 
+		{
+        }
+    }
+}
+

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="432164"
+   name=""
+   committed-date="2006-08-17T06:11:05.958743Z"
+   url="https://svn.apache.org/repos/asf/jakarta/bsf/trunk/src/org/apache/bsf/util/type"
+   last-author="sanka"
+   kind="dir"
+   uuid="13f79535-47bb-0310-9956-ffa450edef68"
+   revision="438605"/>
+<entry
+   committed-rev="431213"
+   name="TypeConvertor.java"
+   text-time="2006-08-30T19:54:45.282400Z"
+   committed-date="2006-08-13T19:35:58.717139Z"
+   checksum="0f54bb163e65511c648adaa8b22e6ae3"
+   last-author="sanka"
+   kind="file"
+   prop-time="2006-08-30T19:54:45.232328Z"/>
+<entry
+   committed-rev="432164"
+   name="TypeConvertorRegistry.java"
+   text-time="2006-08-30T19:54:45.302428Z"
+   committed-date="2006-08-17T06:11:05.958743Z"
+   checksum="356e65f309896b0b5e1e17a28b9e1efa"
+   last-author="sanka"
+   kind="file"
+   prop-time="2006-08-30T19:54:45.262371Z"/>
+</wc-entries>

@@ -1,0 +1,11 @@
+class QuadmoreSR
+{
+    static
+    {
+        System.loadLibrary("QUADSR");
+    }
+    public static void main(String args[])
+    { }
+
+ 	public native String TakeDictation();
+}

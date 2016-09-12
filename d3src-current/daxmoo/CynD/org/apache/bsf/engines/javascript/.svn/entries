@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="431584"
+   name=""
+   committed-date="2006-08-15T12:26:17.363148Z"
+   url="https://svn.apache.org/repos/asf/jakarta/bsf/trunk/src/org/apache/bsf/engines/javascript"
+   last-author="henning"
+   kind="dir"
+   uuid="13f79535-47bb-0310-9956-ffa450edef68"
+   revision="438605"/>
+<entry
+   committed-rev="431584"
+   name="JavaScriptEngine.java"
+   text-time="2006-08-30T19:54:42.688670Z"
+   committed-date="2006-08-15T12:26:17.363148Z"
+   checksum="f5e3a7ae9a27bd9021cdbd0cb52f7bd9"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:42.668641Z"/>
+</wc-entries>

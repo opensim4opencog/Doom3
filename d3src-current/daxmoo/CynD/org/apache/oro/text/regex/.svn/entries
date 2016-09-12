@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="2617"
+   name=""
+   committed-date="2005-10-21T21:19:10.000000Z"
+   url="https://svn.sourceforge.net/svnroot/jython/trunk/jython/src/org/apache/oro/text/regex"
+   last-author="otmarhumbel"
+   kind="dir"
+   uuid="79b11f02-f210-0410-99aa-fb189b3d1ac4"
+   prop-time="2006-08-30T20:14:08.495017Z"
+   revision="2919"/>
+<entry
+   committed-rev="1131"
+   name="PatternMatcherInput.java"
+   text-time="2006-08-30T20:14:08.515046Z"
+   committed-date="2000-10-13T19:53:12.000000Z"
+   checksum="3916dbe650d5f339c7e054ecba462adc"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:06.572252Z"/>
+<entry
+   committed-rev="1131"
+   name="StringSubstitution.java"
+   text-time="2006-08-30T20:14:08.555104Z"
+   committed-date="2000-10-13T19:53:12.000000Z"
+   checksum="acc46db7b66bd29a6be3e9667cf44910"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:06.622324Z"/>
+<entry
+   committed-rev="1131"
+   name="Perl5MatchResult.java"
+   text-time="2006-08-30T20:14:08.535075Z"
+   committed-date="2000-10-13T19:53:12.000000Z"
+   checksum="b7226029ec0ade9bff4a6d844442d486"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:06.592281Z"/>
+<entry
+   committed-rev="1131"
+   name="CharStringPointer.java"
+   text-time="2006-08-30T20:14:08.575132Z"
+   committed-date="2000-10-13T19:53:12.000000Z"
+   checksum="02f84df471b0f9507a733db9e603915d"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:06.662382Z"/>
+<entry
+   committed-rev="1131"
+   name="PatternCompiler.java"
+   text-time="2006-08-30T20:14:08.595161Z"
+   committed-date="2000-10-13T19:53:12.000000Z"
+   checksum="1987c0b0fcac9e9500492161c6653cc7"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:06.682411Z"/>
+<entry
+   committed-rev="1131"
+   name="OpCode.java"
+   text-time="2006-08-30T20:14:08.615190Z"
+   committed-date="2000-10-13T19:53:12.000000Z"
+   checksum="53ae8efb67eea1f4453b5f4c55e24041"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:06.702440Z"/>
+<entry
+   committed-rev="1131"
+   name="Substitution.java"
+   text-time="2006-08-30T20:14:08.635219Z"
+   committed-date="2000-10-13T19:53:12.000000Z"
+   checksum="564cca1a9ac7dd3a0adb379da30c0521"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:06.742497Z"/>
+<entry
+   committed-rev="1131"
+   name="Util.java"
+   text-time="2006-08-30T20:14:08.675276Z"
+   committed-date="2000-10-13T19:53:12.000000Z"
+   checksum="a0b7b1f297ee040f414b647edd01c737"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:06.832627Z"/>
+<entry
+   committed-rev="1131"
+   name="Pattern.java"
+   text-time="2006-08-30T20:14:08.655248Z"
+   committed-date="2000-10-13T19:53:12.000000Z"
+   checksum="41d4a11b05179ccdc31210d012eebb5f"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:06.792569Z"/>
+<entry
+   committed-rev="1131"
+   name="package.html"
+   text-time="2006-08-30T20:14:08.695305Z"
+   committed-date="2000-10-13T19:53:12.000000Z"
+   checksum="c0e7e19020d27866c086bf9bd52bc89b"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:06.852656Z"/>
+<entry
+   committed-rev="1131"
+   name="PatternMatcher.java"
+   text-time="2006-08-30T20:14:08.715334Z"
+   committed-date="2000-10-13T19:53:12.000000Z"
+   checksum="44c1ae4c3e1987b0f3efd49a13f24333"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:06.872684Z"/>
+<entry
+   committed-rev="1131"
+   name="Perl5Compiler.java"
+   text-time="2006-08-30T20:14:08.735363Z"
+   committed-date="2000-10-13T19:53:12.000000Z"
+   checksum="0257b56eaaaa95b8ef8367c255dbc066"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:06.932771Z"/>
+<entry
+   committed-rev="2617"
+   name="MalformedPatternException.java"
+   text-time="2006-08-30T20:14:08.765406Z"
+   committed-date="2005-10-21T21:19:10.000000Z"
+   checksum="37d23332e32e5ba26e48d3b340b3c825"
+   last-author="otmarhumbel"
+   kind="file"
+   prop-time="2006-08-30T20:14:06.992857Z"/>
+<entry
+   committed-rev="1131"
+   name="Perl5Substitution.java"
+   text-time="2006-08-30T20:14:08.785435Z"
+   committed-date="2000-10-13T19:53:12.000000Z"
+   checksum="a84526126030a08f0d19ea7cd68e047b"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:07.123044Z"/>
+<entry
+   committed-rev="1131"
+   name="Perl5Pattern.java"
+   text-time="2006-08-30T20:14:08.805464Z"
+   committed-date="2000-10-13T19:53:12.000000Z"
+   checksum="4e3b96c9c647d1f4660db0d49f89dd22"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:07.223188Z"/>
+<entry
+   committed-rev="1131"
+   name="Perl5Repetition.java"
+   text-time="2006-08-30T20:14:08.825492Z"
+   committed-date="2000-10-13T19:53:12.000000Z"
+   checksum="547eadfba7f552c751a36ef0f6eda2bf"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:07.413462Z"/>
+<entry
+   committed-rev="2617"
+   name="Perl5Matcher.java"
+   text-time="2006-08-30T20:14:08.845521Z"
+   committed-date="2005-10-21T21:19:10.000000Z"
+   checksum="762b1b26767971eb9e2e72474c3fca73"
+   last-author="otmarhumbel"
+   kind="file"
+   prop-time="2006-08-30T20:14:08.044369Z"/>
+<entry
+   committed-rev="1131"
+   name="MatchResult.java"
+   text-time="2006-08-30T20:14:08.865550Z"
+   committed-date="2000-10-13T19:53:12.000000Z"
+   checksum="2553a4b2893228d1b7857310886f2f59"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:08.144513Z"/>
+<entry
+   committed-rev="1125"
+   name=".cvsignore"
+   text-time="2006-08-30T20:14:08.925636Z"
+   committed-date="2000-10-13T19:37:02.000000Z"
+   checksum="d3730caf45f16b85c952033a405c6b0e"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:08.164542Z"/>
+<entry
+   committed-rev="1131"
+   name="Perl5Debug.java"
+   text-time="2006-08-30T20:14:09.105896Z"
+   committed-date="2000-10-13T19:53:12.000000Z"
+   checksum="429df3e8ee13e5bcabb1c817f5000131"
+   last-author="bwarsaw"
+   kind="file"
+   prop-time="2006-08-30T20:14:08.485003Z"/>
+</wc-entries>

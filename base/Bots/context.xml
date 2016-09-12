@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<context>
+  <!-- Bot predicates are set at load time, and cannot be changed at runtime. -->
+  <bot name="output.file" value="Logs/"/>
+
+  <!-- Default values for predicates, can be changed later at runtime. -->
+  <set name="date.format" value="yyyy-MM-dd HH:mm:ss"/>
+  <set name="name" value="Unknown Person"/>
+  <set name="me" value="cyc_bot_1"/>
+  <set name="engine" value="ChatterBean"/>
+  <set name="topic" value="*"/>
+</context>

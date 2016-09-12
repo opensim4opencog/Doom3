@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="431333"
+   name=""
+   committed-date="2006-08-14T12:48:02.547874Z"
+   url="https://svn.apache.org/repos/asf/jakarta/bsf/trunk/src/org/apache/bsf/engines/xslt"
+   last-author="henning"
+   kind="dir"
+   uuid="13f79535-47bb-0310-9956-ffa450edef68"
+   revision="438605"/>
+<entry
+   committed-rev="431333"
+   name="XSLTResultNode.java"
+   text-time="2006-08-30T19:54:43.219433Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="4690cd10c83de2823dd19a4633e6dd88"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:43.019145Z"/>
+<entry
+   committed-rev="431333"
+   name="XSLTEngine.java"
+   text-time="2006-08-30T19:54:43.239462Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="9f77cf9ac6756a92cd95531decc94a7d"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:43.039174Z"/>
+</wc-entries>

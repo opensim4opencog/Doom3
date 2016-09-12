@@ -1,0 +1,19 @@
+<project name="DaxDoom" default="compile" basedir=".">
+  <!-- ant manual and download site: http://jakarta.apache.org/ant/manual/index.html  -->
+
+  <!-- set global properties for this build -->
+  <property name="src" value="javasrc/src"/>
+  <property name="build" value="../base/classes"/>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+  </target>
+
+  <target name="compile" depends="init">
+    <!-- Compile the java code from ${src} into ${build}   classpath="..\..\base\classes;..\..\base\jdbm-0.12.jar;..\..\base\databinding.jar;..\..\base\UtilConcurrent.jar;..\..\base\jcommon-0.9.5.jar;..\..\base\icu4j.jar;..\..\base\servlet.jar;..\..\base\concurrent.jar;..\..\base\jaxrpc.jar;..\..\base\jxta.jar;..\..\base\jdom.jar;..\..\base\saaj.jar;..\..\base\antlr.jar;..\..\base\jtp.jar;..\..\base\grid.jar;..\..\base\jini-core.jar;..\..\base\jini-ext.jar;..\..\base\saxpath.jar;..\..\base\commons-collections.jar;..\..\base\axis.jar;..\..\base\rdf-api-2001-01-19.jar;..\..\base\opencyc-hide.jar;..\..\base\jdom.jar;..\..\base\junit.jar;..\..\base\commons-logging.jar;..\..\base\jena.jar;..\..\base\jakarta-oro-2.0.8.jar;..\..\base\violinstrings-1.0.2.jar;..\..\base\FIPA_OSv2_1_0-20030318141509.jar;..\..\base\jug-1.0.3.jar;.">-->
+    <javac srcdir="${src}" destdir="${build}"  classpath="../base/classes;daxclr/jinni.jar;daxclr/OpenCyc-9.jar" debug="on">
+    </javac>
+  </target>
+</project>
+

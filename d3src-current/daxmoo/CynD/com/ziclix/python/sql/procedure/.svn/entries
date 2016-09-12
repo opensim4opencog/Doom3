@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="2414"
+   name=""
+   committed-date="2005-02-23T04:26:23.000000Z"
+   url="https://svn.sourceforge.net/svnroot/jython/trunk/jython/src/com/ziclix/python/sql/procedure"
+   last-author="bzimmer"
+   kind="dir"
+   uuid="79b11f02-f210-0410-99aa-fb189b3d1ac4"
+   revision="2919"/>
+<entry
+   committed-rev="2414"
+   name="SQLServerProcedure.java"
+   text-time="2006-08-30T20:14:57.966153Z"
+   committed-date="2005-02-23T04:26:23.000000Z"
+   checksum="0085e740fce12175080ee89da247a41f"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:14:57.795908Z"/>
+</wc-entries>

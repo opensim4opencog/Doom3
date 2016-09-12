@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+  <comment>ChatterBean default configuration properties</comment>
+  <entry key="context">base/Bots/context.xml</entry>
+  <entry key="splitters">base/Bots/splitters.xml</entry>
+  <entry key="substitutions">base/Bots/substitutions.xml</entry>
+  <entry key="categories">base/Bots/Alice/</entry>
+  <entry key="logs">base/Bots/</entry>
+  <entry key="matcher">bitoflife.chatterbean.GraphMatcher</entry>
+</properties>

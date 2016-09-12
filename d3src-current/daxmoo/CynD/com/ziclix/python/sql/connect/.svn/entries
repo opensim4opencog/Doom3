@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="2617"
+   name=""
+   committed-date="2005-10-21T21:19:10.000000Z"
+   url="https://svn.sourceforge.net/svnroot/jython/trunk/jython/src/com/ziclix/python/sql/connect"
+   last-author="otmarhumbel"
+   kind="dir"
+   uuid="79b11f02-f210-0410-99aa-fb189b3d1ac4"
+   revision="2919"/>
+<entry
+   committed-rev="2617"
+   name="Connectx.java"
+   text-time="2006-08-30T20:14:58.456859Z"
+   committed-date="2005-10-21T21:19:10.000000Z"
+   checksum="fd5889335708419eeee6bf805900ac2a"
+   last-author="otmarhumbel"
+   kind="file"
+   prop-time="2006-08-30T20:14:58.176456Z"/>
+<entry
+   committed-rev="2414"
+   name="Connect.java"
+   text-time="2006-08-30T20:14:58.496916Z"
+   committed-date="2005-02-23T04:26:23.000000Z"
+   checksum="247d804f77b41440913cbd39e94cd34b"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:14:58.236542Z"/>
+<entry
+   committed-rev="2414"
+   name="Lookup.java"
+   text-time="2006-08-30T20:14:58.587046Z"
+   committed-date="2005-02-23T04:26:23.000000Z"
+   checksum="3ae860ca5463789280b3c2dfe1052f3c"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:14:58.286614Z"/>
+</wc-entries>

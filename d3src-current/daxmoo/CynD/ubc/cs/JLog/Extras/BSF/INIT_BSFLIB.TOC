@@ -1,0 +1,35 @@
+LoadClass: ubc.cs.JLog.Extras.BSF.JLogBSFInit
+
+RegisterGenericPredicateEntry: "bsf_register" 2 ubc.cs.JLog.Extras.BSF.jRegister
+# Name [string or bound variable], Bean [bound]
+
+RegisterGenericPredicateEntry: "bsf_lookup" 2 ubc.cs.JLog.Extras.BSF.jLookup
+# Name [string or bound variable], ResultVar
+
+RegisterGenericPredicateEntry: "bsf_unregister" 1 ubc.cs.JLog.Extras.BSF.jUnregister
+# Name [string or bound variable]
+
+RegisterGenericPredicateEntry: "bsf_create" 3 ubc.cs.JLog.Extras.BSF.jCreate3
+# ResultVar, Class [string or bound variable], Parameters [list or bound variable]
+RegisterGenericPredicateEntry: "bsf_create" 4 ubc.cs.JLog.Extras.BSF.jCreate4
+# ResultVar, Class [string or bound variable], Parameters [list or bound variable], Types [list or bound variable]
+
+RegisterGenericPredicateEntry: "bsf_invoke" 4 ubc.cs.JLog.Extras.BSF.jInvoke4
+# ResultVar, Bean [bound], Method [string or bound variable], Parameters [list or bound variable]
+RegisterGenericPredicateEntry: "bsf_invoke" 5 ubc.cs.JLog.Extras.BSF.jInvoke5
+# ResultVar, Bean [bound], Method [string or bound variable], Parameters [list or bound variable], Types [list or bound variable]
+
+RegisterGenericPredicateEntry: "bsf_import" 1 ubc.cs.JLog.Extras.BSF.jImport
+# Package [string or bound variable]
+
+RegisterGenericPredicateEntry: "bsf_static" 2 ubc.cs.JLog.Extras.BSF.jStatic
+# Class [string or bound variable], ResultVar
+
+RegisterGenericPredicateEntry: "bsf_addevent" 3 ubc.cs.JLog.Extras.BSF.jAddEvent
+# Bean [bound], Action [string or bound variable], Script [string or bound variable]
+
+RegisterGenericPredicateEntry: "bsf_j2p" 2 ubc.cs.JLog.Extras.BSF.jJ2P
+# Term [bound], Object
+RegisterGenericPredicateEntry: "bsf_p2j" 2 ubc.cs.JLog.Extras.BSF.jP2J
+# Object [bound], Term
+

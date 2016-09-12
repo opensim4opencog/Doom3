@@ -1,0 +1,16 @@
+[Version Info]
+ExtVersion=1.3
+IntVersion=16.0
+Language=255
+Branch=0.0
+QA=3735
+
+[Product Info]
+Platform=PC
+Product=Doom 3
+
+[Ereg Info]
+Server=www.activision.com
+StartLocation=/webreg/register/
+Template=/webreg/register/user_env.asp?context=app
+UPC=047875323773

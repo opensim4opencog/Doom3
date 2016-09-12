@@ -1,0 +1,52 @@
+<aiml>
+
+<category>
+<pattern>YES</pattern>
+<template>
+<random>
+<li>Great!</li>
+<li>OK!</li>
+<li>Sure!</li>
+<li>Great.</li>
+<li>OK...</li>
+<li>Uh huh.</li>
+<li>Good...</li>
+<li>Good...</li>
+</random>
+</template>
+</category>
+
+<category><pattern>GOOD</pattern><template><srai>YES</srai></template></category>
+<category><pattern>GREAT</pattern><template><srai>YES</srai></template></category>
+<category><pattern>WONDERFUL</pattern><template><srai>YES</srai></template></category>
+<category><pattern>EXCELLENT</pattern><template><srai>YES</srai></template></category>
+<category><pattern>AWESOME</pattern><template><srai>YES</srai></template></category>
+<category><pattern>SURE *</pattern><template><srai>YES</srai></template></category>
+<category><pattern>SURE</pattern><template><srai>YES</srai></template></category>
+<category><pattern>OK</pattern><template><srai>YES</srai></template></category>
+<category><pattern>YEP</pattern><template><srai>YES</srai></template></category>
+<category><pattern>YEA</pattern><template><srai>YES</srai></template></category>
+<category><pattern>YEAH</pattern><template><srai>YES</srai></template></category>
+<category><pattern>YUP</pattern><template><srai>YES</srai></template></category>
+<category><pattern>ALRIGHT</pattern><template><srai>YES</srai></template></category>
+<category><pattern>ALLRIGHT</pattern><template><srai>YES</srai></template></category>
+<category><pattern>WHY NOT</pattern><template><srai>YES</srai></template></category>
+<category><pattern>Y NOT</pattern><template><srai>YES</srai></template></category>
+<category><pattern>NO PROB</pattern><template><srai>YES</srai></template></category>
+<category><pattern>NO PROBLEM</pattern><template><srai>YES</srai></template></category>
+<category><pattern>DEFINITELY</pattern><template><srai>YES</srai></template></category>
+<category><pattern>I DO</pattern><template><srai>YES</srai></template></category>
+
+<category>
+<pattern>NO</pattern>
+<template>
+<random>
+<li>OK.</li>
+<li>Uh huh.</li>
+<li>Good.</li>
+</random>
+</template>
+</category>
+
+
+</aiml>

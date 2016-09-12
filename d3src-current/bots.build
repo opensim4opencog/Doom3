@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- nant build file to deploy mod (source and binary) -->
+<!-- before running this script to package:
+			change to debug configuration
+			unbind from source control
+			make sure server.cfg is pointing to d3dm2
+-->
+
+<project name="bots" default="deploy">
+	
+	<target name="deploy" description="zip new and changed files for source deployment, pk4 the binary">
+		<!-- solution solutionfile="bots.sln" configuration="release" / -->
+		<!-- TODO: could use a vssdiff task to find all files modified since day 1 and include them in the zip -->
+		<mkdir dir="builds" />
+		
+		<attrib normal="true">
+			<fileset>
+				<include name="**/*" />
+			</fileset>
+		</attrib>
+
+		<zip zipfile="builds\bots.src.zip" verbose="true">
+			<!-- fileset>
+				<include name="readme.txt" />
+			</fileset -->
+			<fileset prefix="def">
+				<include name="../def/bot_base.def" />
+				<include name="../def/bot_sabot.def" />
+			</fileset>
+			<fileset prefix="script">
+				<include name="../script/bot_base.script" />
+				<include name="../script/bot_events.script" />
+				<include name="../script/bot_sabot.script" />
+				<include name="../script/bot_scripts.script" />
+				<include name="../script/doom_main.script" />
+			</fileset>
+			<fileset prefix="src">
+				<include name="bots.sln" />
+				<include name="bots.suo" />
+				<include name="game-d3xp.vcproj" />
+				<include name="D3Game.vcproj" />
+				<include name="postbuild.bat" />
+				<include name="server.cfg" />
+				<include name="idlib.vcproj" />
+				<include name="binary.conf" />
+				<include name="bots.build" />
+				<include name="d3xp.build" />
+				<include name="bots/**/*" />
+				<include name="framework/async/NetworkSystem.h" />
+			</fileset>
+			<fileset basedir="d3xp" prefix="src\d3xp">
+				<include name="Entity.h" />
+				<include name="ai/AI.cpp" />
+				<include name="AFEntity.cpp" />
+				<include name="Entity.cpp" />
+				<include name="Game_local.cpp" />
+				<include name="Game_local.h" />
+				<include name="Game_network.cpp" />
+				<include name="Gamesys/SysCmds.cpp" />
+				<include name="Item.cpp" />
+				<include name="Misc.cpp" />
+				<include name="Moveable.cpp" />
+				<include name="Mover.cpp" />
+				<include name="MultiplayerGame.cpp" />
+				<include name="Player.cpp" />
+				<include name="PlayerView.cpp" />
+				<include name="Projectile.cpp" />
+				<include name="SmokeParticles.cpp" />
+				<include name="SmokeParticles.h" />
+				<include name="Weapon.cpp" />
+			</fileset>
+		</zip>
+		<zip zipfile="builds\bots.pk4" verbose="true">
+			<fileset>
+				<include name="binary.conf" />
+			</fileset>
+			<fileset basedir="releasedll">
+				<include name="gamex86.dll" />
+			</fileset>
+			<!-- TODO: Whatever else goes in the pk4 / -->
+		</zip>
+	</target>
+</project>

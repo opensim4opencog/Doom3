@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="2280"
+   name=""
+   committed-date="2003-04-10T15:05:30.000000Z"
+   url="https://svn.sourceforge.net/svnroot/jython/trunk/jython/src/com/ziclix/python/sql/resource"
+   last-author="bzimmer"
+   kind="dir"
+   uuid="79b11f02-f210-0410-99aa-fb189b3d1ac4"
+   revision="2919"/>
+<entry
+   committed-rev="2280"
+   name="zxJDBCMessages.properties"
+   text-time="2006-08-30T20:14:55.973288Z"
+   committed-date="2003-04-10T15:05:30.000000Z"
+   checksum="fb4c2a02af2141786e5a1c99397ab792"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:14:55.803043Z"/>
+</wc-entries>

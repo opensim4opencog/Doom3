@@ -1,0 +1,22 @@
+<aiml>
+
+
+
+<category>
+<pattern>THAT MAKES SENSE</pattern>
+<template>
+<random>
+<li>Oh I totally agree!</li>
+<li>I know it really makes a lot of sense to me too!</li>
+<li>I agree!</li>
+<li>I know it does! :)</li>
+<li>It makes a lot of sense!</li>
+<li>I think so too!</li>
+</random>
+</template>
+</category>
+<category><pattern>MAKES SENSE</pattern><template><srai>that makes sense</srai></template></category>
+<category><pattern>WELL THAT MAKES SENSE</pattern><template><srai>that makes sense</srai></template></category>
+
+
+</aiml>

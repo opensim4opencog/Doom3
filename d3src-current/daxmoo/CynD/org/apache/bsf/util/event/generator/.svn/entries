@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="431333"
+   name=""
+   committed-date="2006-08-14T12:48:02.547874Z"
+   url="https://svn.apache.org/repos/asf/jakarta/bsf/trunk/src/org/apache/bsf/util/event/generator"
+   last-author="henning"
+   kind="dir"
+   uuid="13f79535-47bb-0310-9956-ffa450edef68"
+   revision="438605"/>
+<entry
+   committed-rev="431213"
+   name="ByteUtility.java"
+   text-time="2006-08-30T19:54:44.971953Z"
+   committed-date="2006-08-13T19:35:58.717139Z"
+   checksum="71f4e9c78748320413d06669313c8737"
+   last-author="sanka"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.871809Z"/>
+<entry
+   committed-rev="431333"
+   name="EventAdapterGenerator.java"
+   text-time="2006-08-30T19:54:44.991982Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="9a7e42d614e5e1980c841ebb60d902df"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.911867Z"/>
+<entry
+   committed-rev="431333"
+   name="AdapterClassLoader.java"
+   text-time="2006-08-30T19:54:45.012011Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="211ab5af07662227ae8a483b711bfc9d"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.921881Z"/>
+<entry
+   committed-rev="431213"
+   name="Bytecode.java"
+   text-time="2006-08-30T19:54:45.032040Z"
+   committed-date="2006-08-13T19:35:58.717139Z"
+   checksum="24c610929409d3b95721b9b5682a7749"
+   last-author="sanka"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.941910Z"/>
+</wc-entries>

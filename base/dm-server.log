@@ -1,0 +1,2365 @@
+log file 'dm-server.log' opened on Sat Jul 08 18:03:23 2006
+
+--------- Game Map Shutdown ----------
+--------------------------------------
+Server spawned on port 27666.
+client 0 connected.
+--------- Game Map Shutdown ----------
+--------------------------------------
+reloading guis/mainmenu.gui.
+reloading guis/restart.gui.
+reloading guis/gameover.gui.
+reloading guis/msg.gui.
+reloading guis/takeNotes.gui.
+reloading guis/intro.gui.
+reloading guis/netmenu.gui.
+--------- Map Initialization ---------
+Map: cyc
+----------- Game Map Init ------------
+collision data:
+     1 models
+    40 vertices (0 KB)
+    85 edges (2 KB)
+    36 polygons (2 KB)
+     6 brushes (0 KB)
+     1 nodes (0 KB)
+    36 polygon refs (0 KB)
+     6 brush refs (0 KB)
+    84 internal edges
+     0 sharp edges
+     0 contained polygons removed
+     0 polygons merged
+     7 KB total memory used
+2 msec to load collision data.
+map bounds are (28640.0, 32104.0, 6016.0)
+max clip sector is (895.0, 1003.3, 1504.0)
+    0 bytes passage memory used to build PVS
+   16 msec to calculate PVS
+    1 areas
+    0 portals
+    0 areas visible on average
+    4 bytes PVS data
+[Load AAS]
+loading maps/cyc.aas48
+done.
+[Load AAS]
+loading maps/cyc.aas96
+[Load AAS]
+loading maps/cyc.aas_guardian
+[Load AAS]
+loading maps/cyc.aas_mancubus
+[Load AAS]
+loading maps/cyc.aas_sabaoth
+[Load AAS]
+loading maps/cyc.aas_cyberdemon
+Entering doom_main()
+Exiting doom_main()
+Spawning entities
+Compiled 'C:\doom3\base\maps\cyc.script': 27.3 ms
+---------- Compile stats ----------
+
+Memory usage:
+     Strings: 84, 10064 bytes
+  Statements: 76454, 1529080 bytes
+   Functions: 2835, 319120 bytes
+   Variables: 194892 bytes
+    Mem used: 3032508 bytes
+ Static data: 3501552 bytes
+   Allocated: 4800692 bytes
+ Thread size: 69280 bytes
+
+WARNING: Joint 'Body' not found on 'cyc_bot_1'
+...5 entities spawned, 0 inhibited
+
+1 spawns (1 initials)
+==== Processing events ====
+--------------------------------------
+----- idRenderModelManagerLocal::EndLevelLoad -----
+    0 models purged from previous level,     7 models kept.
+---------------------------------------------------
+----- idImageManager::EndLevelLoad -----
+    0 purged from previous
+  146 kept from previous
+   98 new loaded
+all images loaded in   1.4 seconds
+----------------------------------------
+----- idSoundCache::EndLevelLoad -----
+  221k referenced
+  258k purged
+----------------------------------------
+sound: missing efxs/cyc.efx
+-----------------------------------
+  4424 msec to load cyc
+idRenderWorld::GenerateAllInteractions, msec = 0, staticAllocCount = 0.
+interactionTable size: 40800 bytes
+0 interaction take 0 bytes
+------------- Warnings ---------------
+during cyc...
+WARNING: Joint 'Body' not found on 'cyc_bot_1'
+1 warnings
+Server: Player joined the game.
+
+SpawnPlayer: 0
+loaded collision model models/weapons/shell1/mshell_lo.lwo
+loaded collision model models/weapons/shell1/sshell_bigger.lwo
+/* java_sync_vm... */
+/* Obtaining theJVM..  */
+/* jvmGetJVMs..  */
+/* There are 0 VM(s) already running  */
+/* CLASSPATH=-Djava.class.path=C:\doom3\base\classes;C:\doom3\base\zzDaxmoo.pk4;d:\mirror\pl\lib;d:\mirror\pl\bin;C:\Program Files\JAVA\JDK1.5\lib;C:\Program Files\JAVA\JDK1.5\lib\ext\QTJava.zip:base\classes;. */
+/* Launching VM okay. 
+ */
+/* JNU_GetEnv() is GOOD */
+/* Got class! */
+/* GetStaticMethodID (method_Init) */
+/* JAVA: init going  */
+/* JAVA: init bsh  */
+/* ran method_Init */
+/* ...java_sync_vm */
+DEBUG: cyc_bot_1 state '' -> 'state_Begin'
+DEBUG: cyc_bot_1 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: cyc_bot_1 state 'state_WaitForTrigger' -> 'state_Idle'
+cyc_init_world=mainDEBUG: cyc_init_world()
+SendCommand: (defvar *6294* nil)
+
+SendCommand: (wqc *6294* ?X (#$isa ?X (dfn "BPVLocation")))
+
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *9561* nil)
+
+SendCommand: (wqc *9561* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1000 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *9561* )))(csetq *9561* (cdr *9561*))res)
+
+
+DEBUG: CREATING 'Area1000' cycname was 'Area1000' as a 'mud_room'.
+loaded collision model models/mud/mud_room.ase
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_41': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1000"))
+
+
+WARNING: Couldn't load image: _emptyname
+loaded collision model models/mud/sclosed.ase
+loaded collision model models/mud/eclosed.ase
+loaded collision model models/mud/wclosed.ase
+loaded collision model models/mud/uclosed.ase
+loaded collision model models/mud/dclosed.ase
+DEBUG: Area1000 is at 100 100 0 from 100 100 0.
+SendCommand: (csetq *9561* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *0464* nil)
+
+SendCommand: (wqc *0464* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1002 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *0464* )))(csetq *0464* (cdr *0464*))res)
+
+
+DEBUG: CREATING 'Area1002' cycname was 'Area1002' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_48': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1002"))
+
+
+DEBUG: Area1002 is at 100 800 0 from 100 800 0.
+SendCommand: (csetq *0464* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *1895* nil)
+
+SendCommand: (wqc *1895* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1001 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *1895* )))(csetq *1895* (cdr *1895*))res)
+
+
+DEBUG: CREATING 'Area1001' cycname was 'Area1001' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_52': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1001"))
+
+
+loaded collision model models/mud/nclosed.ase
+DEBUG: Area1001 is at -600 800 0 from -600 800 0.
+SendCommand: (csetq *1895* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *6431* nil)
+
+SendCommand: (wqc *6431* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1005 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *6431* )))(csetq *6431* (cdr *6431*))res)
+
+
+DEBUG: CREATING 'Area1005' cycname was 'Area1005' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_59': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1005"))
+
+
+DEBUG: Area1005 is at 100 1500 0 from 100 1500 0.
+SendCommand: (csetq *6431* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *2588* nil)
+
+SendCommand: (wqc *2588* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1003 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *2588* )))(csetq *2588* (cdr *2588*))res)
+
+
+DEBUG: CREATING 'Area1003' cycname was 'Area1003' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_63': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1003"))
+
+
+DEBUG: Area1003 is at 800 800 0 from 800 800 0.
+SendCommand: (csetq *2588* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *6069* nil)
+
+SendCommand: (wqc *6069* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1004 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *6069* )))(csetq *6069* (cdr *6069*))res)
+
+
+DEBUG: CREATING 'Area1004' cycname was 'Area1004' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_70': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1004"))
+
+
+DEBUG: Area1004 is at -600 1500 0 from -600 1500 0.
+SendCommand: (csetq *6069* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *6016* nil)
+
+SendCommand: (wqc *6016* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1008 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *6016* )))(csetq *6016* (cdr *6016*))res)
+
+
+DEBUG: CREATING 'Area1008' cycname was 'Area1008' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_77': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1008"))
+
+
+DEBUG: Area1008 is at 100 2200 0 from 100 2200 0.
+SendCommand: (csetq *6016* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *6255* nil)
+
+SendCommand: (wqc *6255* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1006 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *6255* )))(csetq *6255* (cdr *6255*))res)
+
+
+DEBUG: CREATING 'Area1006' cycname was 'Area1006' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_81': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1006"))
+
+
+DEBUG: Area1006 is at 800 1500 0 from 800 1500 0.
+SendCommand: (csetq *6255* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *1553* nil)
+
+SendCommand: (wqc *1553* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1042 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *1553* )))(csetq *1553* (cdr *1553*))res)
+
+
+DEBUG: CREATING 'Area1042' cycname was 'Area1042' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_87': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1042"))
+
+
+DEBUG: Area1042 is at 800 2200 0 from 800 2200 0.
+SendCommand: (csetq *1553* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *8862* nil)
+
+SendCommand: (wqc *8862* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1007 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *8862* )))(csetq *8862* (cdr *8862*))res)
+
+
+DEBUG: CREATING 'Area1007' cycname was 'Area1007' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_94': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1007"))
+
+
+DEBUG: Area1007 is at -600 2200 0 from -600 2200 0.
+SendCommand: (csetq *8862* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *3574* nil)
+
+SendCommand: (wqc *3574* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1010 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *3574* )))(csetq *3574* (cdr *3574*))res)
+
+
+DEBUG: CREATING 'Area1010' cycname was 'Area1010' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_101': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1010"))
+
+
+removed 144 degenerate triangles
+loaded collision model models/mud/mud_twisty.ase
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_twisty.ase has too many vertices.
+   650 vertices (15 KB)
+  1467 edges (51 KB)
+   755 polygons (52 KB)
+     0 brushes (0 KB)
+   110 nodes (3 KB)
+  1397 polygon refs (10 KB)
+     0 brush refs (0 KB)
+   417 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   577 polygons merged
+   132 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_twisty_107': cannot load collision model models/mud/mud_twisty.ase
+DEBUG: Area1010 is at 100 2900 0 from 100 2900 0.
+SendCommand: (csetq *3574* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *0767* nil)
+
+SendCommand: (wqc *0767* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1009 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *0767* )))(csetq *0767* (cdr *0767*))res)
+
+
+DEBUG: CREATING 'Area1009' cycname was 'Area1009' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_108': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1009"))
+
+
+DEBUG: Area1009 is at 800 2200 0 from 800 2200 0.
+SendCommand: (csetq *0767* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *1455* nil)
+
+SendCommand: (wqc *1455* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1011 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *1455* )))(csetq *1455* (cdr *1455*))res)
+
+
+DEBUG: CREATING 'Area1011' cycname was 'Area1011' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_115': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1011"))
+
+
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_twisty.ase has too many vertices.
+   650 vertices (15 KB)
+  1467 edges (51 KB)
+   755 polygons (52 KB)
+     0 brushes (0 KB)
+   110 nodes (3 KB)
+  1397 polygon refs (10 KB)
+     0 brush refs (0 KB)
+   417 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   577 polygons merged
+   132 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_twisty_120': cannot load collision model models/mud/mud_twisty.ase
+DEBUG: Area1011 is at 100 2900 300 from 100 2900 300.
+SendCommand: (csetq *1455* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *3843* nil)
+
+SendCommand: (wqc *3843* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1013 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *3843* )))(csetq *3843* (cdr *3843*))res)
+
+
+DEBUG: CREATING 'Area1013' cycname was 'Area1013' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_121': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1013"))
+
+
+DEBUG: Area1013 is at 100 3600 300 from 100 3600 300.
+SendCommand: (csetq *3843* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *9570* nil)
+
+SendCommand: (wqc *9570* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1032 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *9570* )))(csetq *9570* (cdr *9570*))res)
+
+
+DEBUG: CREATING 'Area1032' cycname was 'Area1032' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_125': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1032"))
+
+
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_twisty.ase has too many vertices.
+   650 vertices (15 KB)
+  1467 edges (51 KB)
+   755 polygons (52 KB)
+     0 brushes (0 KB)
+   110 nodes (3 KB)
+  1397 polygon refs (10 KB)
+     0 brush refs (0 KB)
+   417 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   577 polygons merged
+   132 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_twisty_130': cannot load collision model models/mud/mud_twisty.ase
+DEBUG: Area1032 is at 100 2900 600 from 100 2900 600.
+SendCommand: (csetq *9570* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *4966* nil)
+
+SendCommand: (wqc *4966* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1012 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *4966* )))(csetq *4966* (cdr *4966*))res)
+
+
+DEBUG: CREATING 'Area1012' cycname was 'Area1012' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_131': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1012"))
+
+
+DEBUG: Area1012 is at -600 3600 300 from -600 3600 300.
+SendCommand: (csetq *4966* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *7295* nil)
+
+SendCommand: (wqc *7295* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1016 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *7295* )))(csetq *7295* (cdr *7295*))res)
+
+
+DEBUG: CREATING 'Area1016' cycname was 'Area1016' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_138': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1016"))
+
+
+DEBUG: Area1016 is at 100 4300 300 from 100 4300 300.
+SendCommand: (csetq *7295* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *6011* nil)
+
+SendCommand: (wqc *6011* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1014 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *6011* )))(csetq *6011* (cdr *6011*))res)
+
+
+DEBUG: CREATING 'Area1014' cycname was 'Area1014' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_142': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1014"))
+
+
+DEBUG: Area1014 is at 800 3600 300 from 800 3600 300.
+SendCommand: (csetq *6011* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *9004* nil)
+
+SendCommand: (wqc *9004* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1015 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *9004* )))(csetq *9004* (cdr *9004*))res)
+
+
+DEBUG: CREATING 'Area1015' cycname was 'Area1015' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_149': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1015"))
+
+
+DEBUG: Area1015 is at -600 4300 300 from -600 4300 300.
+SendCommand: (csetq *9004* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *3853* nil)
+
+SendCommand: (wqc *3853* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1019 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *3853* )))(csetq *3853* (cdr *3853*))res)
+
+
+DEBUG: CREATING 'Area1019' cycname was 'Area1019' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_156': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1019"))
+
+
+DEBUG: Area1019 is at 100 5000 300 from 100 5000 300.
+SendCommand: (csetq *3853* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *4072* nil)
+
+SendCommand: (wqc *4072* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1017 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *4072* )))(csetq *4072* (cdr *4072*))res)
+
+
+DEBUG: CREATING 'Area1017' cycname was 'Area1017' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_160': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1017"))
+
+
+DEBUG: Area1017 is at 800 4300 300 from 800 4300 300.
+SendCommand: (csetq *4072* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *0366* nil)
+
+SendCommand: (wqc *0366* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1018 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *0366* )))(csetq *0366* (cdr *0366*))res)
+
+
+DEBUG: CREATING 'Area1018' cycname was 'Area1018' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_167': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1018"))
+
+
+DEBUG: Area1018 is at -600 5000 300 from -600 5000 300.
+SendCommand: (csetq *0366* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *6875* nil)
+
+SendCommand: (wqc *6875* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1021 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *6875* )))(csetq *6875* (cdr *6875*))res)
+
+
+DEBUG: CREATING 'Area1021' cycname was 'Area1021' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_174': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1021"))
+
+
+DEBUG: Area1021 is at 100 5700 300 from 100 5700 300.
+SendCommand: (csetq *6875* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *2427* nil)
+
+SendCommand: (wqc *2427* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1020 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *2427* )))(csetq *2427* (cdr *2427*))res)
+
+
+DEBUG: CREATING 'Area1020' cycname was 'Area1020' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_181': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1020"))
+
+
+DEBUG: Area1020 is at 800 5000 300 from 800 5000 300.
+SendCommand: (csetq *2427* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *6787* nil)
+
+SendCommand: (wqc *6787* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1022 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *6787* )))(csetq *6787* (cdr *6787*))res)
+
+
+DEBUG: CREATING 'Area1022' cycname was 'Area1022' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_188': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1022"))
+
+
+DEBUG: Area1022 is at 100 100 600 from 100 100 600.
+SendCommand: (csetq *6787* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *1909* nil)
+
+SendCommand: (wqc *1909* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1024 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *1909* )))(csetq *1909* (cdr *1909*))res)
+
+
+DEBUG: CREATING 'Area1024' cycname was 'Area1024' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_194': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1024"))
+
+
+DEBUG: Area1024 is at 100 800 600 from 100 800 600.
+SendCommand: (csetq *1909* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *8184* nil)
+
+SendCommand: (wqc *8184* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1039 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *8184* )))(csetq *8184* (cdr *8184*))res)
+
+
+DEBUG: CREATING 'Area1039' cycname was 'Area1039' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_198': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1039"))
+
+
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_twisty.ase has too many vertices.
+   650 vertices (15 KB)
+  1467 edges (51 KB)
+   755 polygons (52 KB)
+     0 brushes (0 KB)
+   110 nodes (3 KB)
+  1397 polygon refs (10 KB)
+     0 brush refs (0 KB)
+   417 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   577 polygons merged
+   132 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_twisty_204': cannot load collision model models/mud/mud_twisty.ase
+DEBUG: Area1039 is at 100 -600 600 from 100 -600 600.
+SendCommand: (csetq *8184* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *5688* nil)
+
+SendCommand: (wqc *5688* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1023 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *5688* )))(csetq *5688* (cdr *5688*))res)
+
+
+DEBUG: CREATING 'Area1023' cycname was 'Area1023' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_205': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1023"))
+
+
+DEBUG: Area1023 is at -600 800 600 from -600 800 600.
+SendCommand: (csetq *5688* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *0439* nil)
+
+SendCommand: (wqc *0439* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1027 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *0439* )))(csetq *0439* (cdr *0439*))res)
+
+
+DEBUG: CREATING 'Area1027' cycname was 'Area1027' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_212': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1027"))
+
+
+DEBUG: Area1027 is at 100 1500 600 from 100 1500 600.
+SendCommand: (csetq *0439* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *5640* nil)
+
+SendCommand: (wqc *5640* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1025 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *5640* )))(csetq *5640* (cdr *5640*))res)
+
+
+DEBUG: CREATING 'Area1025' cycname was 'Area1025' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_216': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1025"))
+
+
+DEBUG: Area1025 is at 800 800 600 from 800 800 600.
+SendCommand: (csetq *5640* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *7930* nil)
+
+SendCommand: (wqc *7930* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1026 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *7930* )))(csetq *7930* (cdr *7930*))res)
+
+
+DEBUG: CREATING 'Area1026' cycname was 'Area1026' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_223': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1026"))
+
+
+DEBUG: Area1026 is at -600 1500 600 from -600 1500 600.
+SendCommand: (csetq *7930* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *8638* nil)
+
+SendCommand: (wqc *8638* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1030 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *8638* )))(csetq *8638* (cdr *8638*))res)
+
+
+DEBUG: CREATING 'Area1030' cycname was 'Area1030' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_230': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1030"))
+
+
+DEBUG: Area1030 is at 100 2200 600 from 100 2200 600.
+SendCommand: (csetq *8638* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *0029* nil)
+
+SendCommand: (wqc *0029* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1028 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *0029* )))(csetq *0029* (cdr *0029*))res)
+
+
+DEBUG: CREATING 'Area1028' cycname was 'Area1028' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_234': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1028"))
+
+
+DEBUG: Area1028 is at 800 1500 600 from 800 1500 600.
+SendCommand: (csetq *0029* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *6558* nil)
+
+SendCommand: (wqc *6558* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1029 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *6558* )))(csetq *6558* (cdr *6558*))res)
+
+
+DEBUG: CREATING 'Area1029' cycname was 'Area1029' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_241': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1029"))
+
+
+DEBUG: Area1029 is at -600 2200 600 from -600 2200 600.
+SendCommand: (csetq *6558* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *1113* nil)
+
+SendCommand: (wqc *1113* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1031 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *1113* )))(csetq *1113* (cdr *1113*))res)
+
+
+DEBUG: CREATING 'Area1031' cycname was 'Area1031' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_248': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1031"))
+
+
+DEBUG: Area1031 is at 800 2200 600 from 800 2200 600.
+SendCommand: (csetq *1113* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *6274* nil)
+
+SendCommand: (wqc *6274* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1033 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *6274* )))(csetq *6274* (cdr *6274*))res)
+
+
+DEBUG: CREATING 'Area1033' cycname was 'Area1033' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_255': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1033"))
+
+
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_twisty.ase has too many vertices.
+   650 vertices (15 KB)
+  1467 edges (51 KB)
+   755 polygons (52 KB)
+     0 brushes (0 KB)
+   110 nodes (3 KB)
+  1397 polygon refs (10 KB)
+     0 brush refs (0 KB)
+   417 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   577 polygons merged
+   132 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_twisty_261': cannot load collision model models/mud/mud_twisty.ase
+DEBUG: Area1033 is at 100 2900 900 from 100 2900 900.
+SendCommand: (csetq *6274* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *0557* nil)
+
+SendCommand: (wqc *0557* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1034 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *0557* )))(csetq *0557* (cdr *0557*))res)
+
+
+DEBUG: CREATING 'Area1034' cycname was 'Area1034' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_262': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1034"))
+
+
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_twisty.ase has too many vertices.
+   650 vertices (15 KB)
+  1467 edges (51 KB)
+   755 polygons (52 KB)
+     0 brushes (0 KB)
+   110 nodes (3 KB)
+  1397 polygon refs (10 KB)
+     0 brush refs (0 KB)
+   417 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   577 polygons merged
+   132 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_twisty_268': cannot load collision model models/mud/mud_twisty.ase
+DEBUG: Area1034 is at 100 2900 1200 from 100 2900 1200.
+SendCommand: (csetq *0557* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *9663* nil)
+
+SendCommand: (wqc *9663* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1036 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *9663* )))(csetq *9663* (cdr *9663*))res)
+
+
+DEBUG: CREATING 'Area1036' cycname was 'Area1036' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_269': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1036"))
+
+
+DEBUG: Area1036 is at 100 2900 1500 from 100 2900 1500.
+SendCommand: (csetq *9663* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *2734* nil)
+
+SendCommand: (wqc *2734* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1035 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *2734* )))(csetq *2734* (cdr *2734*))res)
+
+
+DEBUG: CREATING 'Area1035' cycname was 'Area1035' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_274': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1035"))
+
+
+DEBUG: Area1035 is at -600 3600 1500 from -600 3600 1500.
+SendCommand: (csetq *2734* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *3599* nil)
+
+SendCommand: (wqc *3599* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1038 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *3599* )))(csetq *3599* (cdr *3599*))res)
+
+
+DEBUG: CREATING 'Area1038' cycname was 'Area1038' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_281': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1038"))
+
+
+DEBUG: Area1038 is at 100 3600 1500 from 100 3600 1500.
+SendCommand: (csetq *3599* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *7021* nil)
+
+SendCommand: (wqc *7021* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1037 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *7021* )))(csetq *7021* (cdr *7021*))res)
+
+
+DEBUG: CREATING 'Area1037' cycname was 'Area1037' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_287': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1037"))
+
+
+DEBUG: Area1037 is at 800 2900 1500 from 800 2900 1500.
+SendCommand: (csetq *7021* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *9956* nil)
+
+SendCommand: (wqc *9956* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1040 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *9956* )))(csetq *9956* (cdr *9956*))res)
+
+
+DEBUG: CREATING 'Area1040' cycname was 'Area1040' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_294': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1040"))
+
+
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_twisty.ase has too many vertices.
+   650 vertices (15 KB)
+  1467 edges (51 KB)
+   755 polygons (52 KB)
+     0 brushes (0 KB)
+   110 nodes (3 KB)
+  1397 polygon refs (10 KB)
+     0 brush refs (0 KB)
+   417 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   577 polygons merged
+   132 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_twisty_300': cannot load collision model models/mud/mud_twisty.ase
+DEBUG: Area1040 is at 100 -600 900 from 100 -600 900.
+SendCommand: (csetq *9956* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (clet ((res (car *6294* )))(csetq *6294* (cdr *6294*))res)
+
+
+SendCommand: (defvar *7793* nil)
+
+SendCommand: (wqc *7793* (?X ?Y ?Z) (#$locatedAtPoint-Spatial #$Area1041 (#$Point3Fn ?X ?Y ?Z)))
+
+
+SendCommand: (clet ((res (car *7793* )))(csetq *7793* (cdr *7793*))res)
+
+
+DEBUG: CREATING 'Area1041' cycname was 'Area1041' as a 'mud_room'.
+idCollisionModelManagerLocal::TrmFromModel: model models/mud/mud_room.ase has too many vertices.
+   144 vertices (3 KB)
+   217 edges (7 KB)
+   108 polygons (7 KB)
+     0 brushes (0 KB)
+    58 nodes (1 KB)
+   240 polygon refs (1 KB)
+     0 brush refs (0 KB)
+    16 internal edges
+     0 sharp edges
+     0 contained polygons removed
+   108 polygons merged
+    22 KB total memory used
+WARNING: script\DAXMOO_util.script(315): Thread 'main': idMoveable 'idMoveable_mud_room_301': cannot load collision model models/mud/mud_room.ase
+SendCommand: (room-walls (dfn "Area1041"))
+
+
+DEBUG: Area1041 is at 100 -600 1200 from 100 -600 1200.
+SendCommand: (csetq *7793* nil)
+
+SendCommand: (length *6294*)
+
+SendCommand: (csetq *6294* nil)
+
+SendCommand: (defvar *5610* nil)
+
+SendCommand: (wqc *5610* (?O ?L) (#$and(#$objectFoundInLocation?O ?L)(#$isa?L #$BPVLocation)))
+
+
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'ArtifactCol1010-Dilithium-Crystal758' cycname was '#$ArtifactCol1010-Dilithium-Crystal758' as a 'moveable_ktab
+loaded collision model models/mapobjects/filler/ktable.lwo
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$ArtifactCol1010-Dilithium-Crystal758 #$Area1000)=>#$ArtifactCol1010-Dilithium-Crystal758<ArtifactCol1010-Dilithium-Cr
+DEBUG: placeObjectInRegionArtifactCol1010-Dilithium-Crystal758,Area1000
+DEBUG: touches ArtifactCol1010-Dilithium-Crystal758 at 0 0 0 in Area1000 100 100 0 because -227 309 5
+DEBUG: moving ArtifactCol1010-Dilithium-Crystal758 to -135.86 298.49 5 in Area1000
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'ArtifactCol1010-Dilithium-Crystal757' cycname was '#$ArtifactCol1010-Dilithium-Crystal757' as a 'moveable_ktab
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$ArtifactCol1010-Dilithium-Crystal757 #$Area1000)=>#$ArtifactCol1010-Dilithium-Crystal757<ArtifactCol1010-Dilithium-Cr
+DEBUG: placeObjectInRegionArtifactCol1010-Dilithium-Crystal757,Area1000
+DEBUG: touches ArtifactCol1010-Dilithium-Crystal757 at 0 0 0 in Area1000 100 100 0 because -227 309 5
+DEBUG: moving ArtifactCol1010-Dilithium-Crystal757 to -159.71 427.47 5 in Area1000
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'ArtifactCol1010-Dilithium-Crystal756' cycname was '#$ArtifactCol1010-Dilithium-Crystal756' as a 'moveable_ktab
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$ArtifactCol1010-Dilithium-Crystal756 #$Area1000)=>#$ArtifactCol1010-Dilithium-Crystal756<ArtifactCol1010-Dilithium-Cr
+DEBUG: placeObjectInRegionArtifactCol1010-Dilithium-Crystal756,Area1000
+DEBUG: touches ArtifactCol1010-Dilithium-Crystal756 at 0 0 0 in Area1000 100 100 0 because -227 309 5
+DEBUG: moving ArtifactCol1010-Dilithium-Crystal756 to -75.17 328.13 5 in Area1000
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1012-Ensign728' cycname was '#$NpcCol1012-Ensign728' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_311'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1012-Ensign728 #$Area1000)=>#$NpcCol1012-Ensign728<NpcCol1012-Ensign728> objectFoundInLocation #$Area1000 Area1
+DEBUG: placeObjectInRegionNpcCol1012-Ensign728,Area1000
+DEBUG: touches NpcCol1012-Ensign728 at 0 0 0.25 in Area1000 100 100 0 because -227 309 4.75
+DEBUG: moving NpcCol1012-Ensign728 to -124.27 469.56 5 in Area1000
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1000-Geordi684' cycname was '#$NpcCol1000-Geordi684' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_313'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1000-Geordi684 #$Area1000)=>#$NpcCol1000-Geordi684<NpcCol1000-Geordi684> objectFoundInLocation #$Area1000 Area1
+DEBUG: placeObjectInRegionNpcCol1000-Geordi684,Area1000
+DEBUG: touches NpcCol1000-Geordi684 at 0 0 0.25 in Area1000 100 100 0 because -227 309 4.75
+DEBUG: moving NpcCol1000-Geordi684 to -254.03 424.86 5 in Area1000
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'Area1005-Object666' cycname was '#$Area1005-Object666' as a 'moveable_ktable'.
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$Area1005-Object666 #$Area1005)=>#$Area1005-Object666<Area1005-Object666> objectFoundInLocation #$Area1005 Area1005
+DEBUG: placeObjectInRegionArea1005-Object666,Area1005
+DEBUG: moving Area1005-Object666 to -104.44 1908.52 5 in Area1005
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1011-Spot727' cycname was '#$NpcCol1011-Spot727' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_316'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1011-Spot727 #$Area1003)=>#$NpcCol1011-Spot727<NpcCol1011-Spot727> objectFoundInLocation #$Area1003 Area1003
+DEBUG: placeObjectInRegionNpcCol1011-Spot727,Area1003
+DEBUG: moving NpcCol1011-Spot727 to 500.95 970.85 5 in Area1003
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1012-Ensign732' cycname was '#$NpcCol1012-Ensign732' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_318'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1012-Ensign732 #$Area1004)=>#$NpcCol1012-Ensign732<NpcCol1012-Ensign732> objectFoundInLocation #$Area1004 Area1
+DEBUG: placeObjectInRegionNpcCol1012-Ensign732,Area1004
+DEBUG: moving NpcCol1012-Ensign732 to -772.75 1867.36 5 in Area1004
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'Area1008-Object667' cycname was '#$Area1008-Object667' as a 'moveable_ktable'.
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$Area1008-Object667 #$Area1008)=>#$Area1008-Object667<Area1008-Object667> objectFoundInLocation #$Area1008 Area1008
+DEBUG: placeObjectInRegionArea1008-Object667,Area1008
+DEBUG: moving Area1008-Object667 to -334.69 2338.72 5 in Area1008
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1008-OBrien696' cycname was '#$NpcCol1008-OBrien696' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_321'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1008-OBrien696 #$Area1006)=>#$NpcCol1008-OBrien696<NpcCol1008-OBrien696> objectFoundInLocation #$Area1006 Area1
+DEBUG: placeObjectInRegionNpcCol1008-OBrien696,Area1006
+DEBUG: moving NpcCol1008-OBrien696 to 420.51 1861.01 5 in Area1006
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1004-Troi712' cycname was '#$NpcCol1004-Troi712' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_323'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1004-Troi712 #$Area1007)=>#$NpcCol1004-Troi712<NpcCol1004-Troi712> objectFoundInLocation #$Area1007 Area1007
+DEBUG: placeObjectInRegionNpcCol1004-Troi712,Area1007
+DEBUG: moving NpcCol1004-Troi712 to -1064.33 2425.3 5 in Area1007
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1012-Ensign736' cycname was '#$NpcCol1012-Ensign736' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_325'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1012-Ensign736 #$Area1011)=>#$NpcCol1012-Ensign736<NpcCol1012-Ensign736> objectFoundInLocation #$Area1011 Area1
+DEBUG: placeObjectInRegionNpcCol1012-Ensign736,Area1011
+DEBUG: moving NpcCol1012-Ensign736 to -181.39 3033.13 305 in Area1011
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'Area1013-Object668' cycname was '#$Area1013-Object668' as a 'moveable_ktable'.
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$Area1013-Object668 #$Area1013)=>#$Area1013-Object668<Area1013-Object668> objectFoundInLocation #$Area1013 Area1013
+DEBUG: placeObjectInRegionArea1013-Object668,Area1013
+DEBUG: moving Area1013-Object668 to -264.04 3760.35 305 in Area1013
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1009-Wesley716' cycname was '#$NpcCol1009-Wesley716' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_328'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1009-Wesley716 #$Area1016)=>#$NpcCol1009-Wesley716<NpcCol1009-Wesley716> objectFoundInLocation #$Area1016 Area1
+DEBUG: placeObjectInRegionNpcCol1009-Wesley716,Area1016
+DEBUG: moving NpcCol1009-Wesley716 to -139.7 4556.47 305 in Area1016
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'Area1016-Object669' cycname was '#$Area1016-Object669' as a 'moveable_ktable'.
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$Area1016-Object669 #$Area1016)=>#$Area1016-Object669<Area1016-Object669> objectFoundInLocation #$Area1016 Area1016
+DEBUG: placeObjectInRegionArea1016-Object669,Area1016
+DEBUG: moving Area1016-Object669 to -104.37 4567.29 305 in Area1016
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'ArtifactCol1009-Tricorder761' cycname was '#$ArtifactCol1009-Tricorder761' as a 'moveable_ktable'.
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$ArtifactCol1009-Tricorder761 #$Area1015)=>#$ArtifactCol1009-Tricorder761<ArtifactCol1009-Tricorder761> objectFoundInL
+DEBUG: placeObjectInRegionArtifactCol1009-Tricorder761,Area1015
+DEBUG: moving ArtifactCol1009-Tricorder761 to -993.46 4523.22 305 in Area1015
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'ArtifactCol1009-Tricorder760' cycname was '#$ArtifactCol1009-Tricorder760' as a 'moveable_ktable'.
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$ArtifactCol1009-Tricorder760 #$Area1015)=>#$ArtifactCol1009-Tricorder760<ArtifactCol1009-Tricorder760> objectFoundInL
+DEBUG: placeObjectInRegionArtifactCol1009-Tricorder760,Area1015
+DEBUG: moving ArtifactCol1009-Tricorder760 to -1083.52 4328.96 305 in Area1015
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'ArtifactCol1009-Tricorder759' cycname was '#$ArtifactCol1009-Tricorder759' as a 'moveable_ktable'.
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$ArtifactCol1009-Tricorder759 #$Area1015)=>#$ArtifactCol1009-Tricorder759<ArtifactCol1009-Tricorder759> objectFoundInL
+DEBUG: placeObjectInRegionArtifactCol1009-Tricorder759,Area1015
+DEBUG: moving ArtifactCol1009-Tricorder759 to -1013.62 4476.69 305 in Area1015
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1003-Dr-Crusher677' cycname was '#$NpcCol1003-Dr-Crusher677' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_334'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1003-Dr-Crusher677 #$Area1015)=>#$NpcCol1003-Dr-Crusher677<NpcCol1003-Dr-Crusher677> objectFoundInLocation #$Ar
+DEBUG: placeObjectInRegionNpcCol1003-Dr-Crusher677,Area1015
+DEBUG: moving NpcCol1003-Dr-Crusher677 to -872.29 4606.2 305 in Area1015
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1007-Guinan689' cycname was '#$NpcCol1007-Guinan689' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_336'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1007-Guinan689 #$Area1021)=>#$NpcCol1007-Guinan689<NpcCol1007-Guinan689> objectFoundInLocation #$Area1021 Area1
+DEBUG: placeObjectInRegionNpcCol1007-Guinan689,Area1021
+DEBUG: moving NpcCol1007-Guinan689 to -197.56 5932.4 305 in Area1021
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1012-Ensign740' cycname was '#$NpcCol1012-Ensign740' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_338'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1012-Ensign740 #$Area1020)=>#$NpcCol1012-Ensign740<NpcCol1012-Ensign740> objectFoundInLocation #$Area1020 Area1
+DEBUG: placeObjectInRegionNpcCol1012-Ensign740,Area1020
+DEBUG: moving NpcCol1012-Ensign740 to 430.89 5219.34 305 in Area1020
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1012-Ensign748' cycname was '#$NpcCol1012-Ensign748' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_340'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1012-Ensign748 #$Area1022)=>#$NpcCol1012-Ensign748<NpcCol1012-Ensign748> objectFoundInLocation #$Area1022 Area1
+DEBUG: placeObjectInRegionNpcCol1012-Ensign748,Area1022
+DEBUG: moving NpcCol1012-Ensign748 to -329.15 218.58 605 in Area1022
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1012-Ensign744' cycname was '#$NpcCol1012-Ensign744' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_342'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1012-Ensign744 #$Area1024)=>#$NpcCol1012-Ensign744<NpcCol1012-Ensign744> objectFoundInLocation #$Area1024 Area1
+DEBUG: placeObjectInRegionNpcCol1012-Ensign744,Area1024
+DEBUG: moving NpcCol1012-Ensign744 to -282.35 1069.19 605 in Area1024
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'Area1024-Object670' cycname was '#$Area1024-Object670' as a 'moveable_ktable'.
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$Area1024-Object670 #$Area1024)=>#$Area1024-Object670<Area1024-Object670> objectFoundInLocation #$Area1024 Area1024
+DEBUG: placeObjectInRegionArea1024-Object670,Area1024
+DEBUG: moving Area1024-Object670 to -365.57 1026.3 605 in Area1024
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1002-Worf720' cycname was '#$NpcCol1002-Worf720' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_345'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1002-Worf720 #$Area1025)=>#$NpcCol1002-Worf720<NpcCol1002-Worf720> objectFoundInLocation #$Area1025 Area1025
+DEBUG: placeObjectInRegionNpcCol1002-Worf720,Area1025
+DEBUG: moving NpcCol1002-Worf720 to 466.38 833.94 605 in Area1025
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1013-Alexander671' cycname was '#$NpcCol1013-Alexander671' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_347'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1013-Alexander671 #$Area1025)=>#$NpcCol1013-Alexander671<NpcCol1013-Alexander671> objectFoundInLocation #$Area1
+DEBUG: placeObjectInRegionNpcCol1013-Alexander671,Area1025
+DEBUG: moving NpcCol1013-Alexander671 to 306.74 813.26 605 in Area1025
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: ensureExists 'player1' cycname was '' maybe shouldbe '(#$DoomItemFn "player1")'.
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: ((#$DoomItemFn "player1") #$Area1029)=>(#$DoomItemFn "player1")<player1> objectFoundInLocation #$Area1029 Area1029
+DEBUG: placeObjectInRegionplayer1,Area1029
+DEBUG: moving player1 to -875.51 2320.56 605 in Area1029
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: ensureExists 'cyc_bot_1' cycname was '' maybe shouldbe '(#$DoomItemFn "cyc_bot_1")'.
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: ((#$DoomItemFn "cyc_bot_1") #$Area1029)=>(#$DoomItemFn "cyc_bot_1")<cyc_bot_1> objectFoundInLocation #$Area1029 Area1029
+DEBUG: placeObjectInRegioncyc_bot_1,Area1029
+DEBUG: moving cyc_bot_1 to -985.3 2432.35 605 in Area1029
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1012-Ensign752' cycname was '#$NpcCol1012-Ensign752' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_349'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1012-Ensign752 #$Area1036)=>#$NpcCol1012-Ensign752<NpcCol1012-Ensign752> objectFoundInLocation #$Area1036 Area1
+DEBUG: placeObjectInRegionNpcCol1012-Ensign752,Area1036
+DEBUG: moving NpcCol1012-Ensign752 to -208.03 2929.06 1505 in Area1036
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1005-Riker707' cycname was '#$NpcCol1005-Riker707' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_351'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1005-Riker707 #$Area1036)=>#$NpcCol1005-Riker707<NpcCol1005-Riker707> objectFoundInLocation #$Area1036 Area1036
+DEBUG: placeObjectInRegionNpcCol1005-Riker707,Area1036
+DEBUG: moving NpcCol1005-Riker707 to -284.86 3084.94 1505 in Area1036
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1010-Livingston726' cycname was '#$NpcCol1010-Livingston726' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_353'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1010-Livingston726 #$Area1035)=>#$NpcCol1010-Livingston726<NpcCol1010-Livingston726> objectFoundInLocation #$Ar
+DEBUG: placeObjectInRegionNpcCol1010-Livingston726,Area1035
+DEBUG: moving NpcCol1010-Livingston726 to -795.48 3664.07 1505 in Area1035
+SendCommand: (length *5610*)
+
+SendCommand: (nth 0 (car *5610* ))
+
+
+SendCommand: (nth 1 (car *5610* ))
+
+
+DEBUG: CREATING 'NpcCol1006-Picard701' cycname was '#$NpcCol1006-Picard701' as a 'cyc_bot'.
+WARNING: script\DAXMOO_util.script(315): Thread 'main': Joint 'Body' not found on 'idAI_cyc_bot_355'
+SendCommand: (clet ((res (car *5610* )))(csetq *5610* (cdr *5610*))res)
+
+
+DEBUG: (#$NpcCol1006-Picard701 #$Area1035)=>#$NpcCol1006-Picard701<NpcCol1006-Picard701> objectFoundInLocation #$Area1035 Area1
+DEBUG: placeObjectInRegionNpcCol1006-Picard701,Area1035
+DEBUG: moving NpcCol1006-Picard701 to -782.08 3818 1505 in Area1035
+SendCommand: (length *5610*)
+
+SendCommand: (csetq *5610* nil)
+
+DEBUG: done makeAgentsFromCyc 
+glprogs/heatHazeWithMaskAndVertex.vfp
+glprogs/heatHazeWithMaskAndVertex.vfp: GL_FRAGMENT_PROGRAM_ARB not available
+WARNING: idClipModel::Handle: clip model 0 on 'cyc_bot_1_head' (22) is not a collision or trace model
+/* Daxmoo_FrameInit() */
+DEBUG: NpcCol1006-Picard701 state '' -> 'state_Begin'
+DEBUG: NpcCol1006-Picard701 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1006-Picard701 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1010-Livingston726 state '' -> 'state_Begin'
+DEBUG: NpcCol1010-Livingston726 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1010-Livingston726 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1005-Riker707 state '' -> 'state_Begin'
+DEBUG: NpcCol1005-Riker707 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1005-Riker707 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1012-Ensign752 state '' -> 'state_Begin'
+DEBUG: NpcCol1012-Ensign752 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1012-Ensign752 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1013-Alexander671 state '' -> 'state_Begin'
+DEBUG: NpcCol1013-Alexander671 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1013-Alexander671 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1002-Worf720 state '' -> 'state_Begin'
+DEBUG: NpcCol1002-Worf720 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1002-Worf720 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1012-Ensign744 state '' -> 'state_Begin'
+DEBUG: NpcCol1012-Ensign744 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1012-Ensign744 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1012-Ensign748 state '' -> 'state_Begin'
+DEBUG: NpcCol1012-Ensign748 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1012-Ensign748 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1012-Ensign740 state '' -> 'state_Begin'
+DEBUG: NpcCol1012-Ensign740 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1012-Ensign740 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1007-Guinan689 state '' -> 'state_Begin'
+DEBUG: NpcCol1007-Guinan689 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1007-Guinan689 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1003-Dr-Crusher677 state '' -> 'state_Begin'
+DEBUG: NpcCol1003-Dr-Crusher677 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1003-Dr-Crusher677 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1009-Wesley716 state '' -> 'state_Begin'
+DEBUG: NpcCol1009-Wesley716 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1009-Wesley716 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1012-Ensign736 state '' -> 'state_Begin'
+DEBUG: NpcCol1012-Ensign736 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1012-Ensign736 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1004-Troi712 state '' -> 'state_Begin'
+DEBUG: NpcCol1004-Troi712 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1004-Troi712 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1008-OBrien696 state '' -> 'state_Begin'
+DEBUG: NpcCol1008-OBrien696 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1008-OBrien696 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1012-Ensign732 state '' -> 'state_Begin'
+DEBUG: NpcCol1012-Ensign732 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1012-Ensign732 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1011-Spot727 state '' -> 'state_Begin'
+DEBUG: NpcCol1011-Spot727 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1011-Spot727 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1000-Geordi684 state '' -> 'state_Begin'
+DEBUG: NpcCol1000-Geordi684 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1000-Geordi684 state 'state_WaitForTrigger' -> 'state_Idle'
+DEBUG: NpcCol1012-Ensign728 state '' -> 'state_Begin'
+DEBUG: NpcCol1012-Ensign728 state 'state_Begin' -> 'state_WaitForTrigger'
+DEBUG: NpcCol1012-Ensign728 state 'state_WaitForTrigger' -> 'state_Idle'
+idRenderWorldLocal::ResizeInteractionTable: overflowed interactionTableWidth, dumping
+/* initProlog: Init prolog  */
+/*  */
+/* Starting Jinni Prolog 2005, version 10.52 */
+/* Copyright (C) BinNet Corp. 1999-2005 */
+/* Support: support@binnetcorp.com */
+/* Home: http://www.binnetcorp.com */
+/* Detected Sun Microsystems Inc. 1.5.0_06 Java VM  */
+/*  */
+/*  */
+/* Trying to load bytecode from Java classes, success=true */
+/*  */
+/* begin_compiling(to(mem),'base/doom.pro') */
+/*  */
+/* >>>: ??? <X> <Y> <Z>  *** warning: singleton variables in: (setPropertyNext2 :- doomPropertyNext(X,Y,Z)) */
+/*  */
+/*  */
+/* >>>: ??? <Getter>  *** warning: singleton variables in: (doomValue(W,What) :- (isEntity(W) , getPropertyName(N,Getter,Typ */
+/* ) , name(N,NS) , (What = ['BindingFn',NS,R]) , queryDoomProperty(W,N,Value) , toWhat(Value,Type,R))) */
+/*  */
+/*  */
+/* >>>: ??? <Getter>  *** warning: singleton variables in: (doomSpawnArgs(W,What) :- (isEntity(W) , getPropertyName(N,Getter */
+/* Type) , name(N,NS) , (What = ['BindingFn',NS,R]) , queryDoomProperty(W,N,Value) , toWhat(Value,Type,R))) */
+/*  */
+/*  */
+/* >>>: ??? <T>  *** warning: singleton variables in: (queryDoomProperty(Who,P,What) :- (getPropertyName(P,N,T) , not(P = N) */
+/* , ! , queryDoomProperty(Who,N,What))) */
+/*  */
+/*  */
+/* >>>: ??? <T>  *** warning: singleton variables in: no_initCyc('DoomVocabularyMt',forward(implies(doomCollection(C,T),and( */
+/* sa(C,'DoomClass'))))) */
+/*  */
+/*  */
+/* Undefined after :-, code[27427..50801] ->object_alias1/3 */
+/*  */
+/* Undefined after :-, code[27762..50801] ->doom/2 */
+/*  */
+/* Undefined after :-, code[28045..50801] ->doom/2 */
+/*  */
+/* end_compiling(time(22593,msec),'base/doom.pro') */
+/*  */
+/* initProlog: WORKED!!! */
+/* java defined command listplugins */
+/* java defined command bsh */
+/* java defined command event */
+/* Doom Java Server Bound on Port 3691 */
+/* InitPlugins c:\doom3\base\plugins.cfg */
+/* START module beangui daxclr.ext.BeanGUIModule */
+/* java defined command tgpanel */
+/* java defined command tg */
+/* COMPLETE module beangui */
+/* START module cycaiml daxclr.ext.CycAIMLModule */
+/* Loading the CycAIMLModule */
+/* java defined command testaiml */
+/* java defined command aiml */
+/* java defined command reloadaiml */
+/*  File 0 = base/Bots/Alice/65_AI.aiml */
+/*  File 1 = base/Bots/Alice/Again.aiml */
+/*  File 2 = base/Bots/Alice/Alice.aiml */
+/*  File 3 = base/Bots/Alice/AreYouMy.aiml */
+/*  File 4 = base/Bots/Alice/Astrology.aiml */
+/*  File 5 = base/Bots/Alice/History.aiml */
+/*  File 6 = base/Bots/Alice/Salutations.aiml */
+/*  File 7 = base/Bots/Alice/TopCyc.aiml */
+/*  File 8 = base/Bots/Alice/YesNo.aiml */
+/*  File 9 = base/Bots/Alice/social.aiml */
+/*  Reading File 0 */
+/*  Reading File 1 */
+/*  Reading File 2 */
+/*  Reading File 3 */
+/*  Reading File 4 */
+/*  Reading File 5 */
+/*  Reading File 6 */
+/*  Reading File 7 */
+/*  Reading File 8 */
+/*  Reading File 9 */
+/* COMPLETE module cycaiml */
+/* START module CycLBot daxclr.ext.DoomIrcBot */
+/* java defined command irc */
+/* java defined command CycLBot */
+/* COMPLETE module CycLBot@irc.freenode.net */
+/* lines in cfg = 21 */
+/* signalMapLoad() */
+/* ussing the plugin: CycLBot@irc.freenode.net */
+/* irc: 'JOIN dmiles_afk' */
+/* irc: 'JOIN #logicmoo' */
+/* irc: 'PONG :zelazny.freenode.net' */
+/* irc: 'PONG :zelazny.freenode.net' */

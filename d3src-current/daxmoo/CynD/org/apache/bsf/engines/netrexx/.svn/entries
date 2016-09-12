@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="432164"
+   name=""
+   committed-date="2006-08-17T06:11:05.958743Z"
+   url="https://svn.apache.org/repos/asf/jakarta/bsf/trunk/src/org/apache/bsf/engines/netrexx"
+   last-author="sanka"
+   kind="dir"
+   uuid="13f79535-47bb-0310-9956-ffa450edef68"
+   revision="438706"/>
+<entry
+   committed-rev="432164"
+   name="NetRexxEngine.java"
+   text-time="2006-08-30T23:32:44.148886Z"
+   committed-date="2006-08-17T06:11:05.958743Z"
+   checksum="51a854b40b6791e2561b829ed0edcd7f"
+   last-author="sanka"
+   kind="file"
+   prop-time="2006-08-30T19:54:43.499836Z"/>
+</wc-entries>

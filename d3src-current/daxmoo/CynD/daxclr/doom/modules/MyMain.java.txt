@@ -1,0 +1,173 @@
+import jinni.kernel.*;
+import java.util.*;
+
+/**
+ *  Shows examples of calls form Java to Prolog and back
+ */
+public class MyMain  { 
+ 
+  /**
+   *  this class embeds Jinni into your application
+   *  make sure jinni.jar is copied in THIS directory
+   *  because that's where Jinni will look for its Java code
+   *  as well as the for its Prolog bytecode.
+   *  Start Jinni with: go.bat, then run.bat
+   */
+  public static void main (String args[]) { 
+    Machine M=Top.initJinni(args); 
+    if(M!=null) {
+      String query="compile('myMain.pl')";
+        testJavaPrologInterface();
+        M.run(query);
+      Top.toplevel(M);
+    }
+    JavaIO.halt(0);
+  }
+
+  /**
+   * just makes printing easier
+   */
+  public static void p(String s) {
+    JavaIO.dump(s);
+  }
+
+/**
+ *  creates a Prolog machine and runs on in a few queries
+ */  
+public static void testJavaPrologInterface() {
+
+  Machine M=Top.new_machine();
+  
+  {
+  // simple String queries
+  
+    String s=M.run("member(X,[a,b,c])");
+    JavaIO.dump("testJinni: first X in member/3: "+s);   
+     
+    M.run("assert(a(88))");
+    JavaIO.dump("assert works: " + M.run("X:-a(X)"));    
+      
+    // building a compound term query, getting all answers
+ 
+    Object X=new Var(1);
+    Object goal_args[]={X,new Integer(1),new Integer(5)};
+    Fun Goal=new Fun("for",goal_args);
+    Object[] answer_args={X,Goal};
+    Fun Query=new Fun(":-",answer_args);
+    if(!M.load_engine(Query)) return;
+    for(;;) {
+      Object answer=M.get_answer();
+      if(null==answer) {
+        // this kills the machine - if still alive - 
+        // it happens after last answer automatically
+        M.stop(); 
+        break;
+      }
+      JavaIO.dump("testJinni: X in for/3(X,1,5): "+answer);
+    }
+  }  
+  { // passing to Prolog a Java object for a call back method
+  
+    M=Top.new_machine(); // stop killed the previous one
+    Date today=new Date();
+    Object R=new Var(1);
+    Object goal_args[]={today,"toString",R}; // note first arg "today" - it is a handle to a Date
+    Fun Goal=new Fun("invoke_java_method",goal_args); // we build the callback goal
+    Object[] answer_args={R,Goal}; // we build the answer pattern to be returned
+    Fun Query=new Fun(":-",answer_args); // we put them together as a query with clause syntax
+    if(!M.load_engine(Query)) return; // we load the (existing) Prolog engine
+    for(;;) {
+      Object answer=M.get_answer(); // get an answer
+      if(null==answer) {
+        M.stop();
+        break; // exit loop when finished
+      }
+      // print out an answer
+      JavaIO.dump("testJinni: Prolog callback on a Java Date object gives ===> "+answer);
+    }
+  }  
+  
+  { // some easier ways to build queries - using special purpose Fun constructors
+    
+    M=Top.new_machine(); // stop killed the previous one
+    Fun List=new Fun(".","a",new Fun(".","b","[]"));
+    Fun Goal=new Fun("append",new Var(1),new Var(2),List); // we build the Prolog goal
+    Fun Query=new Fun(":-",new Fun("result",new Var(1),new Var(2)),Goal); // we put them together as a query with clause syntax
+    if(!M.load_engine(Query)) return; // we load the (existing) Prolog engine
+    for(;;) {
+      Object answer=M.get_answer(); // get an answer
+      if(null==answer) {
+        M.stop();
+        break; // exit loop when finished
+      }
+      // print out an answer
+      JavaIO.dump("testJinni: Prolog nondeterministic list append gives ===> "+answer);
+    }
+  }  
+}  
+  /**
+   *  Exhibits work in Java on a term sent from Prolog
+   */
+  public static Object workOnPrologData(Object oterm) {
+    //Machine machine=Top.new_machine();
+   
+    p("TERM===> "+oterm);
+    Object O=((Fun)oterm).args[1];
+    p("CHOP===> "+O);
+    p("NODES===> "+countNodes(O));
+    p("LEAVES===> "+getLeaves(O));
+    
+    Var X=new Var(1); Var Y=new Var(2);
+    Object[] args={
+      "hello",new Integer(11),
+      X,X,Y,Y,
+      new Double(3.14),
+      "bye"
+    };
+    return new Fun("fromJava",args);
+  } 
+  
+  /**
+   * simple recursive count node method
+   */
+  static int countNodes(Object O) {
+    p("count_trace: "+O);
+    if(!(O instanceof Fun)) 
+      return 1;
+    Fun F=(Fun)O;
+    int count=1;
+    for(int i=0; i<F.args.length; 
+      i++) {
+      count+=countNodes(F.args[i]);
+    }
+    return count;
+  }
+  
+  /**
+   * collects leaves (Strings, ints etc.) of a Prolog term seen as tree
+   */
+  static Vector getLeaves(Object O) {
+    Vector V=new Vector();
+    try {
+      getLeaves(O,V);
+    }
+    catch(Exception e) {
+      JavaIO.errmes("error in getLeaves",e); 
+    }
+    return V;
+  }
+  
+  /**
+   * recurses over Prolog term seen as a tree
+   */
+  static void getLeaves(Object O,Vector V) {
+    if(!(O instanceof Fun)) 
+      V.addElement(O);
+    else {
+      Fun F=(Fun)O;
+      for(int i=0; i<F.args.length; i++) {
+        getLeaves(F.args[i],V);
+      }
+    }
+  }
+}

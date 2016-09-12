@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="431333"
+   name=""
+   committed-date="2006-08-14T12:48:02.547874Z"
+   url="https://svn.apache.org/repos/asf/jakarta/bsf/trunk/src/org/apache/bsf/engines/jacl"
+   last-author="henning"
+   kind="dir"
+   uuid="13f79535-47bb-0310-9956-ffa450edef68"
+   revision="438605"/>
+<entry
+   committed-rev="431333"
+   name="JaclEngine.java"
+   text-time="2006-08-30T19:54:42.929016Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="7d01afb28636190ec3a7ccf03e61e287"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:42.868929Z"/>
+<entry
+   committed-rev="431333"
+   name="BSFCommand.java"
+   text-time="2006-08-30T19:54:42.949044Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="ffb7750e4cce20d2b21daaacdcba4e3c"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:42.908987Z"/>
+</wc-entries>

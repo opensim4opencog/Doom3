@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- nant build file to deploy modified d3xp source) -->
+<project name="d3xp" default="deploy.d3xp">
+	
+	<target name="deploy.d3xp" description="zip changed files for source deployment">
+		<mkdir dir="builds" />
+		
+		<attrib normal="true">
+			<fileset>
+				<include name="**/*" />
+			</fileset>
+		</attrib>
+
+		<zip zipfile="builds\d3xp.src.zip" verbose="true">
+			<fileset basedir="d3xp" prefix="src\d3xp">
+				<include name="Entity.h" />
+				<include name="ai/AI.cpp" />
+				<include name="AFEntity.cpp" />
+				<include name="Entity.cpp" />
+				<include name="Game_local.cpp" />
+				<include name="Game_local.h" />
+				<include name="Item.cpp" />
+				<include name="Misc.cpp" />
+				<include name="Moveable.cpp" />
+				<include name="Mover.cpp" />
+				<include name="MultiplayerGame.cpp" />
+				<include name="Player.cpp" />
+				<include name="PlayerView.cpp" />
+				<include name="Projectile.cpp" />
+				<include name="SmokeParticles.cpp" />
+				<include name="SmokeParticles.h" />
+				<include name="Weapon.cpp" />
+			</fileset>
+		</zip>
+	</target>
+</project>

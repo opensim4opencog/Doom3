@@ -1,0 +1,1823 @@
+package daxclr.java;
+
+import java.awt.Image;
+import java.beans.*;
+import java.beans.beancontext.BeanContext;
+import java.beans.beancontext.BeanContextChild;
+import java.beans.beancontext.BeanContextServiceAvailableEvent;
+import java.beans.beancontext.BeanContextServiceRevokedEvent;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.*;
+
+import org.opencyc.cycobject.CycFort;
+import org.opencyc.cycobject.CycNart;
+import org.opencyc.cycobject.CycObject;
+import org.opencyc.xml.XMLStringWriter;
+import org.opencyc.xml.XMLWriter;
+
+import com.sun.beans.ObjectHandler;
+
+import bsh.*;
+
+import daxclr.beanbowl.BeanUtils;
+import daxclr.doom.IdDeclManager;
+import daxclr.doom.IdGameLocal;
+import daxclr.inference.CycAPI;
+
+import sun.reflect.FieldAccessor;
+import sun.reflect.MethodAccessor;
+import sun.reflect.ReflectionFactory;
+
+public class ObjectInfo extends XThis implements IObjectInfo,BeanContextChild,java.io.Serializable,BshClassManager.Listener, 
+NameSource {
+	
+	public class ObjectInfoHandler extends Handler{
+		private static final long serialVersionUID = -3639023261232253957L;
+		public ObjectInfoHandler() {			
+		}
+	}
+    /**
+    	Get dynamic proxy for interface, caching those it creates.
+    */
+    public Object getInterface(Class[] ca) {
+        return super.getInterface(ca);
+    }
+    public Object getInterface(Class ca) {
+        return super.getInterface(ca);
+    }
+    //final private NameSpace namespace;
+    final public NameSpace getNameSpace() {
+        return this.namespace;
+    }
+    final private bsh.Variable theVariable;
+    public bsh.Variable getVariable(){
+        return this.theVariable;
+    }
+    final public BeanInfo getBeanInfo(){
+        return beanInfo;        
+    }
+    private static final long serialVersionUID = 1L;
+    private transient PropertyChangeSupport pcSupport = new PropertyChangeSupport(this);
+    private transient VetoableChangeSupport vcSupport = new VetoableChangeSupport(this);
+    final private LinkedHashSet<EventListener> listeners = new LinkedHashSet<EventListener>();
+    final private DynamicBeanInfo beanInfo = new DynamicBeanInfo();
+
+
+    final public boolean isType(Class<?> target) {
+        return coerceableTo(target);        
+    }
+
+    final public Object setValue(Object newValue){
+        Object oldValue = getValue();
+        addObject(newValue);
+        return oldValue;
+    }
+
+    final public Object coerceTo(final Class<?> target) throws ClassCastException {
+        if (target!=null) {
+            if (target.isAssignableFrom(ObjectInfo.class)) return this;
+            if (target.isAssignableFrom(Object.class)) return this.getValue();
+            if (target.isAssignableFrom(CycObject.class)) return this.toCycObject();
+            if (target.isAssignableFrom(String.class)) return this.getName();
+            if (target.isAssignableFrom(IObjectProxy.class)) return this.getValue();
+            if (target.isAssignableFrom(InvocationHandler.class)||
+                target.isAssignableFrom(this.getClass())||
+                target.isAssignableFrom(IObjectInfo.class)) return this;
+            this.addClass(target);
+        }
+        return this.getValue();
+    }
+
+    final private static CycFort cycInstanceNamedFn = CycAPI.c("InstanceNamedFn");
+    private CycFort cycObject;
+    public CycObject toCycObject() {
+        if (cycObject==null) {
+            CycFort cycclass = new CycNart(CycAPI.c("JavaClassFn"),getBeanClass().getName());
+            cycObject = new CycNart(cycInstanceNamedFn,cycclass,getName());
+        }// GenericBeanInfo
+        return cycObject;
+    }
+
+    public Object invokeScript(String mn, Object[] args) throws Throwable {
+        throw new NoSuchMethodException("JavaObjectInfo does not really impliment invokeScript " + mn);
+//        throw new NoSuchMethodError();
+    }
+    public CycFort getFunctor() {
+        return CycAPI.c("ObjectIDFn");
+    }
+
+    public String getEmptyName() {
+        return "$null";
+    }
+
+    public void init() {
+    }
+
+    public Class getBeanClass() {
+        return beanClass;
+    }
+    //"DoomVocabMt"
+
+    public Object getPropertyValue(String propname) throws NoSuchFieldException {
+        Class rettype = getPropertyType(propname);
+        Class[] paramTypes = new Class[] {};
+        Object[] params = new Object[] {};
+        Throwable resulterr = null;
+        Throwable missing = null;
+        Class oclass = getBeanClass();
+        try {
+            return(oclass.getMethod("get",(Class[])prependArray(String.class,paramTypes)).invoke(getValue(),prependArray(propname,params)));
+        } catch (NoSuchMethodException ex) {
+            missing = ex;
+        } catch (InvocationTargetException ex) {
+            missing = ex;
+        } catch (IllegalAccessException ex) {
+            missing = ex;
+        } catch (Throwable ex) {
+            resulterr = ex;
+        }
+        try {
+            return(invokeFirst(oclass,getValue(),new String[]{"get" + capitalize(propname),"is" + capitalize(propname),propname},paramTypes,params));
+        } catch (NoSuchMethodException ex) {
+            missing = ex;
+        } catch (InvocationTargetException ex) {
+            missing = ex;
+        } catch (IllegalAccessException ex) {
+            missing = ex;
+        } catch (Throwable ex) {
+            resulterr = ex;
+        }
+        try {
+            return(oclass.getField(propname).get(getValue()));
+        } catch (IllegalAccessException ex) {
+            missing = ex;
+        } catch (NoSuchFieldError ex) {
+            missing = ex;
+        } catch (NoSuchFieldException ex) {
+            missing = ex;
+        } catch (Throwable ex) {
+            resulterr = ex;
+        }
+        String message = "ObjectInfo get " + getBeanClass() + "." + propname + " " + missing;
+        if (resulterr!=null) throw new RuntimeException(message,resulterr);
+        throw new NoSuchFieldError(message);
+    }
+
+    public final Object setPropertyValue(String propname, Object val) {
+        Class rettype = Object.class;
+        Throwable resulterr = null;
+        Throwable missing = null;
+        List results = new ArrayList(1);
+        Object[] params = new Object[] {val};
+        try {
+            rettype = getPropertyType(propname);
+            resulterr = null;
+        } catch ( NoSuchFieldException ex ) {
+            missing = ex;
+        }
+        Class[] paramTypes = new Class[] {rettype};
+        Object target = getValue();
+        if (isBrokering(target)) {
+            Class oclass = target.getClass();
+            if (val != null) {
+                rettype = val.getClass();
+            }
+            try {
+                return(oclass.getMethod("put",(Class[])prependArray(String.class,paramTypes)).invoke(target,prependArray(propname,params)));
+            } catch (NoSuchMethodException ex) {
+                missing = ex;
+            } catch (InvocationTargetException ex) {
+                missing = ex;
+            } catch (IllegalAccessException ex) {
+                missing = ex;
+            } catch (Throwable ex) {
+                resulterr = ex;
+            }
+            try {
+                return(invokeFirst(oclass,target,new String[]{"get" + capitalize(propname),propname,"is" + capitalize(propname)},paramTypes,params));
+            } catch (NoSuchMethodException ex) {
+                missing = ex;
+            } catch (InvocationTargetException ex) {
+                missing = ex;
+            } catch (IllegalAccessException ex) {
+                missing = ex;
+            } catch (Throwable ex) {
+                resulterr = ex;
+            }
+            try {
+                return(oclass.getField(propname).get(target));
+            } catch (NoSuchFieldError ex) {
+                missing = ex;
+            } catch (NoSuchFieldException ex) {
+                missing = ex;
+            } catch (IllegalAccessException ex) {
+                missing = ex;
+            } catch (Throwable ex) {
+                resulterr = ex;
+            }
+        }
+
+        /*     value = getValue();
+             try {
+                 results.add(invokeFirst(value.getClass(),value,new String[]{"set" + capitalize(propname),"is" + capitalize(propname),propname},paramTypes,params));
+                 resulterr = null;
+             } catch (NoSuchMethodException ex) {
+                 missing = ex;
+             } catch (InvocationTargetException ex) {
+                 missing = ex;
+             } catch (IllegalAccessException ex) {
+                 missing = ex;
+             } catch (Throwable ex) {
+                 resulterr = ex;
+             }
+     */
+        String message = "MultiObjectInfo set " + getBeanClass() + "." + propname + " " + missing;
+        if (results.size()>0) return nonVoid(results);
+        if (resulterr!=null) throw new RuntimeException(message,resulterr);
+        throw new NoSuchFieldError(message);
+    }
+
+    final public boolean coerceableTo(Class<?> target) {
+        if (target==null) return true;
+        try {
+            objectProxy = coerceTo(target);
+        } catch ( ClassCastException ex ) {
+            return false;
+        }
+        return target.isInstance(getValue());
+    }
+
+    public InvocationHandler getInvocationHandler() {
+        // TODO Auto-generated method stub
+        return invocationHandler;
+    }
+
+    final public boolean addVariable(final Variable info) {
+        if (info==null ) return false;
+        this.addPropertyType(info.getName(),info.getType());
+        if (!this.namespace.variables.contains(info)) {
+            this.namespace.variables.put(info.getName(),info);   
+            return true;
+        }
+        return this.modified;
+    }
+
+    final public boolean addObject(final Object info ) {
+        if (info==null ) return false;
+        this.addClass(info.getClass());
+        this.namespace.importObject(info);
+        return this.modified;
+    }
+
+    final public boolean addBshMethod(final BshMethod info ) {
+        if (info==null ) return false;
+        if (info.javaMethod!=null) {
+            final Method m = info.javaMethod;
+            beanInfo.addMethodDescriptor(new MethodDescriptor(m));
+        }
+        if (!this.namespace.methods.contains(info)) {
+            this.namespace.methods.put(info.getName(),info);   
+            return true;
+        }
+        return this.modified;
+    }
+
+    public Object getInvocationTarget(){
+        return getThis();
+    }
+
+    final public void addPropertyCode(final String propname,final String code ) throws bsh.EvalError {
+        throw new bsh.EvalError(code,null,null);
+    }
+
+    final public String getPropertyCode(final String propname) throws NoSuchFieldException{
+        return "";
+    }
+
+    final public boolean addNameSpace(final NameSpace info ) {
+        if (info==null) return false;
+        if (info.variables!=null) {
+            final Iterator<Variable> vars = info.variables.values().iterator();
+            while (vars.hasNext()) {
+                this.addVariable(vars.next());
+            }
+        }
+        this.addBshMethods(info.getMethods());
+        return this.modified;
+    }
+    final public String getKey() {
+        return this.getName();
+    }
+    final public boolean isSelected() {
+        return this.selected;
+    }
+
+    final public String getName() {
+        return this.getNameSpace().getName();
+    }
+
+    final public String toString() {
+        return getName();
+    }
+
+    final public void setName(final String newName) throws java.beans.PropertyVetoException {
+        if (newName!=null) {
+            final String oldName = this.getName();
+            if (!(newName.equals(oldName))) {
+                this.checkTransient();
+                this.vcSupport.fireVetoableChange("name", oldName, newName);             
+                this.resetName(newName);
+                this.pcSupport.firePropertyChange("name", oldName, newName);
+            }
+        }
+    }   
+
+    final void resetName(String newName){
+        this.namespace.setName(newName);
+    }
+
+    final public void propertyChange(final PropertyChangeEvent evt) {
+        this.checkTransient();
+        this.pcSupport.firePropertyChange(evt);
+    }
+
+    final public void vetoableChange(final PropertyChangeEvent evt) throws PropertyVetoException {
+        this.checkTransient();
+        this.vcSupport.fireVetoableChange(evt);
+    }
+
+    final public void addPropertyChangeListener(final PropertyChangeListener p) {
+        this.checkTransient();
+        this.pcSupport.addPropertyChangeListener(p);
+    }
+
+    final public void removePropertyChangeListener(final PropertyChangeListener p) {
+        this.checkTransient();
+        this.pcSupport.removePropertyChangeListener(p);
+    }
+
+    final public void addVetoableChangeListener(final VetoableChangeListener v) {
+        this.checkTransient();
+        this.vcSupport.addVetoableChangeListener(v);
+    }
+
+    final public void removeVetoableChangeListener(final VetoableChangeListener v) {
+        this.checkTransient();
+        this.vcSupport.removeVetoableChangeListener(v);
+    }
+
+    private boolean selected = false;
+    final public void addListener(final EventListener l) {
+        if (l instanceof PropertyChangeListener) {
+            this.addPropertyChangeListener((PropertyChangeListener)l);
+        }
+        if (l instanceof VetoableChangeListener) {
+            this.addVetoableChangeListener((VetoableChangeListener)l);
+        }
+        this.listeners.add(l);
+    }
+
+    final public void addMap(final Map<String, Object> dict) {
+        if (dict instanceof PropertyChangeListener) {
+            this.addPropertyChangeListener((PropertyChangeListener) dict);
+        } else {
+            this.addPropertyChangeListener(new PropertyListenerMap(dict));
+        }
+    }
+
+    public int hashCode() {
+        return getName().hashCode();
+    }
+
+    private final Map<String,Class> proptypes = new Hashtable<String,Class>(10);
+    private final Hashtable<String,ArrayList<Class>> propexceptions = new Hashtable<String,ArrayList<Class>>(10);
+    private final Map<String,SetPropertyMethodAccessor> propsetterroot = new Hashtable<String,SetPropertyMethodAccessor>(10);
+    private final Map<String,GetPropertyMethodAccessor> propgetterroot = new Hashtable<String,GetPropertyMethodAccessor>(10);
+    private final Map<String,IPropertyEntry> properties = new HashMap<String,IPropertyEntry>(10);
+    private final ArrayList<Constructor> constructors = new ArrayList<Constructor>(10);
+    private final ArrayList<Method> methods = new ArrayList<Method>(10);
+    private final ArrayList<Field> fields = new ArrayList<Field>(10);
+    //private final ArrayList<Class> interfaces = new ArrayList<Class>(10);
+    private final ArrayList<Class> classes = new ArrayList<Class>(10);
+
+    private static Object toArrayOf(final Class clz, final Object o) {
+        int len = Array.getLength(o);
+        final Object al = Array.newInstance(clz,len);
+        while (len-->0) Array.set(al,len,Array.get(o,len));
+        return al;
+    }
+
+    protected static Object[] prependArray(final Object bot, final Object[] args) {
+        if (args == null) {
+            if (bot==null) return new Object[1];
+            final Object[] r = (Object[])Array.newInstance(bot.getClass(),1);
+            r[0]=bot;
+            return r;
+        }
+        final int len = args.length;
+        final Class clz = args.getClass().getComponentType();
+        final Object[] toret = (Object[])Array.newInstance(clz,len+1);
+        toret[0] = bot;
+        for (int i = 0; i < args.length; i++) {
+            toret[i + 1] = args[i];
+        }
+        return toret;
+    }
+
+    public static Object invokeFirst(final Class oclass, final Object target, final String[] propname, final Class[] paramTypes, final Object[] params) throws Throwable {
+        String message = "ObjectInfo invokeFirst " +target.getClass().getName() + " " + target + " [";
+        Throwable resulterr = null;
+        Throwable missing = null;
+        if (propname!=null) {
+            for (final String element : propname) {
+                try {
+                    message += element + " "; 
+                    return oclass.getMethod(element, paramTypes).invoke(target, params);
+                } catch (final NoSuchMethodException ex) {
+                    missing = ex;
+                } catch (final InvocationTargetException ex) {
+                    missing = ex;
+                } catch (final IllegalArgumentException ex) {
+                    missing = new InvocationTargetException(ex);
+                } catch (final IllegalAccessException ex) {
+                    missing = ex;
+                } catch (final Throwable ex) {
+                    resulterr = ex;
+                }
+            }
+        }
+        if (resulterr!=null) throw new RuntimeException(message,resulterr);
+        if (missing!=null) throw missing;
+        throw new NoSuchMethodException(message);
+    }
+
+    public Object getFirstPropertyValue(final String[] propname) throws NoSuchFieldException {
+        final String message = "ObjectInfo getFirstPropertyValue " + this.getBeanClass() + "." + propname[0];
+        Throwable resulterr = null;
+        if (propname!=null) {
+            for (final String element : propname) {
+                try {
+                    return this.getPropertyValue(element);
+                } catch (final NoSuchFieldException ex) {
+                } catch (final Throwable ex) {
+                    resulterr = ex;
+                }
+            }
+        }
+        if (resulterr!=null) throw new RuntimeException(message,resulterr);
+        throw new NoSuchFieldException(message);
+    }
+
+
+    //public final Object remove(String propname) {    return setPropertyValue(propname,null);	}
+    final public Method getPropertySetterMethod(final String propname) throws NoSuchMethodException {
+        SetPropertyMethodAccessor proxymethod = this.propsetterroot.get(propname);
+        if (proxymethod==null) {
+            Method method =null;
+            Class type = Object.class;
+            try {
+                type = this.getPropertyType(propname);
+            } catch ( final NoSuchFieldException ex ) {
+            }
+            if (method==null) {
+                method = this.getPropertySetterMethod("set",propname,type);
+            }
+            if (method==null) {
+                method = this.getPropertySetterMethod("is",propname,type);
+            }
+            if (method==null) {
+                method = this.getPropertySetterMethod("to",propname,type);
+            }
+            if (method==null) {
+                method = this.getPropertySetterMethod("",propname,type);
+            }
+            if (method==null) {
+                throw new NoSuchMethodException("setPropertySetterMethod("+propname+")");
+            }
+            proxymethod = new SetPropertyMethodAccessor(method,propname);
+            this.propsetterroot.put(propname,proxymethod);
+        }
+        return proxymethod.getMethod();
+    }
+
+    public Method getPropertySetterMethod(final String prefix, final String propname, final Class type) {
+        final String methodname = prefix + ObjectInfo.capitalize(propname);
+        final Iterator<Class> faces = this.interfaces.iterator();
+        final Class face = faces.next();
+        final Method[] method = face.getMethods();
+        if (method!=null) {
+            for (Method element : method) {
+                if (methodname.equalsIgnoreCase(element.getName())) {
+                    final Class[] ptypes = element.getParameterTypes();
+                    if (ptypes!=null) {
+                        if (ptypes.length==1) {
+                            if (ObjectInfo.typeToObjectClass(ptypes[0]).isAssignableFrom(type)) return element;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public Method getPropertyGetterMethod(final String propname) throws NoSuchMethodException {
+        GetPropertyMethodAccessor proxymethod = this.propgetterroot.get(propname);
+        if (proxymethod==null) {
+            Method method =null;
+            Class type = Object.class;
+            try {
+                type = this.getPropertyType(propname);
+            } catch ( final NoSuchFieldException ex ) {
+            }
+            if (method==null) {
+                method = this.getPropertyGetterMethod("get",propname,type);
+            }
+            if (method==null) {
+                method = this.getPropertyGetterMethod("is",propname,type);
+            }
+            if (method==null) {
+                method = this.getPropertyGetterMethod("to",propname,type);
+            }
+            if (method==null) {
+                method = this.getPropertyGetterMethod(propname,"",type);
+            }
+            if (method==null) {
+                throw new NoSuchMethodException("getPropertyGetterMethod("+propname+")");
+            }
+            proxymethod = new GetPropertyMethodAccessor(method,propname);
+            this.propgetterroot.put(propname,proxymethod);
+        }
+        return proxymethod.getMethod();
+    }
+
+    public Method getPropertyGetterMethod(final String prefix, final String propname, final Class type) {
+        final String methodname = prefix + ObjectInfo.capitalize(propname);
+        final Iterator<Class> faces = this.interfaces.iterator();
+        final Class face = faces.next();
+        final Method[] method = face.getMethods();
+        if (method!=null) {
+            for (Method element : method) {
+                if (methodname.equalsIgnoreCase(element.getName())) {
+                    final Class[] ptypes = element.getParameterTypes();
+                    if (ptypes!=null) {
+                        if (ptypes.length==0) {
+                            if (type.isAssignableFrom(ObjectInfo.typeToObjectClass(element.getReturnType()))) return element;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    protected Class proxyBeanClass;
+
+    final public Interpreter getInterpreter() {
+        return IdGameLocal.getBeanShell();
+    }
+
+
+    public Iterator toObjects() {
+        if (namespace.importedObjects != null) 	return namespace.importedObjects.iterator();
+        return Collections.EMPTY_SET.iterator();
+    }
+    public Iterator toProxies() {
+        if (interfaces != null) 	return interfaces.values().iterator();
+        return Collections.EMPTY_SET.iterator();
+    }
+    
+    public boolean isBrokering(Object target) {
+        if (target!=null) {
+            if (target==this) return true;
+            if (getName().equals(target)) return true;
+            if (toCycObject().equals(target)) return true;
+            if (Proxy.isProxyClass(target.getClass())) {
+                return this.equals(Proxy.getInvocationHandler(target));
+            }
+            Iterator its = toObjects();
+            while (its.hasNext()) {
+                Object sub = its.next();
+                if (sub==target) return true;
+            }
+            its = toProxies();
+            while (its.hasNext()) {
+                Object sub = its.next();
+                if (sub==target) return true;
+            }
+        }
+        return false;
+    }
+
+    
+    public final Object invoke(final Object targetObject, final Method method, final Object[] args) throws Throwable {
+        final Class[] paramTypes = IdDeclManager.getClasses(args);
+        try {
+            IdGameLocal.convertTypeArray(args,paramTypes,args,method.getParameterTypes());
+        } catch ( final Throwable ex ) {
+            ObjectInfo.debugln(ex);
+            ObjectInfo.debugln("MultiObjectInfo convertTypeArray");
+        }
+        return this.invoke(targetObject,method.getName(),args,paramTypes,(Class<?>)method.getReturnType());
+    }
+
+    public final Object invoke(final Object targetObject, final String propname, final Object[] params) throws Throwable {
+        return this.invoke(targetObject,propname,params,IdDeclManager.getClasses(params),(Class<?>)Object.class);
+    }
+    public final Object invoke(Object targetObject, String propname, Object[] params, Class[] paramTypes, Class rettype) throws Throwable {
+        String message = "MultiObjectInfo.invoke " + getName() + "." + propname + "(" + IdGameLocal.joinString(params,",") + ")";
+        if (propname.equals("equals")) {
+            return this.equals(params[0]);
+        } else if (propname.equals("toString")) {
+            return this.toString();
+        } else if (propname.equals("getConstructors")) {
+            return this.getConstructors();
+        } else if (propname.equals("getMethods")) {
+            return this.getMethods();
+        } else if (propname.equals("getFields")) {
+            return this.getFields();
+        } else if (propname.equals("hashCode")) {
+            return this.hashCode();
+        } else if (propname.equals("getValue")) {
+            return this.getValue();
+        }
+        if (rettype==null||rettype==Object.class) {
+            try {
+                rettype = getPropertyType(propname);
+            } catch ( NoSuchFieldException ex ) {
+            }
+        }
+        List<Object> results = new ArrayList<Object>(1);
+        Throwable resulterr = null;
+        Throwable missing = null;
+        try {
+//            return this.getClass().getMethod(propname, paramTypes).invoke(targetObject, params);
+            return this.getClass().getMethod(propname, paramTypes).invoke(this, params);
+        } catch (NoSuchMethodException ex) {
+            missing = ex;
+        } catch (InvocationTargetException ex) {
+            missing = ex;
+        } catch (IllegalAccessException ex) {
+            missing = ex;
+        } catch (IllegalArgumentException ex) {
+            missing = ex;
+        } catch (Throwable e) {
+            resulterr = e;
+        }
+        try {
+            results.add(invokeScript(propname,params));
+            resulterr = null;
+        } catch (NoSuchMethodException ex) {
+            missing = ex;
+        } catch (InvocationTargetException ex) {
+            missing = ex;
+        } catch (IllegalAccessException ex) {
+            missing = ex;
+        } catch (IllegalArgumentException ex) {
+            missing = ex;
+        } catch (Throwable e) {
+            resulterr = e;
+        }
+        Iterator its = toObjects();
+        while (its.hasNext()) {
+            Object target =  its.next();
+                Class oclass = target.getClass();
+                try {
+                    results.add(IdGameLocal.invokeSomething(oclass,target,propname,params));
+                    resulterr = null;
+                    break;
+                } catch (NoSuchMethodException ex) {
+                    missing = ex;
+                } catch (Throwable ex) {
+                    resulterr = ex;
+                }
+                try {
+                    if (paramTypes.length<1) {
+                        results.add(oclass.getField(propname).get(target));
+                    } else {
+                        results.add(oclass.getField(propname).get(target));
+                        oclass.getField(propname).set(target,params[params.length-1]);
+                    }
+                    resulterr = null;
+                    break;
+                } catch (NoSuchFieldError ex) {
+                    missing = ex;
+                } catch (NoSuchFieldException ex) {
+                    missing = ex;
+                } catch (IllegalAccessException ex) {
+                    missing = ex;
+                } catch (Throwable ex) {
+                    resulterr = ex;
+                }
+            }
+        if (results.size()>0) return nonVoid(results);
+        if (resulterr!=null) throw new RuntimeException(message,resulterr);
+        throw new NoSuchMethodException(message);
+    }
+
+
+    public ClassLoader getClassLoader() {
+        return namespace.getClassLoader();
+    }
+
+    /** parameter types of a proxy class constructor */
+    private static final Class[] proxyConstructorParams = new Class[] {InvocationHandler.class};
+
+    protected Class getProxyBeanClass() {
+        if (this.proxyBeanClass==null) {
+            this.proxyBeanClass = Proxy.getProxyClass(this.getClassLoader(),this.getInterfaces());
+            this.modified = true;
+        }
+        final Class aProxyClass = Proxy.getProxyClass(this.getClassLoader(),this.getInterfaces());
+        if (aProxyClass!=this.proxyBeanClass) {
+            this.objectProxy = null;
+            this.proxyBeanClass = aProxyClass;
+            this.modified = true;
+        }
+        return this.proxyBeanClass;
+    }
+
+    protected Object objectProxy;
+
+    public static void debugln(final String msg) {
+        IdGameLocal.debugln(msg);
+    }
+
+    public Object getValue() {
+//        theVariable.getValue();
+        final Class pclass = this.getProxyBeanClass();
+        if (this.objectProxy==null) {
+            try {
+                this.objectProxy = (IObjectProxy)pclass.getConstructor(ObjectInfo.proxyConstructorParams).newInstance(new Object[]{this});
+                ObjectInfo.debugln("newProxy " + this.getName() + " " + this.objectProxy.getClass());            
+                this.namespace.importObject(this.objectProxy);
+            } catch (final IllegalArgumentException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (final SecurityException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (final InstantiationException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (final IllegalAccessException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (final InvocationTargetException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (final NoSuchMethodException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }if (!(this.objectProxy.getClass()==this.proxyBeanClass)) {
+            IObjectProxy aProxyObject = null;
+            try {
+                aProxyObject = (IObjectProxy)pclass.getConstructor(ObjectInfo.proxyConstructorParams).newInstance(new Object[]{this});
+                ObjectInfo.debugln("nextProxy " + this.getName() + " " + this.objectProxy.getClass() + " -> " + aProxyObject.getClass());         
+                this.modified = false;
+                this.objectProxy = aProxyObject;
+                this.namespace.importObject(this.objectProxy);
+            } catch (final IllegalArgumentException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (final SecurityException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (final InstantiationException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (final IllegalAccessException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (final InvocationTargetException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (final NoSuchMethodException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return this.objectProxy;
+    }
+
+    public final boolean equals(final Object obj) {
+        return(obj!=null &&(this == obj || this.isBrokering(obj) || this.toString().equalsIgnoreCase(""+obj)));
+    }
+    public Class arrayType = null;
+
+
+    public boolean isArray() {
+        return this.arrayType!=null;
+    }
+
+    public static Class typeToObjectClass(final Class type) {
+        if (type==null) return Object.class;
+        return type.isPrimitive() ? ObjectHandler.typeNameToClass(type.getName()) : type;
+    }
+
+
+    public final Class[] getInterfaces() {
+    
+        return interfaces.toArray(new Class[0]);
+    }
+
+    public final Method[] getMethods() {
+        return(Method[])ObjectInfo.toArrayOf(Method.class,this.methods.toArray());
+    }
+
+    public final Field[] getFields() {
+        return(Field[])ObjectInfo.toArrayOf(Field.class,this.fields.toArray());
+    }
+
+    public final IObjectInfo toObjectInfo() {
+        return this;
+    }
+
+
+    /**
+     * BeanUtils method to take a string and convert it to normal Java variable
+     * name capitalization.  This normally means converting the first
+     * character from upper case to lower case, but in the (unusual) special
+     * case when there is more than one character and both the first and
+     * second characters are upper case, we leave it alone.
+     * <p>
+     * Thus "FooBah" becomes "fooBah" and "X" becomes "x", but "URL" stays
+     * as "URL".
+     *
+     * @param  name The string to be decapitalized.
+     * @return  The decapitalized version of the string.
+     */
+    public static String decapitalize(final String name) {
+        if (name == null || name.length() == 0) {
+            return name;
+        }
+        if (name.length() > 1 && Character.isUpperCase(name.charAt(1)) &&
+            Character.isUpperCase(name.charAt(0))) {
+            return name;
+        }
+        final char chars[] = name.toCharArray();
+        chars[0] = Character.toLowerCase(chars[0]);
+        return new String(chars);
+    }
+
+    public boolean addInterface(final Class info) {
+    	namespace.importClass(info.getName());
+        if (info!=null) {
+            if (!info.isInterface()) return this.addClass(info);
+            if (!this.interfaces.contains(info)) {
+                this.getInterface(info);
+                //System.out.println("Appending "+this+" with "+info);
+                this.addFields(info.getFields());
+                this.addMethods(info.getMethods());
+                this.addConstructors(info.getConstructors());
+                this.addClasses(info.getInterfaces());
+                this.addInfo(BeanUtils.getClassInfo(info));
+            }
+        }
+        return this.modified;
+    }
+
+    /**
+     * Returns a String which capitalizes the first letter of the string.
+     */
+    public static String capitalize(final String name) {
+        if (name == null || name.length() == 0) {
+            return name;
+        }
+        return name.substring(0, 1).toUpperCase() + name.substring(1);
+    }
+    public boolean addClass(final String info) {
+        this.namespace.importClass(info);
+        return true;
+    }
+
+    public boolean addMethod(final Method info) {
+        if (info==null || this.methods.contains(info))return false;
+        this.modified = this.modified || this.methods.add(info);
+        this.addBshMethod(new BshMethod(info,this.getInvocationTarget()));
+        // addMethodDescriptor(new MethodDescriptor(info));
+        //System.out.println("Appending "+this+" with "+info);
+        final String mn = info.getName();
+        final int len = info.getParameterTypes().length;
+        if (mn.startsWith("get") && this.capitolChar(mn,3) && len == 0) {
+            this.addProperty(ObjectInfo.decapitalize(mn.substring(3)));
+        } else if (mn.startsWith("set") && this.capitolChar(mn,3)  && len == 1) {
+            this.addProperty(ObjectInfo.decapitalize(mn.substring(3)));
+        } else if (mn.startsWith("is") && this.capitolChar(mn,2)  && len == 0) {
+            this.addProperty(ObjectInfo.decapitalize(mn.substring(2)));
+        }
+        return this.modified;
+    }
+
+    public boolean addPropertyType(final String propname, final Class proptype) {
+        if (propname==null) return false;
+        this.addProperty(propname);
+        if (proptype==null) return this.modified;
+        final Class old = this.proptypes.get(propname);
+        if (old==null) {
+            this.proptypes.put(propname,proptype);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addInfos(final BeanInfo[] info) {
+        if (info==null) return false;
+        for (final BeanInfo element : info)
+            this.addInfo(element);
+        return this.modified;
+    }
+
+    public boolean addInfo(final BeanInfo info) {
+        if (info==null) return false;
+        beanInfo.addMethodDescriptors(info.getMethodDescriptors());
+        beanInfo.addEventSetDescriptors(info.getEventSetDescriptors());
+        beanInfo.addPropertyDescriptors(info.getPropertyDescriptors());
+        beanInfo.addCustomizerClass(info.getBeanDescriptor().getCustomizerClass());
+        this.addInfos(info.getAdditionalBeanInfo());
+        return this.modified;
+    }
+
+    public boolean addClass(final Class info) {
+        if (info==null) return false;
+        // if (info.isInterface()) return addInterface(info);
+        if (!this.classes.contains(info)) {
+            this.modified = this.modified || this.classes.add(info);
+            System.out.println("Appending "+this+" with "+info);
+            this.addFields(info.getFields());
+            this.addMethods(info.getMethods());
+            this.addConstructors(info.getConstructors());
+            this.addClasses(info.getClasses());
+            this.addClasses(info.getInterfaces());
+            this.addInfo(BeanUtils.getClassInfo(info));
+        }
+        return this.modified;
+    }
+
+    public boolean addField(final Field info) {
+        if (info==null || this.fields.contains(info)) return false;
+        this.modified = this.modified || this.fields.add(info);
+        //System.out.println("Appending "+this+" with "+info);
+        final Class declclass = info.getDeclaringClass();
+        final String propname = info.getName();
+        final Class proptype = info.getType();
+        this.addProperty(propname);
+        this.addPropertyType(propname,proptype);
+        try {
+            final ProxyField proxyfield = this.getProxyField(propname);
+            final LHS lhs = new LHS(proxyfield,proxyfield.getProxyField());
+            this.addVariable(new Variable(propname,proptype,lhs));
+            beanInfo.addPropertyDescriptor(new PropertyDescriptor(propname,proxyfield.getReadMethod(),proxyfield.getWriteMethod()));
+        } catch ( final Exception ie ) {
+            ie.printStackTrace(System.err);
+        }
+        addClass(declclass);        
+        return this.modified;
+    }
+
+    public Field findField(final String propname) throws NoSuchFieldException {
+        return this.getProxyField(propname).getProxyField();
+    }
+
+    public ProxyField getProxyField(final String propname) throws NoSuchFieldException {
+        ProxyField fieldproxy = (ProxyField)this.properties.get(propname);
+        if (fieldproxy!=null) return fieldproxy;
+        fieldproxy = new ProxyField(propname);
+        this.properties.put(propname,fieldproxy);
+        return fieldproxy;
+    }
+
+    public boolean addClasses(final Class[] info) {
+        if (info != null) {
+            for (final Class element : info)
+                this.modified = this.modified || this.addClass(element);
+        }
+        return this.modified;
+    }
+
+    private boolean capitolChar(final String s, final int loc) {
+        if (s==null) return false;
+        if (s.length()<loc+1)   return false;
+        final String ss = ""+s.charAt(loc);
+        if (ss.equals(ss.toUpperCase())) return true;
+        return false;
+    }
+
+    protected Map dynaprops = new Hashtable();
+
+    public boolean addMethods(final Method[] info) {
+        if (info==null) return false;
+        for (final Method element : info) {
+            this.modified = this.modified || this.addMethod(element);
+        }
+        return this.modified;
+    }
+
+    public boolean addBshMethods(final BshMethod[] info) {
+        if (info==null) return false;
+        for (final BshMethod element : info) {
+            this.modified = this.modified || this.addBshMethod(element);
+        }
+        return this.modified;
+    }
+
+    public boolean addConstructors(final Constructor[] info) {
+        if (info==null) return false;
+        for (final Constructor element : info) {
+            this.modified = this.modified || this.addConstructor(element);
+        }
+        return this.modified;
+    }
+
+    public boolean addFields(final Field[] info) {
+        if (info==null) return false;
+        for (final Field element : info) {
+            this.modified = this.modified || this.addField(element);
+        }
+        return this.modified;
+    }
+
+    public String toXMLString() throws java.io.IOException {
+        final XMLStringWriter xml = new XMLStringWriter();
+        this.toCycObject().toXML(xml,0,false);
+        return xml.toString();
+    }
+
+    public String cyclify() {
+        return this.toCycObject().cyclify();
+    }
+
+    public Object cycListApiValue() {
+        return this.toCycObject().cycListApiValue();
+    }
+
+    public String stringApiValue() {
+        return this.toCycObject().stringApiValue();
+    }
+
+    public String cyclifyWithEscapeChars() {
+        return this.toCycObject().cyclifyWithEscapeChars();
+    }
+
+    public java.util.List getReferencedConstants() {
+        return this.toCycObject().getReferencedConstants();
+    }
+
+    public void toXML(final XMLWriter xmlWriter, final int indent, final boolean relative) throws java.io.IOException {
+        this.toCycObject().toXML(xmlWriter,indent,relative);
+    }
+
+    public void setSelected(final boolean newSelected) throws PropertyVetoException {
+        if (newSelected != this.selected) {
+            this.checkTransient();
+            final boolean oldSelected = this.selected;
+            this.vcSupport.fireVetoableChange("selected", new Boolean(oldSelected), new Boolean(newSelected));
+            this.selected = newSelected;
+            this.pcSupport.firePropertyChange("selected", new Boolean(oldSelected), new Boolean(newSelected));
+        }
+    }
+
+    private final void checkTransient() {
+        if (this.pcSupport == null) {
+            this.pcSupport = new PropertyChangeSupport(this);
+            this.vcSupport = new VetoableChangeSupport(this);
+        }
+    }
+
+    public static Method findMethod(final Class typ, final String name, final Class[] ptypes) {
+        Method ret = null;
+        try {
+            ret = typ.getMethod(name, ptypes);
+            if (ret != null) {
+                return ret;
+            }
+        } catch (final Exception e) {
+        }
+        final Method[] meth = typ.getMethods();
+        for (final Method element : meth) {
+            if (element.getName().equalsIgnoreCase(name)) {
+                if (ret == null) {
+                    ret = element;
+                } else if (ret.getParameterTypes().length >= element.getParameterTypes().length) {
+                    ret = element;
+                }
+            }
+        }
+        return ret;
+    }
+
+    public Class getPropertyType(final String propname) throws NoSuchFieldException {
+        final Class type = this.proptypes.get(propname);
+        if (type!=null) return type;
+        final Field field = this.findField(propname);
+        if (field != null) return field.getType();
+        Method info = this.findMethod( "get" + ObjectInfo.capitalize(propname), null);
+        if (info != null)return info.getReturnType();
+        info = this.findMethod( "is" + ObjectInfo.capitalize(propname), null);
+        if (info != null) return info.getReturnType();
+        info = this.findMethod( propname, null);
+        if (info != null) return info.getReturnType();
+        throw new NoSuchFieldException("IdGameLocal.getPropertyType:" + this.getBeanClass() + " " +propname);
+    }
+
+    public Class[] getPropertyExceptionTypes(final String propname) throws NoSuchFieldException {
+        final ArrayList<Class> exceptions = this.propexceptions.get(propname);
+        if (exceptions==null) throw new NoSuchFieldException("getPropertyExceptionTypes "+propname);
+        return(Class[])exceptions.toArray();
+    }
+
+    public boolean isReadOnly(final String propname) throws NoSuchFieldException {
+        Method info = this.findMethod( "set" + propname, null);
+        if (info != null) {
+            return false;
+        }
+        final Field field = this.findField( propname);
+        if (field != null) {
+            return field.isAccessible();
+        }
+        info = this.findMethod( propname,new Class[] {this.getPropertyType( propname)});
+        if (info != null) {
+            return false;
+        }
+        return true;
+    }
+
+    public Method findMethod(final String name, final Class[] ptypes) {
+        return ObjectInfo.findMethod(this.getBeanClass(),name,ptypes);
+    }
+
+    public static List<Method> nonInterfaceMethods(final Class clz) {
+        if (clz==null || clz.isInterface()) return new ArrayList<Method>(0);
+        final List<Method> methids = Arrays.asList(clz.getMethods());
+        final Iterator<Class> its = Arrays.asList(clz.getInterfaces()).iterator();
+        while (its.hasNext()) {
+            methids.removeAll(Arrays.asList(its.next().getMethods()));
+        }
+        return methids;
+    }
+
+    public List<Method> getMethodList() {
+        return this.methods;
+    }
+
+    public boolean addProperty(final String info) {
+        if (info == null || info.length() < 1 || this.properties.containsKey(info)) return false;
+        this.properties.put(info,new ProxyField(info));
+        //System.out.println("Adding property "+this+" with "+info);
+        return true;
+        //info = info.toLowerCase();
+    }
+
+    public boolean addConstructor(final Constructor info) {
+        if (info!=null && !this.constructors.contains(info)) {
+            this.modified = this.modified || this.constructors.add(info);
+            //System.out.println("Appending "+this+" with "+info);
+        }
+        return this.modified;
+    }
+
+    public static List<Method> nonInheritableMethods(final Class clz) {
+        final List<Method> methids = ObjectInfo.nonInterfaceMethods(clz);
+        final List<Class> classes = Arrays.asList(clz.getClasses());
+        classes.remove(clz);
+        final Iterator<Class> its = classes.iterator();
+        while (its.hasNext()) {
+            methids.removeAll(Arrays.asList(its.next().getMethods()));
+        }
+        return methids;
+    }
+
+    static void debugln(final Throwable t) {
+        IdGameLocal.debugln(t);
+    }
+
+    public Class[] getObjectClasses() {
+        return(Class[])ObjectInfo.toArrayOf(Class.class,this.classes.toArray());
+    }
+
+    public boolean isMapSpecific() {
+        return true;
+    }
+
+    /**
+     * The <code>BeanContext</code> in which 
+     * this <code>BeanContextChild</code> is nested.
+     */
+    public BeanContextChild beanContextChildPeer;
+
+    public synchronized void setBeanContext(final BeanContext bc) throws PropertyVetoException {
+        if (bc == this.beanContext) return;
+
+        final BeanContext oldValue = this.beanContext;
+        final BeanContext newValue = bc;
+
+        if (!this.rejectedSetBCOnce) {
+            if (this.rejectedSetBCOnce = !this.validatePendingSetBeanContext(bc)) {
+                throw new PropertyVetoException(
+                                               "setBeanContext() change rejected:",
+                                               new PropertyChangeEvent(this.beanContextChildPeer, "beanContext", oldValue, newValue)
+                                               );
+            }
+
+            try {
+                this.fireVetoableChange("beanContext",
+                                        oldValue,
+                                        newValue
+                                       );
+            } catch (final PropertyVetoException pve) {
+                this.rejectedSetBCOnce = true;
+
+                throw pve; // re-throw
+            }
+        }
+
+        if (this.beanContext != null) this.releaseBeanContextResources();
+
+        this.beanContext       = newValue;
+        this.rejectedSetBCOnce = false;
+
+        this.firePropertyChange("beanContext", 
+                                oldValue,
+                                newValue
+                               );
+
+        if (this.beanContext != null) this.initializeBeanContextResources();
+    }
+
+    public synchronized BeanContext getBeanContext() {
+        return this.beanContext;
+    }
+
+    public void addPropertyChangeListener(final String name, final PropertyChangeListener pcl) {
+        if (name==null)
+            this.addPropertyChangeListener(pcl);
+        else
+            this.pcSupport.addPropertyChangeListener(name, pcl);
+    }
+
+    public void removePropertyChangeListener(final String name, final PropertyChangeListener pcl) {
+        if (name==null)
+            this.removePropertyChangeListener(pcl);
+        else
+            this.pcSupport.removePropertyChangeListener(name, pcl);
+    }
+
+    public void addVetoableChangeListener(final String name, final VetoableChangeListener vcl) {
+        if (name==null)
+            this.addVetoableChangeListener(vcl);
+        else
+            this.vcSupport.addVetoableChangeListener(name, vcl);
+    }
+
+    public void removeVetoableChangeListener(final String name, final VetoableChangeListener vcl) {
+        if (name==null)
+            this.removeVetoableChangeListener(vcl);
+        else
+            this.vcSupport.removeVetoableChangeListener(name, vcl);
+    }
+
+    public void serviceRevoked(final BeanContextServiceRevokedEvent bcsre) {
+    }
+
+    public void serviceAvailable(final BeanContextServiceAvailableEvent bcsae) {
+    }
+
+    public BeanContextChild getBeanContextChildPeer() {
+        return this.beanContextChildPeer;
+    }
+
+    public boolean isDelegated() {
+        return !this.equals(this.beanContextChildPeer);
+    }
+
+    public void firePropertyChange(final String name, final Object oldValue, final Object newValue) {
+        this.pcSupport.firePropertyChange(name, oldValue, newValue);
+    }
+
+    public void fireVetoableChange(final String name, final Object oldValue, final Object newValue) throws PropertyVetoException {
+        this.vcSupport.fireVetoableChange(name, oldValue, newValue);
+    }
+
+    public boolean validatePendingSetBeanContext(final BeanContext newValue) {
+        return true;
+    }
+
+    /**
+     * This method may be overridden by subclasses to provide their own
+     * release behaviors. When invoked any resources held by this instance
+     * obtained from its current BeanContext property should be released
+     * since the object is no longer nested within that BeanContext.
+     */
+    protected void releaseBeanContextResources() {
+        // do nothing
+    }
+
+    /**
+     * This method may be overridden by subclasses to provide their own
+     * initialization behaviors. When invoked any resources requried by the
+     * BeanContextChild should be obtained from the current BeanContext.
+     */
+    protected void initializeBeanContextResources() {
+        // do nothing
+    }
+
+    /**
+     * Write the persistence state of the object.
+     */
+    private void writeObject(final ObjectOutputStream oos) throws IOException {
+
+        /*
+         * dont serialize if we are delegated and the delegator isnt also
+         * serializable.
+         */
+
+        if (!this.equals(this.beanContextChildPeer) && !(this.beanContextChildPeer instanceof Serializable))
+            throw new IOException("BeanContextChildSupport beanContextChildPeer not Serializable");
+
+        else
+            oos.defaultWriteObject();
+
+    }
+
+    /**
+     * Restore a persistent object, must wait for subsequent setBeanContext()
+     * to fully restore any resources obtained from the new nesting 
+     * BeanContext
+     */
+    private void readObject(final ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+    }
+
+    protected transient BeanContext beanContext;
+    /**
+     * A flag indicating that there has been
+     * at least one <code>PropertyChangeVetoException</code>
+     * thrown for the attempted setBeanContext operation.
+     */    
+    protected transient boolean rejectedSetBCOnce;
+    public boolean modified = true;
+
+    private Class beanClass;
+    private final LHS lhs;
+    public ObjectInfo(Object target) throws InvocationTargetException{
+        super(new bsh.NameSpace(IdGameLocal.getToplevelNameSpace(),IdGameLocal.toString(target)), IdGameLocal.getBeanShell());
+        String name = getName();
+        beanClass = IObjectProxy.class;
+        objectProxy = getInterface(IObjectProxy.class);
+        this.namespace.importClass(IObjectProxy.class.getName());
+        this.namespace.importClass(this.getClass().getName());
+        this.lhs = new LHS(this.namespace, name, false);
+        if (!(target instanceof String)) {
+            beanClass = target.getClass();
+            addObject(target);
+            theVariable = new Variable(name,beanClass,lhs);
+        } else {
+            beanClass = target.getClass();
+            addObject(target);
+            theVariable = new Variable(name,beanClass,lhs);
+        }
+        this.namespace.importObject(this);
+    }
+
+    BeanDescriptor beanDescriptor = null;
+    Class customizerClass = null;
+    public BeanDescriptor getBeanDescriptor() {//throws java.beans.IntrospectionException {
+        if (beanDescriptor!=null) beanDescriptor = new BeanDescriptor(getBeanClass(),getCustomizerClass());
+        return beanDescriptor;
+    }
+    public Class getCustomizerClass() {
+        if (customizerClass==null) {
+            try {
+                customizerClass = BeanUtils.findCustomizerClass(getBeanClass());
+            } catch (final Exception e) {
+            }
+        }
+        return customizerClass;
+    }
+
+    class DynamicBeanInfo implements BeanInfo {
+        final private List<EventSetDescriptor> descevents = new ArrayList<EventSetDescriptor>(10);
+        final private List<MethodDescriptor> descmethods = new ArrayList<MethodDescriptor>(10);
+        final private List<PropertyDescriptor> descproperties = new ArrayList<PropertyDescriptor>(10);
+        boolean modified = false;
+
+        public void addCustomizerClass(final Class cuz) {
+            if (customizerClass!=null) {
+                customizerClass = cuz;
+                modified = true;
+            }
+        }
+        public void addEventSetDescriptor(final EventSetDescriptor info) {
+            if (info==null || this.descevents.contains(info))return;
+            this.descevents.add(info);
+            modified = true;
+            //System.out.println("Appending "+this+" with "+info);
+        }
+        public void addEventSetDescriptors(final EventSetDescriptor[] info) {
+            if (info!=null) for (final EventSetDescriptor element : info) addEventSetDescriptor(element);
+        }
+        public void addMethodDescriptor(final MethodDescriptor info) {
+            if (info==null || this.descmethods.contains(info))return;
+            this.descmethods.add(info);
+            //System.out.println("Appending "+this+" with "+info);
+            modified = true;
+        }
+
+        public void addMethodDescriptors(final MethodDescriptor[] info) {
+            if (info!=null) for (final MethodDescriptor element : info) addMethodDescriptor(element);
+        }
+        public void addPropertyDescriptor(final PropertyDescriptor info) {
+            if (info==null || this.descproperties.contains(info))return;
+            descproperties.add(info);
+            modified = true;
+        }
+        public void addPropertyDescriptors(final PropertyDescriptor[] info) {
+            if (info!=null) for (final PropertyDescriptor element : info) addPropertyDescriptor(element);
+        }
+        public int getDefaultEventIndex() {
+            return -1;
+        }
+        public int getDefaultPropertyIndex() {
+            return -1;
+        }
+        public EventSetDescriptor[] getEventSetDescriptors() {
+            return descevents.toArray(new EventSetDescriptor[0]);
+        }
+        public java.awt.Image getIcon(final int iconKind) {
+            return null;
+        }
+        public MethodDescriptor[] getMethodDescriptors() {
+            return descmethods.toArray(new MethodDescriptor[0]);
+        }
+        public PropertyDescriptor[] getPropertyDescriptors() {
+            return descproperties.toArray(new PropertyDescriptor[0]);
+        }
+        public BeanInfo[] getAdditionalBeanInfo() {
+            return null;
+        }
+        public BeanDescriptor getBeanDescriptor() {
+            return ObjectInfo.this.getBeanDescriptor();
+        }
+
+    }
+
+    final public char charAt(final int index) {
+        return this.toString().charAt(index);
+    }
+
+    final public int length() {
+        return this.toString().length();
+    }
+
+    final public CharSequence subSequence(final int start, final int end) {
+        return this.toString().subSequence(start, end);
+    }
+
+    final public Constructor[] getConstructors() {
+        return this.constructors.toArray(new Constructor[0]);
+    }
+
+    final protected Object nonVoid(final List results) {
+        if (results!=null) {
+            final Iterator its = results.iterator();
+            if (its.hasNext()) {
+                final Object it = its.next();
+                if (it!=null) {
+                    if (it instanceof Void || void.class.isInstance(it)) {
+                    } else {
+                        return it;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+
+    abstract public class AbstractPropertyEntry implements IPropertyEntry,Map.Entry {
+        String propname;
+        public AbstractPropertyEntry(final String propn) {
+            this.propname = propn;
+        }
+        /**
+         * Returns the key corresponding to this entry.
+         *
+         * @return the key corresponding to this entry.
+         * @throws IllegalStateException implementations may, but are not
+         *         required to, throw this exception if the entry has been
+         *         removed from the backing map
+         */
+        public  Object getKey() {
+            return this.propname;
+        }
+
+        /**
+         * Returns the val corresponding to this entry.  If the mapping
+         * has been removed from the backing map (by the iterator's
+         * <tt>remove</tt> operation), the results of this call are undefined.
+         *
+         * @return the val corresponding to this entry.
+         * @throws IllegalStateException implementations may, but are not
+         *         required to, throw this exception if the entry has been
+         *         removed from the backing map
+         */
+        abstract public Object getValueReal();
+
+        final public Object getValue() {
+            try {
+                this.objcache = this.getValueReal();
+            } catch (final NoSuchFieldError ex) {
+                ObjectInfo.this.dynaprops.get(this.propname);
+            }
+            return this.objcache;
+        }
+
+        final public Object ifModified() {
+            final Object current = this.getValueReal();
+            if (current==this.objcache) return null;
+            if (current!=null && current.equals(this.objcache)) return null;
+            this.objcache = current;
+            return this.objcache;
+        }
+
+        final public boolean isModified() {
+            return(this.objcache == this.getValueReal());
+        }
+
+        final public void unfreeze() {
+            this.objcache = this.getValueReal();
+        }
+
+
+        /**
+         * Replaces the val corresponding to this entry with the specified
+         * val (optional operation).  (Writes through to the map.)  The
+         * behavior of this call is undefined if the mapping has already been
+         * removed from the map (by the iterator's <tt>remove</tt> operation).
+         *
+         * @param val new val to be stored in this entry.
+         * @return old val corresponding to the entry.
+         *
+         * @throws UnsupportedOperationException if the <tt>put</tt> operation
+         *        is not supported by the backing map.
+         * @throws ClassCastException if the class of the specified val
+         *        prevents ex from being stored in the backing map.
+         * @throws    IllegalArgumentException if some aspect of this val
+         *        prevents ex from being stored in the backing map.
+         * @throws NullPointerException if the backing map does not permit
+         *        <tt>null</tt> values, and the specified val is
+         *        <tt>null</tt>.
+         * @throws IllegalStateException implementations may, but are not
+         *         required to, throw this exception if the entry has been
+         *         removed from the backing map
+         */
+        abstract public void changeValue(Object old,Object val);
+        final public Object setValue(final Object val) {
+            final Object old = this.getValue();
+            try {
+                ObjectInfo.this.vcSupport.fireVetoableChange(this.propname, old, val);
+            } catch (final PropertyVetoException e) {
+                throw new IllegalArgumentException("VETO",e);
+            }
+            this.changeValue(old,val);
+            this.objcache = val;
+            ObjectInfo.this.pcSupport.firePropertyChange(this.propname, old, val);
+            return old;
+        }
+
+
+        public String strcache=null;
+        public Object objcache=null;
+        public String toString() {
+            if (this.strcache==null) {
+                this.strcache = "("+ this.propname + " " + ObjectInfo.this.getName() + " " + this.getValue() + ")";
+            }
+            return this.strcache;
+        }
+
+        public int hashCode() {
+            return(this.getKey()==null   ? 0 : this.getKey().hashCode()) ^(this.getValue()==null ? 0 : this.getValue().hashCode());
+        }
+
+        public boolean equals(final Object e) {
+            if (!(e instanceof Map.Entry)) return false;
+            final Map.Entry e2 = (Map.Entry)e;
+            return(this.getKey()==null ? e2.getKey()==null : this.getKey().equals(e2.getKey()))  &&
+            (this.getValue()==null ?  e2.getValue()==null : this.getValue().equals(e2.getValue()));
+        }
+    }
+
+
+    class GetPropertyMethodAccessor extends SetPropertyMethodAccessor {
+        public Method parent = null;
+        public Method child = null;
+        public GetPropertyMethodAccessor(final Method method,final String propname) {
+            super(method,propname);
+            this.parent = method;
+            this.child = ReflectionFactory.getReflectionFactory().copyMethod(method);
+            ReflectionFactory.getReflectionFactory().setMethodAccessor(this.child,this);
+            //value = ReflectionFactory.getReflectionFactory().newMethod(getBeanClass(),name,ptypes,getPropertyType(propname),getPropertyExceptionTypes(propname),Modifier.PUBLIC,0,paramsToSignature());
+        }
+        /** Matches specification in {@link java.lang.reflect.Method} */
+        public Object invoke(final Object obj, final Object[] args) throws IllegalArgumentException, InvocationTargetException {
+            try {
+                return ObjectInfo.this.getPropertyValue(this.propname);
+            } catch (final NoSuchFieldException ex  ) {
+                throw new InvocationTargetException(ex,"GetPropertyMethodAccessor " + this.propname);
+            }
+        }
+    }
+
+
+    public class ProxyField extends AbstractPropertyEntry implements FieldAccessor,IPropertyEntry {
+        public Field root = null;
+        public Object cloneCache = null;
+        public Class proptype;
+
+        public ProxyField(final String propname) throws UnsatisfiedLinkError {
+            super(propname);
+            try {
+                this.root = this.getClass().getField("cloneCache");
+                IdGameLocal.setFieldAsObject(Field.class,this.root,"name","Ljava/lang/String;",propname);
+                //IdGameLocal.setFieldAsObject(Field.class,root,"type","Ljava/lang/Class;",proptype);
+                IdGameLocal.setFieldAsObject(Field.class,this.root,"overrideFieldAccessor","Lsun/reflect/FieldAccessor;",this);
+                IdGameLocal.setFieldAsObject(Field.class,this.root,"fieldAccessor","Lsun/reflect/FieldAccessor;",this);
+                IdGameLocal.setFieldAsObject(Field.class,this.root,"clazz","Ljava/lang/Class;",ObjectInfo.this.getBeanClass());
+            } catch ( final NoSuchFieldException ex ) {
+                IdGameLocal.debugln(ex);
+            }
+        }
+        public Field getProxyField() {
+            return this.root;
+        }
+
+        public Method getReadMethod() {
+            try {
+                return this.getClass().getMethod("get",new Class[]{Object.class});
+            } catch (final NoSuchMethodException ex) {
+                IdGameLocal.debugln(ex);
+                return null;
+            }
+        }
+        public Method getWriteMethod() {
+            try {
+                return this.getClass().getMethod("set",new Class[]{Object.class,Object.class});
+            } catch (final NoSuchMethodException ex) {
+                IdGameLocal.debugln(ex);
+                return null;
+            }
+        }
+
+        public Object getValueReal() {
+            try {
+                return ObjectInfo.this.getPropertyValue(this.propname);
+            } catch ( final NoSuchFieldException  ex) {
+                throw new IllegalArgumentException("ProxyField.getValueReal " + this.propname,ex);
+            }
+        }
+        public void changeValue(final Object old,final Object val) {
+            ObjectInfo.this.setPropertyValue(this.propname,val);
+        }
+
+        public void set(final Object obj, final Object value) throws IllegalArgumentException,IllegalAccessException {
+            try {
+                this.getIObjectInfo(obj).setPropertyValue(this.propname,value);
+            } catch (final PropertyVetoException e) {
+                throw new IllegalAccessException("PropertyVetoException: "+this.propname);
+            }
+        }
+        /** Matches specification in {@link java.lang.reflect.Field} */
+        public Object get(final Object obj) throws IllegalArgumentException {
+            try {
+                return this.getIObjectInfo(obj).getPropertyValue(this.propname);
+            } catch ( final NoSuchFieldException  ex) {
+                throw new IllegalArgumentException("ProxyField.getPropertyValue " + this.propname,ex);
+            }
+        }
+        public IObjectInfo getIObjectInfo(final Object targetObject) {
+            if (targetObject instanceof IObjectInfo) return(IObjectInfo)targetObject;
+            return ObjectInfo.this;
+        }
+        /** Matches specification in {@link java.lang.reflect.Field} */
+        public char getChar(final Object obj) throws IllegalArgumentException {
+            return((Character)this.get(obj)).charValue();
+        }
+        /** Matches specification in {@link java.lang.reflect.Field} */
+        public byte getByte(final Object obj) throws IllegalArgumentException {
+            return((Number)this.get(obj)).byteValue();
+        }
+        /** Matches specification in {@link java.lang.reflect.Field} */
+        public short getShort(final Object obj) throws IllegalArgumentException {
+            return((Number)this.get(obj)).shortValue();
+        }
+        /** Matches specification in {@link java.lang.reflect.Field} */
+        public int getInt(final Object obj) throws IllegalArgumentException {
+            return((Number)this.get(obj)).intValue();
+        }
+        /** Matches specification in {@link java.lang.reflect.Field} */
+        public long getLong(final Object obj) throws IllegalArgumentException {
+            return((Number)this.get(obj)).longValue();
+        }
+        /** Matches specification in {@link java.lang.reflect.Field} */
+        public boolean getBoolean(final Object obj) throws IllegalArgumentException {
+            final Object value = this.get(obj);
+            if (value==null) return false;
+            if (value instanceof Boolean) return((Boolean)value).booleanValue();
+            if (value instanceof Number) return(((Number)value).doubleValue()!=0.0D);
+            if (value instanceof Map) return(((Map)value).size()!=0);
+            if (value instanceof Collection) return(((Collection)value).size()!=0);
+            final String str = obj.toString().toLowerCase();
+            if (str.equals("")||str.equals("0")||str.startsWith("n")||str.startsWith("f")) return false;
+            return true;
+        }
+        /** Matches specification in {@link java.lang.reflect.Field} */
+        public float getFloat(final Object obj) throws IllegalArgumentException {
+            return((Number)this.get(obj)).floatValue();
+        }
+        /** Matches specification in {@link java.lang.reflect.Field} */
+        public double getDouble(final Object obj) throws IllegalArgumentException {
+            return((Number)this.get(obj)).doubleValue();
+        }
+        /** Matches specification in {@link java.lang.reflect.Field} */
+        public void setChar(final Object obj, final char c) throws IllegalArgumentException,IllegalAccessException {
+            this.set(obj,new Character(c));
+        }
+        /** Matches specification in {@link java.lang.reflect.Field} */
+        public void setByte(final Object obj, final byte b) throws IllegalArgumentException,IllegalAccessException {
+            this.set(obj,new Byte(b));
+        }
+        /** Matches specification in {@link java.lang.reflect.Field} */
+        public void setShort(final Object obj, final short s) throws IllegalArgumentException,IllegalAccessException {
+            this.set(obj,new Short(s));
+        }
+        /** Matches specification in {@link java.lang.reflect.Field} */
+        public void setBoolean(final Object obj, final boolean z) throws IllegalArgumentException,IllegalAccessException {
+            this.set(obj,new Boolean(z));
+        }
+        /** Matches specification in {@link java.lang.reflect.Field} */
+        public void setLong(final Object obj, final long l) throws IllegalArgumentException,IllegalAccessException {
+            this.set(obj,new Long(l));
+        }
+        /** Matches specification in {@link java.lang.reflect.Field} */
+        public void setDouble(final Object obj, final double d) throws IllegalArgumentException,IllegalAccessException {
+            this.set(obj,new Double(d));
+        }
+        /** Matches specification in {@link java.lang.reflect.Field} */
+        public void setInt(final Object obj, final int i) throws IllegalArgumentException,IllegalAccessException {
+            this.set(obj,new Integer(i));
+        }
+        /** Matches specification in {@link java.lang.reflect.Field} */
+        public void setFloat(final Object obj, final float f) throws IllegalArgumentException,IllegalAccessException {
+            this.set(obj,new Float(f));
+        }
+    }
+
+    class SetPropertyMethodAccessor implements MethodAccessor {
+        public Method parent = null;
+        public Method child = null;
+        public String propname = null;
+        public SetPropertyMethodAccessor(final Method method,final String prop) {
+            this.propname = prop;
+            this.parent = method;
+            this.child = ReflectionFactory.getReflectionFactory().copyMethod(method);
+            ReflectionFactory.getReflectionFactory().setMethodAccessor(this.child,this);
+            //value = ReflectionFactory.getReflectionFactory().newMethod(getBeanClass(),name,ptypes,getPropertyType(propname),getPropertyExceptionTypes(propname),Modifier.PUBLIC,0,paramsToSignature());
+        }
+        public Method getParent() {
+            return this.parent;
+        }
+        public Method getMethod() {
+            return this.child;
+        }
+        /** Matches specification in {@link java.lang.reflect.Method} */
+        public Object invoke(final Object obj, final Object[] args) throws IllegalArgumentException, InvocationTargetException {
+            return ObjectInfo.this.setPropertyValue(this.propname,args[0]);
+        }
+    }
+    public void classLoaderChanged() {
+        this.namespace.classLoaderChanged();
+    }
+    public void addNameSourceListener(final Listener listener) {
+        // TODO Auto-generated method stub
+        this.namespace.addNameSourceListener(listener);
+    }
+    public String[] getAllNames() {
+        return this.namespace.getAllNames();
+    }
+	public XThis getThis() {
+		return this;
+	}
+}
+
+
+

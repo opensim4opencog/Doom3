@@ -1,0 +1,500 @@
+/**
+ * 
+ */
+package daxclr.repository;
+
+import java.util.AbstractMap;
+import java.util.AbstractSet;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+
+import bsh.NameSpace;
+import bsh.Primitive;
+import bsh.This;
+import bsh.UtilEvalError;
+// import daxclr.doom.LocalClientHolder;
+import daxclr.doom.IClass;
+import daxclr.ext.DoomEclipse;
+import daxclr.java.ConsoleChannel;
+import daxclr.java.IEntrySetListener;
+import daxclr.java.IResolverMap;
+import daxclr.java.IScriptObject;
+import daxclr.java.IScriptObjectProxy;
+import daxclr.rmi.IRemoteGame;
+import daxclr.rmi.RemoteGameServer;
+
+/**
+ * @author Administrator
+ * 
+ * 
+ */
+class NamedScriptObjectMap
+		extends AbstractMap<Object, Map.Entry<String, Map.Entry<String, IScriptObject>>>
+		implements IEntrySetListener, IResolverMap {
+	public final HashMap<String, IScriptObject> nameToBroker = new HashMap<String, IScriptObject>();
+
+	public final Set<Map.Entry<String, Map.Entry<String, IScriptObject>>> brokerSet = new HashSet<Map.Entry<String, Map.Entry<String, IScriptObject>>>();
+
+	// final private ScriptContext scriptContext;
+	// final Properties props = new Properties();
+	// ORB orb = null;
+	// NamingContextExt nc = null;
+
+	public void entryAdded(	final Map.Entry objectInfo) {
+		if (objectInfo != null) {
+			if (get(objectInfo.getKey()) == null)
+				addEntry(objectInfo);
+			final Iterator<IEntrySetListener> its = scriptContextListeners
+					.iterator();
+			if (its.hasNext()) {
+				final IEntrySetListener listener = its.next();
+				if (!(listener instanceof NamedScriptObjectMap)
+						&& listener != this)
+					listener.entryAdded(objectInfo);
+			}
+		} else {
+			System.out.println("null entry added?!");
+		}
+	}
+
+	// notify theBeanContextListeners
+	public void entryRemoved(
+			final Map.Entry<String, Map.Entry<String, IScriptObject>> objectInfo) {
+		removeEntry(objectInfo);
+		// Deselect it if necessary
+		// if (ScriptManager.set.selected == objectInfo)
+		try {
+			// The bean will fire a PropertyChangeEvent which I will
+			// catch, so I don't need to do setSelected(null)
+			// objectInfo.setSelected(false);
+		} catch (final Exception err) {
+			ConsoleChannel
+					.debug("In removeBean(...) I was unable to deselect the removed bean. I'll ignore the problem, i.e. leave it selected and remove it anyway."
+							+ err);
+		}
+		final Iterator<IEntrySetListener> its = scriptContextListeners
+				.iterator();
+		if (its.hasNext()) {
+			final IEntrySetListener listener = its.next();
+			if (!(listener instanceof NamedScriptObjectMap) && listener != this)
+				listener.entryRemoved(objectInfo);
+		}
+	}
+
+	private/* transient */LinkedHashSet<IEntrySetListener> scriptContextListeners = new LinkedHashSet<IEntrySetListener>();
+
+	/**
+	 * Listeners will find out when beans are added or removed
+	 */
+	public void addListener(final IEntrySetListener l) {
+		if (l != null)
+			scriptContextListeners.add(l);
+	}
+
+	/**
+	 * Listeners will find out when beans are added or removed
+	 */
+	public void removeListener(final IEntrySetListener l) {
+		if (l != null)
+			scriptContextListeners.remove(l);
+	}
+
+	public Map.Entry<String, Map.Entry<String, IScriptObject>> keyEntry(
+			String key) {
+		Iterator<Map.Entry<String, Map.Entry<String, IScriptObject>>> its = brokerSet
+				.iterator();
+		while (its.hasNext()) {
+			Map.Entry<String, Map.Entry<String, IScriptObject>> so = its.next();
+			if (so.getKey().equals(key))
+				return so;
+		}
+		return null;
+	}
+
+	/* the actual adder */
+	public IScriptObject findOrCreateEntry(Object object) {
+		if (object == null)
+			return null;
+		IScriptObject scriptObject = get(object);
+		if (scriptObject != null)
+			return scriptObject;
+		String name = RemoteOperations.toString(object);
+		// Object old = get(name);
+		put(name, object);
+		return keyEntry(name);
+	}
+
+	public boolean removeEntry(
+			final Map.Entry<String, Map.Entry<String, IScriptObject>> bean) {
+		return containsKey(bean.getKey());
+	}
+
+	IEntrySetListener scriptContext;
+
+	NameSpace backingNameSpace = null;
+
+	public NamedScriptObjectMap(NameSpace backing) {
+		super();
+		backingNameSpace = backing;
+		// props.put("org.omg.CORBA.ORBInitialPort", "1050");
+		// props.put("org.omg.CORBA.ORBInitialHost", "localhost");
+		// orb = ORB.init(new String[0], props);
+		// try {
+		// nc =
+		// NamingContextExtHelper.narrow(orb.resolve_initial_references("NameService"));
+		// } catch (InvalidName e) {
+		// TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+	}
+
+	public final Set<Map.Entry<Object, Map.Entry<String, Map.Entry<String, IScriptObject>>>> entrySet = new AbstractSet<Map.Entry<Object, Map.Entry<String, Map.Entry<String, IScriptObject>>>>() {
+		public int size() {
+			return nameToBroker.size();
+		}
+
+		@Override
+		public Iterator<java.util.Map.Entry<Object, Map.Entry<String, Map.Entry<String, IScriptObject>>>> iterator() {
+			return new ObjectEntryIterator();
+		}
+	};
+
+	class ObjectEntryIterator
+			implements
+			Iterator<Map.Entry<Object, Map.Entry<String, Map.Entry<String, IScriptObject>>>> {
+		Iterator<Map.Entry<String, Map.Entry<String, Map.Entry<String, IScriptObject>>>> nameIterator = nameToBroker
+				.entrySet().iterator();
+
+		Map.Entry<String, Map.Entry<String, Map.Entry<String, IScriptObject>>> lastEntry = null;
+
+		ObjectEntryIterator() {
+		}
+
+		public boolean hasNext() {
+			return nameIterator.hasNext();
+		}
+
+		public Map.Entry<Object, Map.Entry<String, Map.Entry<String, IScriptObject>>> next() {
+			lastEntry = nameIterator.next();
+			return (Map.Entry<Object, Map.Entry<String, Map.Entry<String, IScriptObject>>>) new ObjectEntry(
+					lastEntry.getKey(), lastEntry.getValue());
+		}
+
+		public void remove() {
+			nameIterator.remove();
+		}
+
+	}
+
+	class ObjectEntry
+			implements
+			Map.Entry<Object, Map.Entry<String, Map.Entry<String, IScriptObject>>> {
+		final Map.Entry<String, Map.Entry<String, IScriptObject>> ientry;
+
+		final String named;
+
+		ObjectEntry(String name,
+				Map.Entry<String, Map.Entry<String, IScriptObject>> info) {
+			named = name;
+			ientry = info;
+		}
+
+		public String getKey() {
+			return named;
+		}
+
+		public Map.Entry<String, Map.Entry<String, IScriptObject>> getValue() {
+			return ientry.getValue();
+		}
+
+		public Map.Entry<String, Map.Entry<String, IScriptObject>> setValue(
+				Object value) {
+			return (Map.Entry<String, Map.Entry<String, IScriptObject>>) ientry
+					.setValue(RemoteOperations.toObject(value));
+		}
+
+		public Map.Entry<String, Map.Entry<String, IScriptObject>> setValue(
+				Map.Entry<String, Map.Entry<String, IScriptObject>> value) {
+			return (Map.Entry<String, Map.Entry<String, IScriptObject>>) ientry
+					.setValue(RemoteOperations.toObject(value));
+		}
+	}
+
+	public Object put(String name, final Object object) {
+		System.out.println("debug put: " + name + "=" + object);
+		Object value = null;
+		if (object instanceof String)
+			value = getGameServer().eval((String) object);
+		if (value == null || value.equals(Void.TYPE))
+			value = object;
+		Map.Entry<String, Map.Entry<String, IScriptObject>> scriptObject = get(object);
+		if (name == null)
+			name = getGameServer().toString(object);
+		if (scriptObject == null) {
+			scriptObject = get(name);
+		}
+		if (scriptObject == null) {
+			// if (DoomConsoleChannel.gameLocalClass == null)
+			// DoomConsoleChannel.gameLocalClass = (Class<?>)
+			// DoomConsoleChannel.getGlobalInterpreter().eval("daxclr.doom.LocalClientHolder");
+			IClass idclass = null;
+			if (getGameServer() != null)
+				idclass = getGameServer().resolveDoomObject(name);
+			try {
+				Class cl = object.getClass();
+				if (idclass != null) {
+					scriptObject = idclass.getScriptObject();
+				} else if (object instanceof IClass) {
+					scriptObject = ((IClass) object).getScriptObject();
+
+					// else if (name.toString().equals(object.toString()) &&
+					// (!(Proxy.isProxyClass(cl)))) scriptObject = new
+					// JavaObjectInfo(name, object);
+				} else {
+					scriptObject = new ScriptObject(name);
+					scriptObject.setValue(object);
+				}
+				nameToBroker.put(name, scriptObject);
+				brokerSet.add(scriptObject);
+				cl = scriptObject.getBeanClass();
+				debugln("setted " + scriptObject.getKey() + " bean " + cl
+						+ " to " + name + " for " + object);
+				if (scriptContext != null)
+					scriptContext.entryAdded(scriptObject);
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
+		} else
+			debugln("AKA " + scriptObject.getKey() + " is '" + name + "'!");
+		nameToBroker.put(name, scriptObject);
+		try {
+			backingNameSpace.setVariable(name, scriptObject.getValue(), false);
+		} catch (UtilEvalError ex) {
+			// TODO Auto-generated catch block
+			ex.printStackTrace();
+		}
+		entryAdded(scriptObject);
+		return value;
+	}
+
+	private void debugln(String string) {
+		// TODO Auto-generated method stub
+	}
+
+	public Set<Object> keySet() {
+		final Set<Object> set = new HashSet<Object>(0);
+		final Iterator<Map.Entry<String, Map.Entry<String, IScriptObject>>> infos = brokerSet
+				.iterator();
+		while (infos.hasNext()) {
+			final Map.Entry<String, Map.Entry<String, IScriptObject>> info = infos
+					.next();
+			final String value = "" + info.getKey();
+			if (value != null)
+				set.add(value);
+		}
+		return set;
+	}
+
+	/**
+	 * Adds the given object to the bean bowl, if it does not already exist.
+	 * 
+	 * @returns true if the object was added, i.e. if it didn't already exist.
+	 */
+	public boolean addEntry(
+			final Map.Entry<String, Map.Entry<String, IScriptObject>> obj) {
+		if (this.containsValue(obj))
+			return false;
+		else {
+			// Create the bean broker, with a unique name
+			findOrCreateEntry(obj);
+			return true;
+		}
+	}
+
+	/**
+	 * Removes the given bean, if it is inside this bowl. If not, nothing
+	 * happens.
+	 * <p>
+	 * 
+	 * BeanListeners will be notified.
+	 * <p>
+	 * 
+	 * If the bean was selected, the current selection will change to null and
+	 * property change listeners will be notified.
+	 * <p>
+	 * 
+	 */
+	public Map.Entry<String, Map.Entry<String, IScriptObject>> remove(Object nvo) {
+		// Find the broker
+		final Map.Entry<String, Map.Entry<String, IScriptObject>> broker = get(nvo);
+		// not found
+		if (broker == null)
+			return null;
+		// Remove it
+		if (nvo instanceof String) {
+			// remove name
+			nameToBroker.remove((String) nvo);
+			if (nvo.equals(broker.getKey())) {
+				// TODO see if this is the last refernce?
+			} else {
+				// TODO remove secondary?
+			}
+		}
+		// Update the name index
+		if (scriptContext != null)
+			scriptContext.beanRemoved(broker.getValue());
+		if (scriptContext != null)
+			scriptContext.entryRemoved(broker);
+		return broker.getValue();
+	}
+
+	// ==== Queries ========================
+	// ===== Manipulating the selected bean ===============
+	/**
+	 * Returns the current number of beans in the bowl
+	 */
+	public int size() {
+		return brokerSet.size();
+	}
+
+	/**
+	 * Returns the broker corresponding to the given object, i.e the IObjectInfo
+	 * who's object corresponds to the given one. Returns null if the bean bowl
+	 * does not contain the given object.
+	 * 
+	 * Returns the bean with the given name, or null if none.
+	 */
+	public IScriptObject get(Object kvo) {
+		if (kvo == null)
+			kvo = null;
+		if (kvo instanceof IScriptObjectProxy)
+			return ((IScriptObjectProxy) kvo).getScriptObject();
+		if (kvo instanceof IScriptObject)
+			return (IScriptObject) kvo;
+		final Iterator its = brokerSet.iterator();
+		while (its.hasNext()) {
+			final Map.Entry<String,Map.Entry<String,IScriptObject>> scriptObject = its.next();
+			if (scriptObject.valueEquals(kvo))
+				return scriptObject;
+		}
+		if (kvo instanceof This) {
+			This xthis = (This) kvo;
+			try {
+				return (Map.Entry<String,Map.Entry<String,IScriptObject>>) xthis.getInterface(Map.Entry<String,Map.Entry<String,IScriptObject>>.class);
+			} catch (UtilEvalError ex) {
+				// TODO Auto-generated catch block
+				ex.printStackTrace();
+			}
+		}
+		if (!(kvo instanceof String))
+			return get(kvo.toString());
+		return null;
+	}
+
+	/**
+	 * Checks if this bowl contains the given bean
+	 */
+	public boolean containsValue(final Object bean) {
+		return (get(bean) != null);
+	}
+
+	/**
+	 * Returns all beans representing objects that are an instance of the given
+	 * class or interface, either directly or indirectly.
+	 */
+	public <T> Set valuesOfType(final Class<T> type) {
+		final Set<T> results = new LinkedHashSet<T>();
+		final Iterator<Map.Entry<String, Map.Entry<String, IScriptObject>>> it = brokerSet
+				.iterator();
+		while (it.hasNext()) {
+			final Map.Entry<String, Map.Entry<String, IScriptObject>> scriptObject = it
+					.next();
+			if (!scriptObject.instanceOf(type)) {
+				debugln("" + scriptObject.getKey() + " is not " + type);
+			} else {
+				Object o = scriptObject.getValue();
+				try {
+					o = scriptObject.coerceTo(type);
+					Class<?> oclass = o.getClass();
+					try {
+						o = scriptObject.coerceTo(type);
+						if (type.isAssignableFrom(oclass)) {
+							T to = type.cast(o);
+							debugln("" + scriptObject.getKey() + " became "
+									+ type + " as " + oclass);
+							results.add(to);
+						} else {
+							debugln("" + scriptObject.getKey()
+									+ " claimed it could become " + type
+									+ " but it was possible from " + oclass);
+						}
+					} catch (ClassCastException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						debugln("" + scriptObject.getKey()
+								+ " claimed it could become " + type
+								+ " but cast recv " + oclass);
+					}
+				} catch (ClassCastException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					debugln("" + scriptObject.getKey()
+							+ " claimed it could coerceTo " + type
+							+ " but wouldn't from " + o.getClass());
+				}
+			}
+		}
+		return results;
+	}
+
+	public Object resolveObject(Object[] path, Object[] specs, boolean localOnly) {
+		return get(path[0]);
+	}
+
+	public void entryAdded(java.util.Map.Entry obj) {
+		put("" + obj.getKey(), obj.getValue());
+
+	}
+
+	public void entryRemoved(java.util.Map.Entry obj) {
+		remove(obj.getValue());
+		remove("" + obj.getKey());
+		remove(obj);
+	}
+
+	public String objectKey(Object bean) {
+		final Map.Entry<String, Map.Entry<String, IScriptObject>> info = get(bean);
+		if (info != null)
+			return "" + info.getKey();
+		return getGameServer().toString(bean);
+	}
+
+	public RemoteGameServer getGameServer() {
+		return RemoteOperations.getGameServer();
+	}
+
+	public void addNameSourceListener(Listener listener) {
+	}
+
+	public String[] getAllNames() {
+		return keySet().toArray(new String[0]);
+	}
+
+	public void beanAdded(Object obj) {
+		getGameServer().beanAdded(obj);
+
+	}
+
+	public void beanRemoved(Object obj) {
+		getGameServer().beanRemoved(obj);
+	}
+
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="431333"
+   name=""
+   committed-date="2006-08-14T12:48:02.547874Z"
+   url="https://svn.apache.org/repos/asf/jakarta/bsf/trunk/src/org/apache/bsf/util/cf"
+   last-author="henning"
+   kind="dir"
+   uuid="13f79535-47bb-0310-9956-ffa450edef68"
+   revision="438605"/>
+<entry
+   committed-rev="431333"
+   name="CFDriver.java"
+   text-time="2006-08-30T19:54:45.743062Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="bb8842b404344614828f88c57ca099c1"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:45.703004Z"/>
+<entry
+   committed-rev="431333"
+   name="CodeFormatter.java"
+   text-time="2006-08-30T19:54:45.773105Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="07697f4ff00f009213c83f9218311501"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:45.713019Z"/>
+</wc-entries>

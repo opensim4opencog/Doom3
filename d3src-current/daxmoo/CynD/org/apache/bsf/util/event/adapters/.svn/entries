@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="431333"
+   name=""
+   committed-date="2006-08-14T12:48:02.547874Z"
+   url="https://svn.apache.org/repos/asf/jakarta/bsf/trunk/src/org/apache/bsf/util/event/adapters"
+   last-author="henning"
+   kind="dir"
+   uuid="13f79535-47bb-0310-9956-ffa450edef68"
+   revision="438605"/>
+<entry
+   committed-rev="431333"
+   name="java_awt_event_ComponentAdapter.java"
+   text-time="2006-08-30T19:54:44.511291Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="a61a1731816d698116289e0c89be05f0"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.260931Z"/>
+<entry
+   committed-rev="431333"
+   name="java_awt_event_ContainerAdapter.java"
+   text-time="2006-08-30T19:54:44.531320Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="5b125549cb8f6be369b0fd82582a0a99"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.280960Z"/>
+<entry
+   committed-rev="431333"
+   name="java_beans_VetoableChangeAdapter.java"
+   text-time="2006-08-30T19:54:44.551348Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="be25c4da7f3174726014c70f0a3debcf"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.300988Z"/>
+<entry
+   committed-rev="431333"
+   name="java_awt_event_TextAdapter.java"
+   text-time="2006-08-30T19:54:44.571377Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="b49f5c149964c415b9f21905dca85fd7"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.321017Z"/>
+<entry
+   committed-rev="431333"
+   name="java_beans_PropertyChangeAdapter.java"
+   text-time="2006-08-30T19:54:44.591406Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="54507f3382a984f2fa51de21b659090b"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.331032Z"/>
+<entry
+   committed-rev="431333"
+   name="java_awt_event_WindowAdapter.java"
+   text-time="2006-08-30T19:54:44.611435Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="df4d66a553538df2998b4286b076a4a7"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.361075Z"/>
+<entry
+   committed-rev="431333"
+   name="java_awt_event_KeyAdapter.java"
+   text-time="2006-08-30T19:54:44.631464Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="284cf4d7ac2c47234628cdf3132930b6"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.381104Z"/>
+<entry
+   committed-rev="431333"
+   name="java_awt_event_MouseAdapter.java"
+   text-time="2006-08-30T19:54:44.651492Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="1eac53ad21532d70c250c51c3b6ab039"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.401132Z"/>
+<entry
+   committed-rev="431333"
+   name="java_awt_event_ActionAdapter.java"
+   text-time="2006-08-30T19:54:44.671521Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="9291feaec80cc296ca0e79dca8c0372e"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.421161Z"/>
+<entry
+   committed-rev="431333"
+   name="java_awt_event_AdjustmentAdapter.java"
+   text-time="2006-08-30T19:54:44.691550Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="f99c8d3b3f0a31460c2578ef0ac87ae0"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.441190Z"/>
+<entry
+   committed-rev="431333"
+   name="java_awt_event_ItemAdapter.java"
+   text-time="2006-08-30T19:54:44.721593Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="97f12087c57ca957979a64b11556c6f7"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.451204Z"/>
+<entry
+   committed-rev="431333"
+   name="java_awt_event_MouseMotionAdapter.java"
+   text-time="2006-08-30T19:54:44.741622Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="79247e1647d0784a69ad1f458a6239bc"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.471233Z"/>
+<entry
+   committed-rev="431333"
+   name="java_awt_event_FocusAdapter.java"
+   text-time="2006-08-30T19:54:44.771665Z"
+   committed-date="2006-08-14T12:48:02.547874Z"
+   checksum="5fc1f4e2342bb8d34c7ce6cbb8e1c1da"
+   last-author="henning"
+   kind="file"
+   prop-time="2006-08-30T19:54:44.491262Z"/>
+</wc-entries>

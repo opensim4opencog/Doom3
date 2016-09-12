@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="2469"
+   name=""
+   committed-date="2005-05-16T06:43:33.000000Z"
+   url="https://svn.sourceforge.net/svnroot/jython/trunk/jython/src/com/ziclix/python/sql/handler"
+   last-author="otmarhumbel"
+   kind="dir"
+   uuid="79b11f02-f210-0410-99aa-fb189b3d1ac4"
+   revision="2919"/>
+<entry
+   committed-rev="2429"
+   name="RowIdHandler.java"
+   text-time="2006-08-30T20:15:02.322417Z"
+   committed-date="2005-03-02T07:16:17.000000Z"
+   checksum="67f03cb5b0f3954ba1db7551142ed1ab"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:15:00.710099Z"/>
+<entry
+   committed-rev="2469"
+   name="InformixDataHandler.java"
+   text-time="2006-08-30T20:15:02.392518Z"
+   committed-date="2005-05-16T06:43:33.000000Z"
+   checksum="d64d442d58b95af3c487310ec5248123"
+   last-author="otmarhumbel"
+   kind="file"
+   prop-time="2006-08-30T20:15:01.030560Z"/>
+<entry
+   committed-rev="2414"
+   name="UpdateCountDataHandler.java"
+   text-time="2006-08-30T20:15:02.472633Z"
+   committed-date="2005-02-23T04:26:23.000000Z"
+   checksum="15bbbe4bab6b6e6e6836d0527c14dc57"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:15:01.771625Z"/>
+<entry
+   committed-rev="2469"
+   name="PostgresqlDataHandler.java"
+   text-time="2006-08-30T20:15:02.552748Z"
+   committed-date="2005-05-16T06:43:33.000000Z"
+   checksum="92741ae8570602b6315404595a4d4868"
+   last-author="otmarhumbel"
+   kind="file"
+   prop-time="2006-08-30T20:15:02.001956Z"/>
+<entry
+   committed-rev="2469"
+   name="MySQLDataHandler.java"
+   text-time="2006-08-30T20:15:02.622849Z"
+   committed-date="2005-05-16T06:43:33.000000Z"
+   checksum="4819796d0145fa13dc9ca44a70681d41"
+   last-author="otmarhumbel"
+   kind="file"
+   prop-time="2006-08-30T20:15:02.062043Z"/>
+<entry
+   committed-rev="2414"
+   name="OracleDataHandler.java"
+   text-time="2006-08-30T20:15:02.682936Z"
+   committed-date="2005-02-23T04:26:23.000000Z"
+   checksum="524fc258b6c423a56279c9403eaa63fe"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:15:02.202244Z"/>
+<entry
+   committed-rev="2414"
+   name="SQLServerDataHandler.java"
+   text-time="2006-08-30T20:15:02.743022Z"
+   committed-date="2005-02-23T04:26:23.000000Z"
+   checksum="f42091c6f98579a58aefe48cf574c53d"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:15:02.252316Z"/>
+</wc-entries>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="2414"
+   name=""
+   committed-date="2005-02-23T04:26:23.000000Z"
+   url="https://svn.sourceforge.net/svnroot/jython/trunk/jython/src/com/ziclix/python/sql/pipe"
+   last-author="bzimmer"
+   kind="dir"
+   uuid="79b11f02-f210-0410-99aa-fb189b3d1ac4"
+   revision="2919"/>
+<entry
+   committed-rev="2414"
+   name="Source.java"
+   text-time="2006-08-30T20:15:00.089206Z"
+   committed-date="2005-02-23T04:26:23.000000Z"
+   checksum="be58b2c29e6741812d332c58cd56fa28"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:14:59.418241Z"/>
+<entry
+   committed-rev="2414"
+   name="Sink.java"
+   text-time="2006-08-30T20:15:00.109235Z"
+   committed-date="2005-02-23T04:26:23.000000Z"
+   checksum="ae6584576737b9a8500b70dfbbe5fbfe"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:14:59.468313Z"/>
+<entry
+   name="db"
+   kind="dir"/>
+<entry
+   name="csv"
+   kind="dir"/>
+<entry
+   committed-rev="2414"
+   name="Pipe.java"
+   text-time="2006-08-30T20:15:00.129264Z"
+   committed-date="2005-02-23T04:26:23.000000Z"
+   checksum="59e4c4b324de3911be99fc9169c65019"
+   last-author="bzimmer"
+   kind="file"
+   prop-time="2006-08-30T20:15:00.049148Z"/>
+</wc-entries>

@@ -1,0 +1,45 @@
+<html>
+	<body bgcolor="white">
+
+	<p><b>Lowlevel Bytecode Manipuation</b></p>
+	<p>
+		This package contains facilities for lowlevel bytecode manipulation
+		through the class constant pool.  It is generally not necessary to use
+ 		this package directly, as all necessary bytecode manipulation 
+		functionality is made available at a high level via the 
+		<code>com.techtrader.modules.tools.bytecode</code> package.
+	</p>
+	<p><b>Notable Classes</b></p>
+	<ul>
+		<li>
+			<b>Class {@link com.techtrader.modules.tools.bytecode.lowlevel.ConstantPool}</b>
+			<p>
+				A class constant pool.  Maintains a list of Entries referenced
+				in the class, using a hashing scheme to avoid duplicate
+				entries and to search the entries quickly.
+			</p>
+		</li>
+		<li>
+			<b>Interface {@link com.techtrader.modules.tools.bytecode.lowlevel.Entry}</b>
+			<p>
+				Base interface for all constant pool entry types.
+			</p>
+		</li>
+		<li>
+			<b>Class {@link com.techtrader.modules.tools.bytecode.lowlevel.PlaceHolderEntry}</b>
+			<p>
+				Long and Double constant pool entries take up two index
+				spots in the pool, but they are treated as single objects
+				in the Entry list.
+				To maintain proper indexing, a PlaceHolderEntry is inserted
+				after each Long/DoubleEntry as the .class file is read.
+			</p>
+		</li>
+	</ul>
+	<p><b>Module Dependencies</b></p>
+	<ul>
+		<li>com.techtrader.modules.tools.bytecode.visitor</li>
+	</ul>
+
+	</body>
+</html>

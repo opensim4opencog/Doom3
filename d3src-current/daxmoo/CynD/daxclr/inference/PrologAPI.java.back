@@ -1,0 +1,1154 @@
+package daxclr.ext;
+
+import java.io.*;
+import java.lang.reflect.*;
+import java.lang.reflect.Proxy;
+import java.net.*;
+import java.util.*;
+import java.util.Map.Entry;
+
+import org.opencyc.api.*;
+import org.opencyc.cyclobject.*;
+import org.opencyc.cycobject.*;
+
+import daxclr.doom.*;
+import daxclr.ext.bbowl.*;
+import daxclr.ext.bbowl.gui.*;
+import daxclr.ext.swing.*;
+import daxclr.ext.util.*;
+
+import prolog.core.*;
+import prolog.kernel.Fun;
+import prolog.kernel.Machine;
+import prolog.kernel.Main;
+import prolog.kernel.Prolog;
+import prolog.kernel.Top;
+import prolog.kernel.Var;
+import prolog.kernel.*;
+
+/**
+ * Summary description for PrologAPI.
+ */
+public class PrologAPI implements InferenceAPI {
+    /* Creates a non-started Server */
+    static public PrologAPI prologapi=null;
+    static public MachineContext context=null;
+
+    
+    public PrologAPI() {
+        DaxDoom.setNamedObject("prologapi",this);
+    }
+
+    static public class MachineContext {
+        Map p2cvars=new HashMap();
+        Map c2pvars=new HashMap();
+        public prolog.kernel.Machine mach=null;
+
+        public MachineContext(Machine m) {
+            mach = m;
+	    for (int i=0 ;i<500; i++) {
+		CycObjectFactory.addCycVariableCache(new CycVariable("VAR"+i,new Integer(i)));
+	    }
+        }
+        public MachineContext() {
+            this(Top.new_machine());
+        }
+
+        public boolean loadEngine(Object code) {
+	    System.out.println("loadEngine: "+code);
+            try {
+                //  mach.stop();
+                boolean retval = mach.load_engine(code);
+                return retval;
+
+            } catch (Exception e) {
+                e.printStackTrace(System.err);
+                mach=Top.new_machine();
+                return loadEngine(code);
+            }
+        }
+        public Machine getMachine() {
+            return mach;
+        }
+        public Var getSingleVar() {
+            return new Var(99);
+	    //mach.
+        }
+    }
+
+    public String toString() {
+        return "prologapi";
+    }
+
+
+    //i am working on right now a a java dubbugger shell.. its a swing app that showJava
+    static prolog.core.ExtenderFactory  thePrologExtender=null;
+    static Thread  serv8001=null;
+    static public PrologAPI current() {
+        return prologapi;
+    }
+    //synchronized static public PrologAPI current() 
+    static 
+    {
+        if (prologapi==null) {
+            prologapi=new PrologAPI();
+        }
+        //,game_eval(cycquery(isa(A,\\\'Dog\\\'),\\\'BaseKB\\\'),B)
+        try {
+            debugln("initProlog: Init prolog " + Top.JINNI_HOME);
+	    //Top.JINNI_HOME = "base";
+	//    context.mach.
+	    JavaIO.showTrace=9;
+            JavaIO.showOutput=true;
+            JavaIO.showErrors=true;
+            context=new MachineContext(prolog.kernel.Top.initProlog(new String[]{"new_console('doom_eval(entity_faceEntity(cyc_bot_1,player1),X)')"}));
+	    prolog.kernel.Top.clear_path();  
+	    prolog.kernel.Top.add_to_path("base");
+	    prolog.kernel.Top.add_to_path("base\\classlib");
+            DaxDoom.setNamedObject("context",context);
+//	    Top.
+            context.getMachine().run("consult('doom.pro')");
+//            prologRun("init");
+	    
+            CycObjectFactory.resetCycVariableCache();
+            for (int i=0;i<500;i++)
+                CycObjectFactory.addCycVariableCache(new CycVariable("VAR"+i,new Integer(i)));
+
+            ///context.getProlog().init_constants();//prolog.kernel.PrologException
+            //			prolog.kernel.Top.toplevel(context.getMachine());
+            //		CycAPI.current();
+
+            // loadPrologCycSupport(); 
+            // doom(X),invoke_java_method(X,loadPrologCycSupport,Y)
+            /* serv8001=(new Thread() {
+                             public void run() {
+                                 while (!interrupted()) {
+                                     //prolog.core.HttpService.run_http_server(8001,"base");
+                                 }
+                             }
+                         });
+             serv8001.start();
+             */                                 
+	    //new ExtenderFactory();
+	    
+
+            if (thePrologExtender==null) thePrologExtender=new prolog.core.ExtenderFactory(context.getMachine());
+            DaxDoom.setNamedObject("thePrologExtender",thePrologExtender);
+            debugln("current: WORKED!!!");
+        } catch (Throwable e) {
+            debugln(e);
+        }
+    }
+
+
+    static public void loadCycPrologSupport() {
+        Iterator its=null;
+
+        // daxclr.ext.CycAPI.current().baseKB=c("BaseKB");
+        CycConstant cycMicrotheory=c("Microtheory");
+        //MachineContext context=new MachineContext();
+        its=findallArityOne("cycMt");
+        while (its.hasNext())
+            try {
+                daxclr.ext.CycAPI.current().assertIsa((CycFort)prologToJava(context,atomToString(its.next())),cycMicrotheory,CycAPI.current().baseKB);
+            } catch (Throwable e) {
+                debugln(e);
+            }
+        its=findallArityOne("cycKb");
+        while (its.hasNext()) {
+            Fun prolog=(Fun)its.next();
+            String mt=atomToString(prolog.args[0]);
+            prolog=(Fun)prolog.args[1];
+            try {
+                prologCycAssert(prolog,c(mt));
+            } catch (Throwable e) {
+                debugln(e);
+            }
+
+        }
+    }
+
+
+
+    static public Object prologCycQuery(Fun prolog,String mt) {
+        //MachineContext context=new MachineContext();
+        CycList query=(CycList)prologToJava(context,prolog);
+        return prologCycQuery(query.cyclify(),mt);
+    }
+
+    static public Object prologCycQuery(String cyclified,String mt) {
+        String message="(cyc-query '"+cyclified+" #$"+mt + ")";
+        println("prologCycQuery EVAL: "+message);
+        try {
+            return daxclr.ext.CycAPI.current().converseObject(message);
+        } catch (Throwable e) {
+            throw new RuntimeException(message,e);
+        }
+    }
+    static public Object prologCycQueryUnifyCall(Fun prolog,String mt,Object p2cvars) {
+        //MachineContext context=new MachineContext();
+        CycList query=(CycList)prologToJava(context,prolog);
+        query=(CycList)prologCycQuery(query.cyclify(),mt);
+        return query; //game_eval(cycquery(isa('Person',X),'BaseKB'),OO)
+    }
+
+    static public Object prologCycAssert(Fun prolog,CycObject mt) {
+        //MachineContext context=new MachineContext();
+        CycList query=(CycList)prologToJava(context,prolog);
+        String message="(cyc-assert '"+query.cyclify()+" #$"+mt + " '(:STRENGTH :MONOTONIC))";
+        println("prologCycAssert EVAL: "+message);
+        try {
+            return daxclr.ext.CycAPI.current().converseObject(message);
+        } catch (Throwable e) {
+            debugln(e);
+            throw new RuntimeException(message,e);
+        }
+    }
+    static public Object prologCycAssertForward(Fun prolog,CycObject mt) {
+        //MachineContext context=new MachineContext();
+        CycList query=(CycList)prologToJava(context,prolog);
+        String message="(cyc-assert '"+query.cyclify()+" #$"+mt + " '(:DIRECTION :FORWARD :STRENGTH :MONOTONIC))";
+        println("prologCycAssertForward EVAL: "+message);
+        try {
+            return daxclr.ext.CycAPI.current().converseObject(message);
+        } catch (Throwable e) {
+            debugln(e);
+            throw new RuntimeException(message,e);
+        }
+    }
+    static public Object prologCycUnassert(Fun prolog,CycObject mt) {
+        //MachineContext context=new MachineContext();
+        CycList query=(CycList)prologToJava(context,prolog);
+        String message="(cyc-unassert '"+query.cyclify()+" #$"+mt + ")";
+        println("prologCycUnassert EVAL: "+message);
+        try {
+            return daxclr.ext.CycAPI.current().converseObject(message);
+        } catch (Throwable e) {
+            debugln(e);
+            throw new RuntimeException(message,e);
+        }
+    }
+
+    static public int assertToProlog(CycList cyclist) {
+        //MachineContext context=new MachineContext();
+        Object prolog=javaToProlog(context,cyclist);
+        evalPrologCode(context,context.getSingleVar(),new Fun("assertCyc",new Object[]{prolog}));
+        return 1;
+    }
+
+    static public int unassertToProlog(CycList cyclist) {
+        //MachineContext context=new MachineContext();
+        Object prolog=javaToProlog(context,cyclist);
+        evalPrologCode(context,context.getSingleVar(),new Fun("unassertCyc",new Object[]{prolog}));
+        return 1;
+    }
+
+    static public boolean queryToProlog(CycList cyclist) {
+        //MachineContext context=new MachineContext();
+        Object prolog=javaToProlog(context,cyclist);
+        return evalPrologCode(context,context.getSingleVar(),new Fun("queryCyc",new Object[]{prolog})).iterator().hasNext();
+    }
+
+    static public int assertToProlog(CycAssertion cyclist) {
+        //MachineContext context=new MachineContext();
+        CycList list=cyclist.getFormula();
+        CycObject mt=cyclist.getMt();
+        Object prolog=javaToProlog(context,list);
+        Object prologmt=javaToProlog(context,mt);
+        evalPrologCode(context,context.getSingleVar(),new Fun("assertCyc",new Object[]{prolog,prologmt}));
+        return 1;
+    }
+
+
+    /**
+    * just makes printing easier
+    */
+    static public void println(String s) {
+        JavaIO.dump(s);
+        debugln(s);
+    }
+
+    static public void prologRun(String prolog) {
+        context.getMachine().run(atomToString(prolog));
+        // context.getMachine().get_answer();
+    }
+
+    static public void prologConsult(String filename) {
+        prologRun("compile('" + filename + "')");
+    }
+
+    static public CycPlanner getPlanner() {
+        return new CycPlanner("DoomPlanningMt");
+    }
+    static public PrologPlanner getPlPlanner() {
+        return new PrologPlanner();
+    }
+
+    static public Object toCycTerm(String sentence) {
+        return new LispReader(CycAPI.current()).read(sentence);
+    }
+
+    static public Object toPrologTerm(String sentence) {
+        return prologCallOne("sread_term",sentence);
+    }
+    static public String prologToString(Object sentence) {
+        return ""+prologCallOne("swrite",sentence);
+    }
+
+    static String atomToString(Object o) {
+        String s=""+o;
+        if (s.indexOf("'")==0) {
+            int len=s.length();
+            if (s.charAt(len-1)=='\'') {
+                return s.substring(1,len-2); 
+            }
+        }
+        return s;
+    }
+
+    static public Object prologCallOne(String name,Object arg1) {
+        //MachineContext context=new MachineContext();
+        Var avar=context.getSingleVar(); 
+        Fun code=new Fun(":-",new Object[]{avar,new Fun(name,new Object[]{arg1,avar})}); 
+        if (!context.loadEngine(code)) return null; // we load the (existing) Prolog engine
+        return context.getMachine().get_answer(); // get an answer
+    }
+
+
+    static public Iterator findallArityOne(String prolog) {
+        //MachineContext context=new MachineContext();
+        Var avar=context.getSingleVar();
+        return evalPrologCode(context,avar,new Fun(prolog,new Object[]{avar})).iterator();
+    }
+
+
+    static public Object evalPrologInJava(Object o) {
+        if (o==null) return o;
+       // context=new MachineContext();
+        return javaToProlog(context,prologToJava(context,o));
+    }
+
+    static public Iterator evalStringInProlog(String prolog) {
+        Object goal=toPrologTerm(prolog);
+        Iterator its=evalPrologCode(context,goal,goal).iterator();
+        CycList list2=new CycList();
+        while (its.hasNext()) {
+            list2.add(prologToString(its.next()));
+        }
+        return list2.iterator();
+    }
+
+    static public CycList evalPrologCode(MachineContext context,Object template,Object goal) {        
+        CycList al=new CycList();
+        if (!context.loadEngine(new Fun(":-",new Object[]{template,goal}))) return al; // we load the (existing) Prolog engine
+        int max=8000; //max out on 8000 interartions
+        while (max-->0) {
+            Object answer=context.getMachine().get_answer(); // get an answer
+            if (null==answer) {
+
+                break; // exit loop when finished
+            }
+            al.add((answer));
+        }
+        return al;
+    }
+
+    // game_eval(getKey(cyc_bot_1,'origin'),X)
+    // game_eval(getWorldOrigin(cyc_bot_1),X)
+    // game_eval(getColor(cyc_bot_1),X)
+    // 
+
+
+//    static public void setVar(Var thevar,Object value) {
+    //
+    //      context.loadEngine(new Fun("=",new Object[]{thevar,value}));
+    //     context.getMachine().get_answer();
+    // }
+
+    static public Object[] listToArray(MachineContext context,Object o) {
+        if (o instanceof Fun) {
+            Fun prolog=(Fun)o;
+            if (prolog.name.equals(".")) {
+                return DaxDoom.prependArray(prologToJava(context,prolog.args[0]),listToArray(context,prolog.args[1]));
+            }
+        }
+        return new Object[]{prologToJava(context,o)};
+    }
+
+    static public Object[] toArray(MachineContext context,Object o) {
+        if (o instanceof Fun) {
+            Fun f=(Fun)o;
+            try {
+                Class clz=DaxDoom.forName(f.name);
+                Object[] oo=(Object[]) Array.newInstance(clz,f.args.length);
+                for (int i=0;i<f.args.length;i++) {
+                    Array.set(oo,i,prologToJava(context,f.args[i]));
+                }
+                return oo;
+            } catch (ClassNotFoundException cnf) {
+            }
+        }
+        o=prologToJava(context,o);
+        if (o instanceof Object[]) {
+            return(Object[])o;
+        }
+        if (o instanceof Map) {
+            ArrayList al=new ArrayList();
+            Map map=(Map)o;
+            Iterator it=map.entrySet().iterator();
+            while (it.hasNext()) {
+                al.add(javaToProlog(context,it.next()));
+            }
+            return al.toArray();   
+        }
+        if (o instanceof Collection) {
+            Collection it=(Collection)o;
+            return it.toArray();
+        }
+        if (o instanceof Iterator) {
+            ArrayList al=new ArrayList();
+            Iterator it=(Iterator)o;
+            while (it.hasNext()) {
+                al.add(it.next());
+            }
+            return al.toArray();   
+        }
+        if (o instanceof Enumeration) {
+            ArrayList al=new ArrayList();
+            Enumeration it=(Enumeration)o;
+            while (it.hasMoreElements()) {
+                al.add(it.nextElement());
+            }
+            return al.toArray();   
+        }
+        return new Object[]{o};
+    }
+
+    static Class toClass(Object o) throws ClassNotFoundException{
+        if (o instanceof CharSequence) {
+            return DaxDoom.forName(o.toString());
+        }
+        if (o instanceof Class) {
+            return(Class)o;
+        }
+        o=prologToJava(context,o);
+        if (o instanceof Class) {
+            return(Class)o;
+        }
+        return o.getClass();
+    }
+
+    static public Object evalFunction(MachineContext context,String name,Object[] args) {
+        if (args==null) {
+            args=new Object[0];
+        }
+        int arity=args.length;
+
+        if (name.equals(".") && args.length==2) {
+            try {
+                return ""+(char)((Number)args[0]).intValue()+consToString((Fun)args[1]);
+            } catch (Throwable e) {
+                return prologListToCycList(context,new CycList(prologToJava(context,args[0])),args[1]);
+            }
+        }
+        if (name.equals("o")) {
+            return prologToJava(context,args[0]);
+        }
+        if (name.equals("s")) {
+            return DaxDoom.joinString(args," ");
+        }
+
+        try {
+            if (IdVector.nameType(name)!=IdVector.VECT_UNKNOWN) {
+                IdVector iv=new IdVector(IdVector.nameType(name),args.length);
+                for (int i=0;i<args.length;i++) {
+                    iv.set(i,new Double(""+prologToJava(context,args[i])));
+                }
+            }
+        } catch ( Exception e  ) {
+        }
+
+
+        if (name.equals("nart")) {
+            return new CycNart(prologListToCycList(context,new CycList(prologToJava(context,args[0])),args[1]));
+        }
+
+        if (name.equals("inst")) {
+            return args[1];
+        }
+        if (name.equals("cycunify")) {
+            // game_eval(cycquery(isa('BaseKB',X),'BaseKB'),Y)
+            try {
+                return prologCycQueryUnifyCall((Fun)args[0],c(atomToString(args[1])).toString(),args[2]);
+            } catch (Throwable e) {
+                throw new RuntimeException("cask->converseObject ",e);
+            }
+        }
+        if (name.equals("cycquery")) {
+            // game_eval(cycquery(isa('BaseKB',X),'BaseKB'),Y)
+            try {
+                return prologCycQuery((Fun)args[0],c(atomToString(args[1])).toString());
+            } catch (Throwable e) {
+                throw new RuntimeException("cask->converseObject ",e);
+            }
+        }
+        if (name.equals("cycassert")) {
+            // game_eval(cycquery(isa('BaseKB',X),'BaseKB'),Y)
+            try {
+                return prologCycAssert((Fun)args[0],c(atomToString(args[1])));
+            } catch (Throwable e) {
+                throw new RuntimeException("cassert->converseObject ",e);
+            }
+        }
+        if (name.equals("cycassertforward")) {
+            // game_eval(cycquery(isa('BaseKB',X),'BaseKB'),Y)
+            try {
+                return prologCycAssertForward((Fun)args[0],c(atomToString(args[1])));
+            } catch (Throwable e) {
+                throw new RuntimeException("cassert->converseObject ",e);
+            }
+        }
+        if (name.equals("cycretract")) {
+            // game_eval(cycquery(isa('BaseKB',X),'BaseKB'),Y)
+            try {
+                return prologCycUnassert((Fun)args[0],c(atomToString(args[1])));
+            } catch (Throwable e) {
+                throw new RuntimeException("cretract->converseObject ",e);
+            }
+        }
+        if (name.equals("subl")) {
+            // game_eval(subl(1 + 1),Y)
+            try {
+                return daxclr.ext.CycAPI.current().converseObject(prologToJava(context,args[0]));
+            } catch (Throwable e) {
+                throw new RuntimeException("subl->converseObject ",e);
+            }
+        }
+        if (name.equals("car")) {
+            return prologToJava(context,args[0]);
+        }
+        if (name.equals("args")) {
+            return args;
+        }
+        if (name.equals("vargs")) {
+            return prologToJavaArray(context,0,args);
+        }
+        if (name.equals("pget")) {
+            name=atomToString(prologToJava(context,args[0]));
+            return findObject(name);
+        }
+
+        Object object=null;
+
+        if (name.equals("pset")) { // game_eval(pset(x,1),X),game_eval(pget(x),Y).
+            name=atomToString(prologToJava(context,args[0]));
+            object=prologToJava(context,args[1]);
+            DaxDoom.setNamedObject(name,object);
+            return object;
+        }
+        if (name.equals("punset")) { // game_eval(punset(x),X),game_eval(pget(x),Y)
+            name=atomToString(prologToJava(context,args[0]));
+            DaxDoom.unsetNamedObject(name);
+            return name;
+        }
+        if (name.equals("array")) {
+            return toArray(context,args[0]);
+        }
+        if (name.equals("invokeObject")) {
+            String fname=atomToString(prologToJava(context,args[1]));
+            Object o=prologToJava(context,args[0]);
+            Object[] a=prologToJavaArray(context,2,args);
+            try {
+                return DaxDoom.invokeObject(o,fname,a);
+            } catch (Throwable e) {
+                throw new RuntimeException( e);
+            }
+        }
+        if (name.equals("invokeClass")) {
+            try {
+                return DaxDoom.invokeStatic((Class)toClass(args[0]),atomToString(args[1]),prologToJavaArray(context,2,args));
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (name.equals("lit")) {
+            return args[0];
+        }
+        if (name.equals("o")) {
+            return DaxDoom.findObject(args[0].toString());
+        }
+        Class clz=null;
+        if (name.equals("new")) {
+            try {
+                clz=toClass(args[0]);
+                return DaxDoom.newObject(clz,prologToJavaArray(context,1,args));
+            } catch (NoSuchMethodException e) {
+            } catch (Throwable e) {
+                throw new RuntimeException("evalFunction->new "+clz,e);
+            }
+        }
+        if (name.equals("c")) {
+            try {
+                return toClass(args[0]);
+            } catch (ClassNotFoundException cnf) {
+                throw new RuntimeException("while resolving c("+args[0].toString()+")",cnf);
+            }
+        }
+        try {
+            if (DaxDoom.scriptNumber(null,0,name)>0) {
+                return DaxDoom.invokeScript(null,name,prologToJavaArray(context,0,args));
+            }
+        } catch (java.lang.UnsatisfiedLinkError e) {
+        } catch (Throwable e) {
+            debugln(e);
+        }
+        try {
+            clz=DaxDoom.forName(name);
+        } catch (Throwable e) {
+        }
+        if (clz!=null) {
+            try {
+                return DaxDoom.newObject(clz,prologToJavaArray(context,0,args));
+            } catch (NoSuchMethodException e) {
+            } catch (Throwable e) {
+                throw new RuntimeException("evalFunction->newObject "+clz,e);
+            }
+            try {
+                return DaxDoom.invokeStatic(clz,atomToString(prologToJava(context,args[0])),prologToJavaArray(context,1,args));
+            } catch (NoSuchMethodException e) {
+            } catch (Throwable e) {
+                throw new RuntimeException("evalFunction->invokeStatic "+clz,e);
+            }
+        }
+        /*
+        game_eval(toString(entity(cyc_bot_1)),X)
+        game_eval(toClass(e(cyc_bot_1)),X)
+        game_eval(getOrigin(entity(cyc_bot_1)),X)
+        */
+
+
+        object=DaxDoom.findObject(name);
+        if (object!=null) {  // game_eval(toString(t),X)
+            clz=object.getClass();
+            try {
+                return DaxDoom.invokeSomething(clz,object,atomToString(prologToJava(context,args[0])),prologToJavaArray(context,1,args));
+            } catch (NoSuchMethodException e) {
+            } catch (Throwable e) {
+                throw new RuntimeException("evalFunction->invokeSomething "+object,e);
+            }
+        }
+        object=prologToJava(context,args[0]);
+        if (object!=null) {
+            clz=object.getClass();
+            try {
+                return DaxDoom.invokeSomething(clz,object,name,prologToJavaArray(context,1,args));
+            } catch (NoSuchMethodException e) {
+            } catch (Throwable e) {
+                throw new RuntimeException("evalFunction->invokeSomething "+object,e);
+            }
+        }
+        try {
+            clz=DaxDoom.forName(""+object);
+        } catch (Throwable e) {
+        }
+        if (clz!=null) {
+            try {
+                return DaxDoom.invokeStatic(clz,name,prologToJavaArray(context,1,args));
+            } catch (NoSuchMethodException e) {
+            } catch (Throwable e) {
+                throw new RuntimeException("evalFunction->invokeStatic "+clz,e);
+            }
+        }
+        throw new NoSuchMethodError("'"+name+"'('" + DaxDoom.joinString(args,"','")+"')");
+        // return new Fun(name,args); // loops though
+    }
+
+    static public int assertConstantToProlog(String constant) {
+        try {
+            CycList list=CycAPI.currentInstance().getAsserions(c(constant));
+            Iterator its=list.iterator();
+            while (its.hasNext()) {
+                Object o=its.next();
+                println(""+o);
+                if (o instanceof CycList) {
+                    assertToProlog((CycList)o);
+                }
+                if (o instanceof CycAssertion) {
+                    assertToProlog((CycAssertion)o);
+                }
+            }
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+
+        return 1;
+    }
+
+    /*=========================================================================
+    ;;static public Object javaToProlog(MachineContext context,Object list)
+==========================================================================*/
+    static public Object javaToProlog(MachineContext context,Object prolog) {
+//        if (prolog==null) return c("ISNull");
+        Object retval=javaToProlog1(context,prolog);
+        System.out.println("RETURN javaToProlog " + retval + " <" + ((prolog==null)?"NULL":retval.getClass().getName())+">  FROM " + prolog + " <" + ((prolog==null)?"NULL":prolog.getClass().getName())+">");
+        return retval;
+    }
+
+    static public Object javaToProlog1(MachineContext context,Object prolog) {
+//        if (prolog==null) return c("ISNull");
+        //if (prolog==null) return prolog;
+        if (prolog==null) return "$null";
+        if (prolog==null) return null;
+        if (isPrologObject(prolog)) return prolog;
+//        if (prolog instanceof Var) prolog=prologToJava(context,(Var)prolog);
+//        if (prolog instanceof Fun) prolog=prologToJava(context,(Fun) prolog);
+        if (prolog instanceof CharSequence) return new Fun("s",(Object)prolog.toString());
+        if (prolog instanceof Number) return javaBasicNumber((Number)prolog);
+        if (prolog instanceof IdVector) return javaToProlog(context,(CycNart)prolog);
+        if (prolog instanceof IdEntity) return new Fun("o",new Object[]{((IdEntity)prolog).getEntname()});
+        if (prolog instanceof IEntity) return new Fun("o",new Object[]{((IEntity)prolog).toObject().getEntname()});
+        if (prolog instanceof CycVariable) return javaToProlog(context,(CycVariable)prolog);
+        if (prolog instanceof CycSymbol) return javaToProlog(context,(CycSymbol)prolog);
+        if (prolog instanceof CycList) return javaToProlog(context,(CycList)prolog);
+        if (prolog instanceof CycFort) return javaToProlog(context,(CycFort)prolog);
+        if (prolog instanceof CycConstant) return javaToProlog(context,(CycConstant)prolog);
+        if (prolog instanceof Class) return javaToProlog(context,(Class)prolog);
+        if (prolog instanceof Map.Entry) {
+            Map.Entry me=(Map.Entry)prolog;
+            return new Fun(".",javaToProlog(context,me.getKey()),javaToProlog(context,me.getValue()));
+        }
+        Class clazz=prolog.getClass();
+        if (clazz.isPrimitive()) return prolog;
+        if (clazz.isArray()) return javaToProlog(context,(Object[]) prolog);
+        if (Proxy.isProxyClass(clazz)) return new Fun("inst",javaToProlog(context,Proxy.getInvocationHandler(prolog)),prolog);
+        String kname=DaxDoom.knownName(prolog);
+        if (kname!=null) return new Fun("o",kname);
+        return new Fun("inst",clazz.getName(),prolog);
+    }
+
+
+
+    static public Object javaToProlog(MachineContext context,CycSymbol list) {
+        String name=list.toString();
+        if (name.startsWith(":")) return name;
+        return "!"+name;
+    }
+
+    static public Object javaToProlog(MachineContext context,CycList list) {
+        Object cons=null;
+        int len=0;
+        try {
+            len=((Integer)ArrayList.class.getMethod("size",(Class[])null).invoke(list,(Object[])null)).intValue(); 
+            // will this work on a subclass of arraylist that overloaded size().. to not call the overloaded method?
+        } catch (Throwable e) {
+            debugln(e);
+        }
+        if (!list.isProperList()) {
+            cons=javaToProlog(context,list.getDottedElement()); 
+            //len--;
+        } else {
+            cons="[]";
+        }
+        while (len-- > 0) cons=new Fun(".",javaToProlog(context,list.get(len)),cons);
+        return cons;
+    }
+
+    static public Object javaToProlog(MachineContext context,CycConstant constant) {
+        String name=constant.getName();
+        name=name.substring(name.lastIndexOf(":")+1);
+        return name;
+    }
+
+    static public Object javaToProlog(MachineContext context,CycNart prolog) {
+        Object[] args=prolog.toCycList().toArray();
+        for (int i=0;i<args.length;i++)
+            args[i]=javaToProlog(context,args[i]);
+        return new Fun("nart",args);
+    }
+
+    static public Object javaToProlog(MachineContext context,CycFort constant) {
+        if (constant instanceof CycConstant) {
+            return javaToProlog(context,(CycConstant)constant);
+        }
+        if (constant instanceof CycNart) {
+            return javaToProlog(context,(CycNart)constant);
+        }
+        return constant;
+    }
+
+    static public Object javaToProlog(MachineContext context,Enumeration en) {
+        //		return prologToJava(context,en.nextElement());
+        return en;//prologToJava(context,en.nextElement());
+    }
+    static public Object javaToProlog(MachineContext context,IdEntity prolog) {
+        return new Fun("o",prolog.getEntname());
+    }
+    static public Object javaToProlog(MachineContext context,Class prolog) {
+        return new Fun("c",prolog.getName());
+    }
+    static public Object javaToProlog(MachineContext context,Package prolog) {
+        return new Fun("p",prolog.getName());
+    }
+
+    static public Object javaToProlog(MachineContext context,Object[] o) {
+        Object cons="[]";
+        if (o==null || o.length==0) {
+            return cons;
+        }
+        for (int i=o.length-1;i>=0;i--) {
+            cons=new Fun(".",javaToProlog(context,o[i]),cons);
+        }
+        return cons;
+    }
+
+    static public Object javaBasicNumber(Number prolog) {
+        if (prolog instanceof Integer) return prolog;
+        if (prolog instanceof Double) return prolog;
+        double d=prolog.doubleValue();
+        if (prolog instanceof Long) {
+            if (d<Integer.MAX_VALUE && d>Integer.MIN_VALUE) {
+                return new Integer(prolog.intValue());
+            }
+        }
+        return new Double(d);
+    }
+
+
+    /*=========================================================================
+    ;;end public Object javaToProlog(MachineContext context,Object list)
+==========================================================================*/
+
+    /*
+    game_eval(cycquery(isa('BaseKB',X),'BaseKB'),Y)
+    */
+
+    //(#$isa (#$DoomItemFn "cyc_bot_1") #$Agent-Generic)
+    // (#$isa #$doom:player1 #$Agent-Generic)
+    //(#$implies (#$and (#$gameEval (#$TheList "invokeGame" "canSee" ?X ?Y) ?R) (#$equals 1.0 ?R)) (#$sees ?X ?Y))
+    //(#$implies (#$and (#$equals ?R 1.0) (#$gameEval (#$TheList "invokeGame" "canSee" (#$DoomItemFn "cyc_bot_1") #$doom:player1) ?R)) (#$sees (#$DoomItemFn "cyc_bot_1") #$doom:player1))
+
+    /*=========================================================================
+    ;;static public Object prologToJava(MachineContext context,Object list)
+    ==========================================================================*/
+
+    static public Object[] prologToJavaArray(MachineContext context,int start,Object[] args) {
+        if (args==null || args.length==0 || (start>=args.length)) return new Object[0];
+        Object[] retval=new Object[args.length-start];
+        for (int i=start;i<args.length;i++) {
+            try {
+                retval[i-start]=prologToJava(context,args[i]);
+            } catch (Throwable nf) {
+            }
+        }
+        return retval;
+    }
+
+    static public Object prologToJava(MachineContext context,String name) {
+        Object prolog=DaxDoom.toObject(name);
+        if (prolog !=null) return prolog;
+        if (name.equals("$null")) return c("ISNull");
+        if (name.equals("[]")) return CYC_FROM_PROLOG_NIL;
+        if (name.equals("NIL")) return new CycSymbol("NIL");
+        if (name.contains(" ")||name.contains(".")||name.contains("/")||name.contains("\\")) return name;
+        if (name.startsWith("!")) return new CycSymbol(name.substring(1));
+        if (name.equals(name.toUpperCase()) || name.startsWith(":")) return new CycSymbol(name);
+        return c(name);
+    }
+    static public Object prologToJava(MachineContext context,Var prolog) {
+        if (prolog==null) return CycObjectFactory.makeUniqueCycVariable(new CycVariable("?NULL"));
+        String name = "?" + prolog.toString().toUpperCase();
+        CycVariable v=(CycVariable)context.p2cvars.get(name);
+        if (v==null) {
+            int id=prolog.getID();
+            if (id<0  ) {
+                id=1 - id;
+                v=new CycVariable("VAR"+id, new Integer(id));
+                CycObjectFactory.addCycVariableCache(v);
+            } else {
+                v=CycObjectFactory.makeCycVariable(name);
+            }
+        }
+        context.p2cvars.put(name,v);
+        context.c2pvars.put(""+v,prolog);
+        return v;
+    }
+
+    static public Object javaToProlog(MachineContext context,CycVariable v) {
+        Var prolog=(Var)context.c2pvars.get(""+v);
+        if (prolog==null) {
+            Integer i=v.hlVariableId;
+            if (i!=null) {
+                prolog=new Var(-1 - i.intValue());
+            } else {
+                prolog=new Var(v.hashCode());
+            }
+        }
+        String name = "?" + prolog.toString().toUpperCase();
+        context.p2cvars.put(name,v);
+        context.c2pvars.put(""+v,prolog);
+        return prolog;
+    }
+
+    static public Object prologToJava(MachineContext context,Fun prolog) {
+        if (prolog==null) return null;
+        try {
+            return prologToJava(context,evalFunction(context,prolog.name,prolog.args));
+        } catch (NoSuchMethodError nsme) { //IncompatibleClassChangeError
+        }
+
+        CycList object=new CycList((Object)c(prolog.name));
+        for (int i=0;i<prolog.args.length;i++) object.add(prologToJava(context,prolog.args[i]));
+        return new CycNart(object);
+    }
+
+    static public Object prologToJava(MachineContext context,Object prolog) {
+        Object retval=prologToJava1( context, prolog);
+        System.out.println("RETURN prologToJava " + retval + " <" + ((prolog==null)?"NULL":retval.getClass().getName())+">  FROM " + prolog + " <" + ((prolog==null)?"NULL":prolog.getClass().getName())+">");
+        return retval;
+    }
+
+
+
+    static public Object prologToJava1(MachineContext context,Object prolog) {
+        if (prolog==null) return c("ISNull");
+        if (prolog==null) return null;
+        if (prolog instanceof Fun) return prologToJava(context,(Fun)prolog);
+        if (prolog instanceof Var) return prologToJava(context,(Var)prolog);
+        if (prolog instanceof CharSequence) return prologToJava(context,(String)prolog.toString());
+        if (isCycObject(prolog)) return prolog;
+        return prolog;
+    }
+
+    static Fun cons(Object h,Object t) {
+        if (t==null) t="[]";
+        return new Fun(".",h,t);
+    }
+
+    static Object machineToList(Map map) {
+        Object lcons="[]";
+        Set set=map.entrySet();
+        Iterator it=set.iterator();
+        while (it.hasNext()) {
+            Map.Entry entry=(Map.Entry)it.next();
+            lcons=cons(cons("?"+entry.getKey().toString(),entry.getValue()),lcons);
+        }
+        return lcons;
+    }
+
+    static CycList CYC_FROM_PROLOG_NIL=new CycList();
+
+    static public boolean isPrologAPI(Object o) {
+        Object result=prologCallOne("isPrologAPI",o);
+        return(""+result).equals("prolog");
+        // return false;
+    }
+
+    static public Object[] converse(CycList command) throws IOException,UnknownHostException,CycApiException {
+        return new Object[]{true,invokeLikeCyc(command)};
+    }
+
+    static public Object invokeLikeCyc(Object cycl) {
+        //MachineContext context=new MachineContext();
+        try {
+            Object prolog=javaToProlog(context,cycl);
+
+            CycList al=new CycList();
+            Var result=context.getSingleVar(); 
+            if (!context.loadEngine(new Fun(":-",new Object[]{result,new Fun("evalAPI",prolog,result)}))) return al; // we load the (existing) Prolog engine
+            int max_answers=8000;
+            while (max_answers-->0) {
+                Object answer=context.getMachine().get_answer(); // get an answer
+                if (null==answer) {
+
+                    break; // exit loop when finished
+                }
+                al.add((answer));
+            }
+            Iterator i=al.iterator();
+            if (i.hasNext()) {
+                return prologToJava(context,i.next());
+            }
+        } catch ( Throwable t ) {
+            throw new RuntimeException(t);
+        }
+        return new CycSymbol("NIL");
+    }
+
+    static public String consToString(Object o) throws Throwable {
+        if (o==null) return "";
+        if (o instanceof String && o.equals("[]")) return "";
+        if (o instanceof String && (((String)o).length()==1)) return(String)o;
+        if (o instanceof Character) return o.toString();
+        if (o instanceof Number) return new Character((char)((Integer)o).intValue()).toString();
+        if (!(o instanceof Fun)) throw new NumberFormatException("consToString: "+o);
+        if (!(o instanceof Fun)) return ""+o;
+        return consToString(((Fun)o).args[0])+consToString(((Fun)o).args[1]);
+    }
+
+    static public CycList prologListToCycList(MachineContext context,CycList prev,Object o) {
+        if (o instanceof Fun) {
+            Fun prolog=(Fun)o;
+            prev.add(prologToJava(context,prolog.args[0]));
+            return prologListToCycList(context,prev,prolog.args[1]);
+        } else {
+            if (o instanceof String) {
+                if (o.equals("[]")) {
+                    return prev;
+                }
+            }
+            prev.setDottedElement(prologToJava(context,o));
+        }
+        return prev;
+    }
+
+
+    static public boolean isCycObject(Object a) {
+        if (a==null) return false;
+        return(a instanceof Number ||a instanceof CycLTerm ||a instanceof CycList ||a instanceof CycObject ||a instanceof CycVariable ||a instanceof CycFort);
+    }
+
+    static public boolean isPrologObject(Object a) {
+        if (a==null) return false;
+        return(a instanceof Integer ||a instanceof Double ||a instanceof Fun ||a instanceof Var);
+    }
+
+    //void debugln()
+
+    /**
+    * creates a Prolog context and runs on in a few queries
+    */
+    static public void testJavaPrologInterface() {
+
+        //prolog.kernel.Shell.
+
+
+        /*		{
+         context.getMachine()=context.getMachine();
+         // simple String queries
+       
+         String s=context.getMachine().run("member(X,[a,b,c])");
+         JavaIO.dump("testProlog: first X in member/3: "+s);
+       
+         context.getMachine().run("assert(a(88))");
+         JavaIO.dump("assert works: " + context.getMachine().run("X:-a(X)"));
+       
+         // building a compound term query,getting all answers
+       
+         Object X=new Var(1);
+         Object goal_args[]={X,new Integer(1),new Integer(5)};
+         Fun Goal=new Fun("for",goal_args);
+         Object[] answer_args={X,Goal};
+         Fun Query=new Fun(":-",answer_args);
+         if (!context.loadEngine(Query))	return;
+         for (;) {
+         Object answer=context.getMachine().get_answer();
+         if (null==answer) {
+         // this kills the context - if still alive -
+         // it happens after last answer automatically
+         
+         break;
+         }
+         JavaIO.dump("testProlog: X in for/3(X,1,5): "+answer);
+         }
+         }
+         { // passing to Prolog a Java object for a call back method
+       
+         context.getMachine()=context.getMachine(); // stop killed the previous one
+         Date today=new Date();
+         Object R=new Var(1);
+         Object goal_args[]={today,"toString",R}; // note first arg "today" - it is a handle to a Date
+         Fun Goal=new Fun("invoke_java_method",goal_args); // we build the callback goal
+         Object[] answer_args={R,Goal}; // we build the answer pattern to be returned
+         Fun Query=new Fun(":-",answer_args); // we put them together as a query with clause syntax
+         if (!context.loadEngine(Query))	return;	// we load the (existing) Prolog engine
+         for (;) {
+         Object answer=context.getMachine().get_answer(); // get an answer
+         if (null==answer) {
+         
+         break; // exit loop when finished
+         }
+         // print out an answer
+         JavaIO.dump("testProlog: Prolog callback on a Java Date object gives===> "+answer);
+         }
+         }
+       
+         { // some easier ways to build queries - using special purpose Fun constructors
+       
+         context.getMachine()=context.getMachine(); // stop killed the previous one
+         Fun List=new Fun(".","a",new Fun(".","b","[]"));
+         Fun Goal=new Fun("add",new Var(1),new Var(2),List); // we build the Prolog goal
+         Fun Query=new Fun(":-",new Fun("result",new Var(1),new Var(2)),Goal); // we put them together as a query with clause syntax
+         if (!context.loadEngine(Query))	return;	// we load the (existing) Prolog engine
+         for (;) {
+         Object answer=context.getMachine().get_answer(); // get an answer
+         if (null==answer) {
+         
+         break; // exit loop when finished
+         }
+         // print out an answer
+         JavaIO.dump("testProlog: Prolog nondeterministic list add gives===> "+answer);
+         }
+         
+         java.lang.StringIndexOutOfBoundsException: String index out of range: 0
+        at java.lang.String.charAt(Unknown Source)
+        at daxclr.doom.DaxDoom.toObject(DaxDoom.java:759)
+        at daxclr.ext.PrologAPI.prologToJava(context,PrologAPI.java:238)
+        at daxclr.ext.PrologAPI.prologToJava(context,PrologAPI.java:312)
+        at daxclr.ext.PrologAPI.prologToJava(context,PrologAPI.java:263)
+        at daxclr.ext.PrologAPI.evalPrologInJava(context,PrologAPI.java:89)
+         }
+         */
+    }
+
+    static public Object findObject(Object obj) {
+        return DaxDoom.findObject(obj);
+    }
+
+
+    static public void debugln(Throwable e) {
+        try {
+            DaxDoom.debugln(e);
+        } catch (Throwable ee) {
+            if (e!=null) {
+                e.printStackTrace(System.err);
+            }
+        }
+    }
+
+    static public void debugln(String e) {
+        try {
+            DaxDoom.debugln(e);
+        } catch (Throwable ee) {
+            System.err.println(e);
+        }
+    }
+
+    static public CycConstant c(String named) {
+        return CycAPI.c(named);
+    }
+
+    static public String prefixUpper(String PREFIX,String e) {
+        String[] sp=e.split("_");
+        for (int i=0; i < sp.length; i++) {
+            sp[i]=sp[i].substring(0,1).toUpperCase() + sp[i].substring(1);
+        }
+        e=DaxDoom.joinString(sp,"_");
+        sp=e.split(" ");
+        e=DaxDoom.joinString(sp,"-");
+        return PREFIX + e;
+    }
+
+    static public String unprefixUpper(String e) {
+        int colon=e.indexOf(":");
+        if (colon > -1) {
+            e=e.substring(colon + 1);
+        }
+        if (e.startsWith("#$")) {
+            e=e.substring(2);
+        }
+        String[] sp=e.split("-");
+        e=DaxDoom.joinString(sp," ");
+        return e;
+    }
+}
+

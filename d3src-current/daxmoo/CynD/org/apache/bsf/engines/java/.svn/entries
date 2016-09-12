@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="432164"
+   name=""
+   committed-date="2006-08-17T06:11:05.958743Z"
+   url="https://svn.apache.org/repos/asf/jakarta/bsf/trunk/src/org/apache/bsf/engines/java"
+   last-author="sanka"
+   kind="dir"
+   uuid="13f79535-47bb-0310-9956-ffa450edef68"
+   revision="438605"/>
+<entry
+   committed-rev="432164"
+   name="JavaEngine.java"
+   text-time="2006-08-30T19:54:42.558483Z"
+   committed-date="2006-08-17T06:11:05.958743Z"
+   checksum="a49c64de4acd440fcb50ec2723d58e0a"
+   last-author="sanka"
+   kind="file"
+   prop-time="2006-08-30T19:54:42.538454Z"/>
+</wc-entries>

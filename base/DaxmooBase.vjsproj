@@ -1,0 +1,207 @@
+<VisualStudioProject>
+    <VISUALJSHARP
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{8620CCA1-D825-4B1D-8F97-958C8EF28B3C}"
+    >
+        <Build>
+            <Settings
+                AssemblyKeyContainerName = ""
+                AssemblyName = "daxmooBase"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                OutputType = "Exe"
+                PreBuildEvent = ""
+                PostBuildEvent = ""
+                RootNamespace = "daxmooBase"
+                RunPostBuildEvent = "OnBuildSuccess"
+                StartupObject = ""
+            >
+                <Config
+                    Name = "Debug"
+                    BaseAddress = "285212672"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = ""
+                    DebugSymbols = "true"
+                    NoWarn = ""
+                    Optimize = "false"
+                    OutputPath = "bin\Debug\"
+                    RegisterForComInterop = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "1"
+                    AdditionalOptions = ""
+                />
+                <Config
+                    Name = "Release"
+                    BaseAddress = "285212672"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = ""
+                    DebugSymbols = "false"
+                    NoWarn = ""
+                    Optimize = "false"
+                    OutputPath = "bin\Release\"
+                    RegisterForComInterop = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "1"
+                    AdditionalOptions = ""
+                />
+            </Settings>
+            <References/>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "autoexec.cfg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "boot.lisp"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "botserver.cfg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "config.spec"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "default.cfg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "dm-server.log"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "doom.pro"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "DoomConfig.cfg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor.cfg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "plugins.cfg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Bots\context.xml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Bots\sequence.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Bots\splitters.xml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Bots\substitutions.xml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Bots\Alice\65_AI.aiml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Bots\Alice\Again.aiml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Bots\Alice\Alice.aiml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Bots\Alice\AreYouMy.aiml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Bots\Alice\Astrology.aiml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Bots\Alice\History.aiml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Bots\Alice\Salutations.aiml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Bots\Alice\social.aiml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Bots\Alice\TopCyc.aiml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Bots\Alice\YesNo.aiml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "def\cyc_bot.def"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "def\mud.def"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "maps\cyc.aas48"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "maps\cyc.cm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "maps\cyc.map"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "maps\cyc.proc"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "maps\cyc.script"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "script\cyc_bot.script"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "script\D3V_D3XP_events.script"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "script\D3V_D3XP_util.script"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "script\DAXMOO_events.script"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "script\DAXMOO_util.script"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "script\doom_main.script"
+                    BuildAction = "Content"
+                />
+            </Include>
+        </Files>
+    </VISUALJSHARP>
+</VisualStudioProject>

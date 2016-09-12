@@ -1,0 +1,38 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: QuadTkns - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x409 /fo"c:\temp/QuadTkns.res" /d "NDEBUG" /d "_AFXDLL" "G:\Quadmore3\QuadTkns\QuadTkns.rc"" 
+Creating temporary file "g:\TEMP\RSP1D.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Fp"c:\temp/QuadTkns.pch" /Yu"stdafx.h" /Fo"c:\temp/" /Fd"c:\temp/" /FD /c 
+"G:\Quadmore3\QuadTkns\QuadTkns.cpp"
+]
+Creating command line "cl.exe @g:\TEMP\RSP1D.tmp" 
+Creating temporary file "g:\TEMP\RSP1E.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_WINDLL" /D "_AFXDLL" /D "_MBCS" /D "_USRDLL" /Fp"c:\temp/QuadTkns.pch" /Yc"stdafx.h" /Fo"c:\temp/" /Fd"c:\temp/" /FD /c 
+"G:\Quadmore3\QuadTkns\StdAfx.cpp"
+]
+Creating command line "cl.exe @g:\TEMP\RSP1E.tmp" 
+Creating command line "link.exe /nologo /subsystem:windows /dll /incremental:no /pdb:"Release/QuadTkns.pdb" /machine:I386 /def:".\QuadTkns.def" /out:"Release/QuadTkns.dll" /implib:"Release/QuadTkns.lib"  c:\temp\QuadTkns.obj c:\temp\QuadTkns.res c:\temp\StdAfx.obj "
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+QuadTkns.cpp
+Linking...
+   Creating library Release/QuadTkns.lib and object Release/QuadTkns.exp
+
+
+
+<h3>Results</h3>
+QuadTkns.dll - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

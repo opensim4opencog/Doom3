@@ -1,0 +1,35 @@
+<html>
+	<body bgcolor="white">
+
+	<p><b>Bytecode Visitor</b></p>
+	<p>
+		This package implements the Visitor pattern on bytecode entities, 
+		and provides an useful concrete visitor that pretty-prints a detailed
+		document describing any bytecode entity.
+	</p>
+	<p><b>Notable Classes</b></p>
+	<ul>
+		<li>
+			<b>Class {@link com.techtrader.modules.tools.bytecode.visitor.BCVisitor}</b>
+			<p>
+			Base class for visitor types.  Provides default no-op
+			implementations of each visit method so that subclasses need only
+			override the methods to visit entities they are interested in.
+			</p>
+		</li>
+		<li>
+			<b>Class {@link com.techtrader.modules.tools.bytecode.visitor.PrettyPrintVisitor}</b>
+			<p>
+			Useful visitor type that provides functionality similar to
+			the <i>javap -c</i> command, but more detailed.
+			</p>
+		</li>
+	</ul>
+	<p><b>Module Dependencies</b></p>
+	<ul>
+		<li>com.techtrader.modules.tools.bytecode</li>
+		<li>com.techtrader.modules.tools.bytecode.lowlevel</li>
+	</ul>
+
+	</body>
+</html>

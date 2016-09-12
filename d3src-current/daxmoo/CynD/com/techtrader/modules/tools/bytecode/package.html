@@ -1,0 +1,123 @@
+<html>
+	<body bgcolor="white">
+
+	<p><b>Bytecode Manipuation</b></p>
+	<p>
+		This package exports facilities for bytecode manipulation.
+		In order to perform any advanced manipulation, some understanding of
+		the 
+		<a href="http://java.sun.com/docs/books/vmspec/2nd-edition/html/ClassFile.doc.html">
+		.class file format</a> and of the 
+		<a href="http://java.sun.com/docs/books/vmspec/2nd-edition/html/Instructions.doc.html">
+		jvm instruction set</a> is necessary.
+	</p>
+	<p>
+		It is recommended that new users start with the 
+		{@link com.techtrader.modules.tools.bytecode.BCClass} class
+		documentation to get a feel for the utilities that this package
+		provides. 
+	</p>
+	<p>
+		The {@link com.techtrader.modules.tools.bytecode.Code} class is used 
+		to manipulate actual instructions 
+		(as opposed
+		to larger structures of the class like methods, fields, superclass,
+		etc).  It contains methods corresponding the the instruction set
+		of the JVM; see its javadoc documentation for details.
+	</p>
+	<p>
+		<b>Implementation Note</b>: 
+		Bytecode files contain a constant pool, which
+		contains entries for all the constants, the class, field, and method
+		references, etc used in the class.  Often, these constants are 
+		pointed to by multiple other constants or instructions in the code, 
+		and so changing a constant in one place can affect the behavior of 
+		other code, or even render the class invalid.  
+		At the same time, adding duplicate constant
+		pool entries for repeated constants can lead to
+		a much larger .class file than necessary, which drains resources.
+		This framework guarantees that no constant will appear more than once
+		in the constant pool, but at the same time it tries to minimize the
+		chances of a bytecode change having effects beyond its exepected scope.
+		In this regard, the framework has the following behavior with respect 
+		to the constant pool:<br>
+		<ul>
+			<li>
+			Changing the name of a BCClass changes the constant pool 
+			ClassEntry name, so <i>all references to the class in code are
+			automatically changed to reference the new name</i>, with the
+			following exceptions:<br>
+			If the class name is referenced as a String constant in code, 
+			this constant will remain unchanged.  Fields contained in the
+			class that are of the same type as the class will retain their 
+			original type, and methods that return an instance of the class
+			or take an instance as an argument will still reference the 
+			original type.
+			</li>
+			<li>
+			Changing the name or signature of a BCField or BCMethod does not
+			affect the constant pool UTF8Entry that held the original value
+			of the name or signature.  Instead, a new UTF8Entry is added.  This
+			is done so that constants referenced at other points in the code
+			that happen to have the same name and/or signatures as the
+			changed entity are not affected.  However, the 
+			Field/MethodEntry representing the changed entity is searched for
+			and updated to point to the new UTF8Entry, so that <i>all code
+			that references the field/method that was changed will automatically
+			be updated to reference the new values</i>. 
+			</li>
+			<li>
+			Changing the methods, fields, or constants referenced by one
+			code block Instructions will never affect any other Instruction,
+			or the class structure itself.
+			</li>
+			<li>
+			Constant pool entries are never deleted.  This can lead to 
+			class bloat if many modifications are made to an existing class;
+			given the uniqueness guarantee for constant pool entries, however,
+			the excess is usually very minor.  Additionally, this guarantees
+			that shared constants aren't deleted accidentally.
+			</li>
+		</ul>
+	</p>
+	<p><b>Notable Classes</b></p>
+	<ul>
+		<li>
+			<b>Class {@link com.techtrader.modules.tools.bytecode.BCClass}</b>
+			<p>
+				Represents a Class at the bytecode level.  A BCClass can be
+				created from scratch or from an existing class, file, or 
+				stream, and it can then be written to a .class file, a stream, 
+				or loaded into a class loader via its getBytes() method.  
+				The BCClass acts as
+				a factory and manager of its fields and methods, represented
+				by {@link com.techtrader.modules.tools.bytecode.BCField} and 
+				{@link com.techtrader.modules.tools.bytecode.BCMethod} objects, 
+				respectively.
+			</p>
+		</li>
+		<li>
+			<b>Class {@link com.techtrader.modules.tools.bytecode.Code}</b>
+			<p>
+				A Code object can be obtained from a 
+				{@link com.techtrader.modules.tools.bytecode.BCMethod}, 
+				and allows for
+				the manipulation of bytecode instructions.  The Code instance
+				acts like a {@link java.util.ListIterator} over the instructions
+				contained in the method it was obtained from.  Instead of an
+				add() method, however, it contains methods representing the
+				instruction set of the JVM, where each method adds its
+				respective byte representation at the iterator's current 
+				position.   Additionally, there are convenience methods
+				provided that do not map exactly to any JVM opcode. 
+			</p>
+		</li>
+	</ul>
+	<p><b>Module Dependencies</b></p>
+	<ul>
+		<li>com.techtrader.modules.tools.bytecode.lowlevel</li>
+		<li>com.techtrader.modules.tools.bytecode.visitor</li>
+	</ul>
+
+	</body>
+</html>

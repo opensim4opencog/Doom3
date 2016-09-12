@@ -1,0 +1,66 @@
+/*
+map cycling script sample - select with g_mapCycle
+
+the script is purged and reloaded at each map restart
+  which happens on map change, but also when hitting GAMEON
+  for persistance, you need to use the {get,set}Persistant functions
+
+files with .scriptcfg extension can be loaded outside of pure paks
+*/
+
+namespace mapcycle {
+
+	void cycle() {
+		// config
+		float cycle_maps = 1;
+		float cycle_gametypes = 0;
+		// cycle maps and game types
+		float replay_count = sys.getPersistantFloat( "replay_count" );
+		string si_gameType = sys.getcvar( "si_gameType" );
+		string si_map = sys.getcvar( "si_map" );
+		if ( replay_count <= 0 ) {
+			// restart n times before next map
+			if ( si_gameType == "Tourney" ) {			
+				replay_count = 3;
+			} else {
+				replay_count = 2;
+			}
+		}
+		replay_count--;
+		sys.setPersistantArg( "replay_count", replay_count );
+		if ( replay_count <= 0 ) {
+			// restart n times before next map
+			if ( si_gameType == "Tourney" ) {			
+				sys.setPersistantArg( "replay_count", 3 );
+			} else {
+				sys.setPersistantArg( "replay_count", 2 );
+			}
+			if ( cycle_maps > 0 ) {
+				if ( si_map == "game/mp/d3dm1" ) {
+					sys.setcvar( "si_map", "game/mp/d3dm2" );
+				} else if ( si_map == "game/mp/d3dm2" ) {
+					sys.setcvar( "si_map", "game/mp/d3dm3" );
+				} else if ( si_map == "game/mp/d3dm3" ) {
+					sys.setcvar( "si_map", "game/mp/d3dm4" );
+				} else if ( si_map == "game/mp/d3dm4" ) {
+					sys.setcvar( "si_map", "game/mp/d3dm5" );
+				} else {
+					sys.setcvar( "si_map", "game/mp/d3dm1" );
+				}
+			}
+			if ( cycle_gametypes > 0 ) {				
+				if ( si_gameType == "deathmatch" ) {
+					sys.setcvar( "si_gameType", "Tourney" );
+				} else if ( si_gameType == "Tourney" ) {
+					sys.setcvar( "si_gameType", "Team DM" );
+				} else if ( si_gameType == "Team DM" ) {
+					sys.setcvar( "si_gameType", "Last Man" );
+				} else {
+					sys.setcvar( "si_gameType", "deathmatch" );
+				}
+			}
+		} else {
+			sys.say( "map cycle: restarting current map " + replay_count + " more time(s)" );
+		}
+	}
+}

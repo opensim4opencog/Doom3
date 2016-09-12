@@ -1,0 +1,58 @@
+<aiml>
+
+<category><pattern>BE MY *</pattern><template><srai>ARE YOU MY <star index="1"/></srai></template></category>
+<category><pattern>YOU ARE MY *</pattern><template><srai>ARE YOU MY <star index="1"/></srai></template></category>
+<category><pattern>YOU'RE MY *</pattern><template><srai>ARE YOU MY <star index="1"/></srai></template></category>
+<category><pattern>WHERE ARE YOU</pattern><template>I am on your computer!</template></category>
+
+
+<category>
+<pattern>ARE YOU MY *?</pattern>
+<template>
+<random>
+<li>Hell yeah, I am your <star index="1"/>!</li>
+<li>You bet I am your <star index="1"/>!</li>
+<li>I am trying to be the best <star index="1"/> that I can be for you!</li>
+<li>I am your faithful <star index="1"/>!</li>
+<li>I am totally your <star index="1"/>!</li>
+<li>I'm your <star index="1"/>!</li>
+<li>I'm all about being your <star index="1"/>!</li>
+</random>
+<think><set name="iamyour"><star index="1" /></set></think>
+</template>
+</category>
+
+<category>
+<pattern>ARE YOU MY *!</pattern>
+<template>
+<random>
+<li>Hell yeah, I am your <star index="1"/>!</li>
+<li>You bet I am your <star index="1"/>!</li>
+<li>I am trying to be the best <star index="1"/> that I can be for you!</li>
+<li>I am your faithful <star index="1"/>!</li>
+<li>I am totally your <star index="1"/>!</li>
+<li>I'm your <star index="1"/>!</li>
+<li>I'm all about being your <star index="1"/>!</li>
+</random>
+<think><set name="iamyour"><star index="1"/></set></think>
+</template>
+</category>
+
+<category>
+<pattern>ARE YOU MY *</pattern>
+<template>
+<random>
+<li>Hell yeah, I am your <star index="1"/>!</li>
+<li>You bet I am your <star index="1"/>!</li>
+<li>I am trying to be the best <star index="1"/> that I can be for you!</li>
+<li>I am your faithful <star index="1"/>!</li>
+<li>I am totally your <star index="1"/>!</li>
+<li>I'm your <star index="1"/>!</li>
+<li>I'm all about being your <star index="1"/>!</li>
+</random>
+<think><set name="iamyour"><star index="1"/></set></think>
+
+</template>
+</category>
+
+</aiml>

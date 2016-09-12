@@ -1,0 +1,74 @@
+
+
+package daxclr.ext;
+
+import java.beans.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import java.awt.*;
+import daxclr.ext.util.*;
+import daxclr.doom.*;
+
+import java.awt.dnd.*;
+import java.awt.datatransfer.*;
+
+/**
+ * A wrapper for beans used in the bean bowl system.
+ * It holds an object, a name, and info about whether it is selected or not.
+ * The "name" and "selected" properties are bound and constrained, i.e.
+ * you can listen to changes using addPropertyChangeListener, and you can
+ * also prevent changes in some cases if you use addVetoableChangeListener.
+ *
+ * @author Henrik Kniberg
+ */
+public class BeanWrapper  implements java.io.Serializable {
+/*    public BeanWrapper(Object obj) {
+	super(obj);
+    }
+    public BeanWrapper(String name,Object obj) {
+	super(name,obj);
+    }*/
+
+           /**
+	 * Returns an Icon for this bean, determined using BeanInfo.
+	 * If no icon was found a default icon will be returned.
+	 */
+       static public Icon getIcon(ObjectInfo oinfo) {
+		Icon icon;
+		try {
+			BeanInfo info = oinfo.getBeanInfo();
+			Image image;
+			image = info.getIcon(BeanInfo.ICON_COLOR_16x16);
+			if (image == null)
+				image = info.getIcon(BeanInfo.ICON_MONO_16x16);
+
+			if (image == null)
+				icon = new UnknownIcon();
+			else
+				icon = new ImageIcon(image);
+		} catch (Exception err) {
+			icon = new UnknownIcon();
+		}
+		return icon;
+	}
+//===== Inner classes ==========================
+	/**
+	 * A rather ugly but workable default icon used in cases
+	 * where there is no known icon for the bean.
+	 */
+	static class UnknownIcon implements Icon, java.io.Serializable {
+		public int getIconWidth() {
+			return 16;
+		}
+
+		public int getIconHeight() {
+			return 16;
+		}
+
+		public void paintIcon(Component c,Graphics g,int x,int y) {
+			g.setColor(Color.blue);
+			g.setFont(new Font("serif", Font.BOLD, 12));
+			g.drawString("@", x, y + 12);
+		}
+	}
+}
